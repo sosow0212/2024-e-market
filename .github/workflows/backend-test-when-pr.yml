@@ -19,7 +19,7 @@ jobs:
     environment: test
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
