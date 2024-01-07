@@ -6,8 +6,7 @@ on:
       - main
       - develop
     paths:
-      - backend/**
-      - .github/**
+      - /**
 
 permissions:
   contents: read
