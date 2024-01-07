@@ -3,11 +3,9 @@ name: backend-test
 on:
   pull_request:
     branches:
-      - main
       - develop
-    paths:
-      - backend/**
-      - .github/**
+      - dev
+      - release
 
 permissions:
   contents: read
