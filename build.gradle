@@ -41,7 +41,7 @@ dependencies {
 
     // db
     runtimeOnly 'com.h2database:h2'
-    implementation 'mysql:mysql-connector-java:8.0.32'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     // flyway
     implementation 'org.flywaydb:flyway-core'
@@ -63,7 +63,7 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
     // jasypt
-    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3"
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
     // QueryDSL Implementation
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
