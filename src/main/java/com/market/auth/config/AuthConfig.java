@@ -32,17 +32,22 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private HandlerInterceptor parseMemberIdFromTokenInterceptor() {
         return new PathMatcherInterceptor(parseMemberIdFromTokenInterceptor)
-                .excludePathPattern("/**", OPTIONS);
+                .excludePathPattern("/**", OPTIONS)
+                .addPathPatterns("/admin/**", ANY);
     }
 
+    /**
+     * @AuthMember를 통해서 인증이 필요한 경우에 해당 메서드에 URI를 추가해주면 된다.
+     * 추가를 해야지 인증,인가 가능
+     */
     private HandlerInterceptor loginValidCheckerInterceptor() {
         return new PathMatcherInterceptor(loginValidCheckerInterceptor)
-                .addPathPatterns("/need-permit-to-login-here", ANY)
-                .excludePathPattern("/**", OPTIONS);
+                .excludePathPattern("/**", OPTIONS)
+                .addPathPatterns("/test", ANY);
     }
 
     @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(authArgumentResolver);
     }
 }
