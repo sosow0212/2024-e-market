@@ -23,4 +23,8 @@ public enum MemberRole {
                 .findFirst()
                 .orElseThrow(RoleNotFoundException::new);
     }
+
+    public boolean isAdministrator() {
+        return this.equals(ADMIN);
+    }
 }

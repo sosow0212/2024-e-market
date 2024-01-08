@@ -26,24 +26,31 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String nickname;
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(nullable = false)
+    private String nickname;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private MemberRole memberRole;
 
     public boolean isAdmin() {
-        return memberRole.equals(MemberRole.ADMIN);
+        return this.memberRole.isAdministrator();
     }
 
-    public void updateRole(final MemberRole memberRole) {
-        this.memberRole = memberRole;
+    public static Member createDefaultRole(final String email,
+                                           final String password,
+                                           final String nickname) {
+        return Member.builder()
+                .email(email)
+                .password(password)
+                .nickname(nickname)
+                .memberRole(MemberRole.MEMBER)
+                .build();
     }
 }
