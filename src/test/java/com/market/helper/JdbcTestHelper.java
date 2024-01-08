@@ -2,7 +2,7 @@ package com.market.helper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@JdbcTest(includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Repository.class)})
+@ComponentScan(includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Repository.class)})
+@SpringBootTest
 public class JdbcTestHelper {
 
     @Autowired
