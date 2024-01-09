@@ -1,0 +1,10 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+= e-market
+:doctype: book
+:toc: left
+:source-highlighter: highlightjs
+:sectlinks:
+
+include::auth.adoc[]
