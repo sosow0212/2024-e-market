@@ -12,11 +12,24 @@ import com.market.member.exception.exceptions.member.PasswordNotMatchedException
 import com.market.member.exception.exceptions.member.RoleNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Objects;
+
 @RestControllerAdvice
 public class MemberExceptionHandler {
+
+    // common
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleException(MethodArgumentNotValidException exception) {
+        String errorMessage = Objects.requireNonNull(exception.getBindingResult().getFieldError())
+                .getDefaultMessage();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(errorMessage);
+    }
 
     // member
     @ExceptionHandler(RoleNotFoundException.class)
@@ -82,6 +95,11 @@ public class MemberExceptionHandler {
 
     private ResponseEntity<String> getConflicted(final Exception e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(e.getMessage());
+    }
+
+    private ResponseEntity<String> getBadRequest(final Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
 }

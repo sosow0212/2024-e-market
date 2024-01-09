@@ -3,6 +3,7 @@ package com.market.member.ui.auth;
 import com.market.member.application.auth.AuthService;
 import com.market.member.application.auth.dto.LoginRequest;
 import com.market.member.application.auth.dto.SignupRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,13 +17,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody final SignupRequest request) {
+    public ResponseEntity<String> signup(@RequestBody @Valid final SignupRequest request) {
         String token = authService.signup(request);
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody final LoginRequest request) {
+    public ResponseEntity<String> login(@RequestBody @Valid final LoginRequest request) {
         String token = authService.login(request);
         return ResponseEntity.ok(token);
     }
