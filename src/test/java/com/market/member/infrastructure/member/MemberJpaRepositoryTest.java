@@ -31,8 +31,8 @@ class MemberJpaRepositoryTest extends JdbcTestHelper {
         memberRepository.save(member);
     }
 
-    @Nested
     @DisplayName("멤버를 찾는다")
+    @Nested
     class FindMember {
 
         @Test
