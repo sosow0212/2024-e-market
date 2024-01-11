@@ -3,7 +3,6 @@ package com.market.member.ui.auth;
 import com.market.helper.IntegrationHelper;
 import com.market.member.application.auth.dto.LoginRequest;
 import com.market.member.application.auth.dto.SignupRequest;
-import com.market.member.domain.auth.TokenProvider;
 import com.market.member.domain.member.Member;
 import com.market.member.ui.auth.dto.TokenResponse;
 import io.restassured.RestAssured;
@@ -13,11 +12,10 @@ import org.junit.jupiter.api.function.Executable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 class AuthControllerAcceptedTestFixture extends IntegrationHelper {
 
     protected SignupRequest 회원_가입_데이터를_요청한다() {
-        return new SignupRequest("nickname", "email", "password");
+        return new SignupRequest("email", "password");
     }
 
     protected <T> ExtractableResponse 요청(final T request, final String url) {

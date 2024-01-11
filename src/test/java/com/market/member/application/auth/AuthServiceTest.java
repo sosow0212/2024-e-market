@@ -9,6 +9,7 @@ import com.market.member.exception.exceptions.member.MemberAlreadyExistedExcepti
 import com.market.member.exception.exceptions.member.MemberNotFoundException;
 import com.market.member.exception.exceptions.member.PasswordNotMatchedException;
 import com.market.member.infrastructure.member.MemberFakeRepository;
+import com.market.member.infrastructure.member.NicknameFakeGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -39,7 +40,7 @@ class AuthServiceTest {
     @BeforeEach
     void setup() {
         memberRepository = new MemberFakeRepository();
-        authService = new AuthService(tokenProvider, memberRepository);
+        authService = new AuthService(memberRepository, tokenProvider, new NicknameFakeGenerator());
     }
 
     @DisplayName("회원가입을 진행한다")
@@ -49,7 +50,7 @@ class AuthServiceTest {
         @Test
         void 회원가입을_성공한다() {
             // given
-            SignupRequest req = new SignupRequest("nickname", "email", "password");
+            SignupRequest req = new SignupRequest("email", "password");
 
             String expectedToken = "token";
             when(tokenProvider.create(anyLong())).thenReturn(expectedToken);
@@ -67,7 +68,7 @@ class AuthServiceTest {
             Member existedMember = 일반_유저_생성();
             memberRepository.save(existedMember);
 
-            SignupRequest req = new SignupRequest("nickname", existedMember.getEmail(), "password");
+            SignupRequest req = new SignupRequest(existedMember.getEmail(), "password");
 
             // when & then
             assertThatThrownBy(() -> authService.signup(req))

@@ -1,5 +1,7 @@
 package com.market.member.domain.member;
 
+import com.market.global.domain.BaseEntity;
+import com.market.member.exception.exceptions.member.PasswordNotMatchedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,11 +18,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,16 +47,18 @@ public class Member {
 
     public static Member createDefaultRole(final String email,
                                            final String password,
-                                           final String nickname) {
+                                           final NicknameGenerator nicknameGenerator) {
         return Member.builder()
                 .email(email)
                 .password(password)
-                .nickname(nickname)
+                .nickname(nicknameGenerator.createRandomNickname())
                 .memberRole(MemberRole.MEMBER)
                 .build();
     }
 
-    public boolean hasSamePassword(final String password) {
-        return this.password.equals(password);
+    public void validatePassword(final String password) {
+        if (!this.password.equals(password)) {
+            throw new PasswordNotMatchedException();
+        }
     }
 }

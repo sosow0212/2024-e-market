@@ -36,7 +36,7 @@ class AuthControllerWebMvcTest extends MockBeanInjection {
     @Test
     void 회원가입을_진행한다() throws Exception {
         // given
-        SignupRequest req = new SignupRequest("nickname", "email@email.com", "passsword");
+        SignupRequest req = new SignupRequest("email@email.com", "passsword");
         when(authService.signup(req)).thenReturn("response_token_info");
 
         // when & then
@@ -46,7 +46,6 @@ class AuthControllerWebMvcTest extends MockBeanInjection {
                 ).andExpect(status().isOk())
                 .andDo(customDocument("do_signup",
                         requestFields(
-                                fieldWithPath("nickname").description("닉네임"),
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("패스워드")
                         ),
