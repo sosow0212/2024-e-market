@@ -1,7 +1,9 @@
 package com.market.member.application.auth;
 
+import com.market.global.event.Events;
 import com.market.member.application.auth.dto.LoginRequest;
 import com.market.member.application.auth.dto.SignupRequest;
+import com.market.member.domain.auth.RegisteredEvent;
 import com.market.member.domain.auth.TokenProvider;
 import com.market.member.domain.member.Member;
 import com.market.member.domain.member.MemberRepository;
@@ -24,7 +26,10 @@ public class AuthService {
     public String signup(final SignupRequest request) {
         Member member = Member.createDefaultRole(request.email(), request.password(), nicknameGenerator);
         validateExistedMember(request.email());
+
         Member signupMember = memberRepository.save(member);
+        Events.raise(new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
+
         return tokenProvider.create(signupMember.getId());
     }
 

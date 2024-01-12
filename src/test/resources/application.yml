@@ -21,3 +21,12 @@ jasypt:
 jwt:
   secret: fortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortest
   expiration-period: 10000
+
+mail:
+  host: smtp.blabla.com
+  username: username
+  password: password
+  sender:
+    email: email@email.com
+    name: e-market
+
