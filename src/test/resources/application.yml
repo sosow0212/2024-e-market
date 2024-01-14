@@ -36,3 +36,6 @@ mail:
     email: email@email.com
     name: e-market
 
+schedule:
+  enable: true
+  mail: true

@@ -4,6 +4,13 @@ server:
 spring:
   profiles:
     active: local
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+  task:
+    scheduling:
+      pool:
+        size: 10
 
 jasypt:
   encryptor:
