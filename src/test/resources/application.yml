@@ -14,6 +14,12 @@ spring:
   flyway:
     enabled: false
 
+logging:
+  level:
+    org:
+      springframework:
+        jdbc: debug
+
 jasypt:
   encryptor:
     password: password
@@ -21,3 +27,15 @@ jasypt:
 jwt:
   secret: fortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortest
   expiration-period: 10000
+
+mail:
+  host: smtp.blabla.com
+  username: username
+  password: password
+  sender:
+    email: email@email.com
+    name: e-market
+
+schedule:
+  enable: true
+  mail: true

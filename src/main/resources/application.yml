@@ -4,6 +4,13 @@ server:
 spring:
   profiles:
     active: local
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+  task:
+    scheduling:
+      pool:
+        size: 10
 
 jasypt:
   encryptor:
@@ -13,3 +20,11 @@ jasypt:
 jwt:
   secret: ENC(Tnm4CPIFdSiqmH67nWcDfRgaKmpSr4EvRJYZAYLiwOXazIY9aZnLBMlxQnKC2C0j10l6zkOEbRMKIa2W4u7DtIRjCC7QEzCSCdtm1NCEntKRybirDvUH8g==)
   expiration-period: ENC(wtkJPr944E3bs6eMwjj4lQ==)
+
+mail:
+  host: ENC(2PviuayFL6dKe91WydIBx81bpSBoI3FU)
+  username: ENC(Hj0Qwzuifugz4sfvDCq9H0u7+WZC4nL+)
+  password: ENC(WmCiOlJl61IIAfUIuIkWgKjXEE1GLIL5)
+  sender:
+    email: ENC(Pv5Gvm0N7LAl4wx51TrKXrkDENW2VIvpW4Ae3ZIod+I=)
+    name: ENC(mCgRGGxEhhOBxoVnSOrbJxKMEWBjrDLd)

@@ -1,13 +1,15 @@
 package com.market.member.application.auth;
 
+import com.market.global.event.Events;
 import com.market.member.application.auth.dto.LoginRequest;
 import com.market.member.application.auth.dto.SignupRequest;
+import com.market.member.domain.auth.RegisteredEvent;
 import com.market.member.domain.auth.TokenProvider;
 import com.market.member.domain.member.Member;
 import com.market.member.domain.member.MemberRepository;
+import com.market.member.domain.member.NicknameGenerator;
 import com.market.member.exception.exceptions.member.MemberAlreadyExistedException;
 import com.market.member.exception.exceptions.member.MemberNotFoundException;
-import com.market.member.exception.exceptions.member.PasswordNotMatchedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +18,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
 
-    private final TokenProvider tokenProvider;
     private final MemberRepository memberRepository;
+    private final TokenProvider tokenProvider;
+    private final NicknameGenerator nicknameGenerator;
 
     @Transactional
     public String signup(final SignupRequest request) {
-        Member member = Member.createDefaultRole(request.email(), request.password(), request.nickname());
         validateExistedMember(request.email());
+
+        Member member = Member.createDefaultRole(request.email(), request.password(), nicknameGenerator);
         Member signupMember = memberRepository.save(member);
+        Events.raise(new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
+
         return tokenProvider.create(signupMember.getId());
     }
 
@@ -36,7 +42,7 @@ public class AuthService {
     @Transactional(readOnly = true)
     public String login(final LoginRequest request) {
         Member member = findMemberByEmail(request.email());
-        validatePassword(request.password(), member);
+        member.validatePassword(request.password());
 
         return tokenProvider.create(member.getId());
     }
@@ -44,11 +50,5 @@ public class AuthService {
     private Member findMemberByEmail(final String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
-    }
-
-    private void validatePassword(final String password, final Member member) {
-        if (!member.hasSamePassword(password)) {
-            throw new PasswordNotMatchedException();
-        }
     }
 }
