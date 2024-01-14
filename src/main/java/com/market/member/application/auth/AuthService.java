@@ -24,9 +24,9 @@ public class AuthService {
 
     @Transactional
     public String signup(final SignupRequest request) {
-        Member member = Member.createDefaultRole(request.email(), request.password(), nicknameGenerator);
         validateExistedMember(request.email());
 
+        Member member = Member.createDefaultRole(request.email(), request.password(), nicknameGenerator);
         Member signupMember = memberRepository.save(member);
         Events.raise(new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
 
