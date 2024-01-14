@@ -1,7 +1,7 @@
 package com.market.alarm.infrastructure;
 
+import com.market.alarm.config.MailSource;
 import com.market.alarm.domain.MailSender;
-import com.market.alarm.domain.MailSource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;

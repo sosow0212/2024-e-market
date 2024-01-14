@@ -1,4 +1,4 @@
-package com.market.alarm.domain;
+package com.market.alarm.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
