@@ -1,8 +1,6 @@
 package com.market.member.infrastructure.member;
 
-import com.market.helper.JdbcTestHelper;
 import com.market.member.domain.member.Member;
-import com.market.member.domain.member.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -10,6 +8,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
@@ -18,10 +17,11 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-class MemberJpaRepositoryTest extends JdbcTestHelper {
+@DataJpaTest
+class MemberJpaRepositoryTest {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberJpaRepository memberRepository;
 
     private Member member;
 
