@@ -27,7 +27,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity<Void> saveBoard(@AuthMember final Long memberId, @ModelAttribute("request") final BoardCreateRequest request) {
+    public ResponseEntity<Void> saveBoard(@AuthMember final Long memberId, @ModelAttribute final BoardCreateRequest request) {
         Long boardId = boardService.saveBoard(memberId, request);
         return ResponseEntity.created(URI.create("/api/boards/" + boardId))
                 .build();

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
-
 @Component
 public class ImageConverterImpl implements ImageConverter {
 
@@ -21,14 +19,17 @@ public class ImageConverterImpl implements ImageConverter {
     @Override
     public List<Image> convertImageFilesToImages(final List<MultipartFile> imageFiles) {
         return imageFiles.stream()
-                .map(imageFile -> {
-                    String originalFilename = imageFile.getOriginalFilename();
+                .map(this::convertToImage)
+                .toList();
+    }
 
-                    return Image.builder()
-                            .originName(originalFilename)
-                            .uniqueName(generateUniqueName(originalFilename))
-                            .build();
-                }).collect(toList());
+    private Image convertToImage(final MultipartFile imageFile) {
+        String originalFilename = imageFile.getOriginalFilename();
+
+        return Image.builder()
+                .originName(originalFilename)
+                .uniqueName(generateUniqueName(originalFilename))
+                .build();
     }
 
     private String generateUniqueName(final String originName) {
