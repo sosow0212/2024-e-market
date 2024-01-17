@@ -8,3 +8,4 @@ endif::[]
 :sectlinks:
 
 include::auth.adoc[]
+include::board.adoc[]
