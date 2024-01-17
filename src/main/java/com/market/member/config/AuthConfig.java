@@ -43,7 +43,7 @@ public class AuthConfig implements WebMvcConfigurer {
     private HandlerInterceptor loginValidCheckerInterceptor() {
         return new PathMatcherInterceptor(loginValidCheckerInterceptor)
                 .excludePathPattern("/**", OPTIONS)
-                .addPathPatterns("/test", ANY);
+                .addPathPatterns("/api/boards/**", ANY);
     }
 
     @Override
