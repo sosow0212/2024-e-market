@@ -11,7 +11,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
     properties:
       hibernate:
@@ -21,3 +21,7 @@ spring:
 schedule:
   enable: true
   mail: true
+
+file:
+  upload:
+    location: ENC(sC+qXiI6EobSpCEDLmoWyCUiV+b8eJiJxOsQIyGP/9mopq8ZAlbGHg==)

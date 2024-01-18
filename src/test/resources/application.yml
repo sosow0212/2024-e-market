@@ -39,3 +39,7 @@ mail:
 schedule:
   enable: true
   mail: true
+
+file:
+  upload:
+    location: "/home/images"

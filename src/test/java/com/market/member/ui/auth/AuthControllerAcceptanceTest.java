@@ -1,9 +1,7 @@
 package com.market.member.ui.auth;
 
-import com.market.member.application.auth.AuthService;
 import com.market.member.domain.member.Member;
 import com.market.member.domain.member.MemberRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -13,29 +11,21 @@ import static com.market.member.fixture.member.MemberFixture.일반_유저_생�
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-class AuthControllerAcceptedTest extends AuthControllerAcceptedTestFixture {
+class AuthControllerAcceptanceTest extends AuthControllerAcceptanceFixture {
 
-    private static final String 회원가입_주소 = "/api/signup";
-    private static final String 로그인_주소 = "/api/login";
+    private static final String 회원가입_url = "/api/signup";
+    private static final String 로그인_url = "/api/login";
 
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private AuthService authService;
-
-    private Member 일반유저;
-
-    @BeforeEach
-    void setup() {
-        일반유저 = 일반_유저_생성();
-    }
-
     @Test
     void 회원가입을_진행한다() {
-        // when
+        // given
         var 회원가입_요청_데이터 = 회원_가입_데이터를_요청한다();
-        var 회원가입_결과 = 요청(회원가입_요청_데이터, 회원가입_주소);
+
+        // when
+        var 회원가입_결과 = 요청한다(회원가입_요청_데이터, 회원가입_url);
 
         // then
         토큰_생성_검증(회원가입_결과);
@@ -48,7 +38,7 @@ class AuthControllerAcceptedTest extends AuthControllerAcceptedTestFixture {
         var 로그인_요청_데이터 = 로그인_데이터를_요청한다(회원);
 
         // when
-        var 로그인_결과 = 요청(로그인_요청_데이터, 로그인_주소);
+        var 로그인_결과 = 요청한다(로그인_요청_데이터, 로그인_url);
 
         // then
         토큰_생성_검증(로그인_결과);

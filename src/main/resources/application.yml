@@ -11,6 +11,10 @@ spring:
     scheduling:
       pool:
         size: 10
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 jasypt:
   encryptor:
