@@ -1,5 +1,6 @@
-package com.market.board.domain.image;
+package com.market.board.application;
 
+import com.market.board.domain.image.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
