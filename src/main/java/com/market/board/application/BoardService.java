@@ -6,7 +6,6 @@ import com.market.board.domain.board.Board;
 import com.market.board.domain.board.BoardRepository;
 import com.market.board.domain.board.BoardUpdateResult;
 import com.market.board.domain.image.ImageConverter;
-import com.market.board.domain.image.ImageUploader;
 import com.market.board.exception.exceptions.BoardNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

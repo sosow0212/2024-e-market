@@ -1,6 +1,7 @@
 package com.market.board.infrastructure.image;
 
 import com.market.board.domain.image.Image;
+import com.market.board.infrastructure.board.ImageUploaderImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;

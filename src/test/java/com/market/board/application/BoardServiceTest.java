@@ -5,7 +5,6 @@ import com.market.board.application.dto.BoardUpdateRequest;
 import com.market.board.domain.board.Board;
 import com.market.board.domain.board.BoardRepository;
 import com.market.board.domain.image.ImageConverter;
-import com.market.board.domain.image.ImageUploader;
 import com.market.board.exception.exceptions.BoardNotFoundException;
 import com.market.board.exception.exceptions.WriterNotEqualsException;
 import com.market.board.infrastructure.board.BoardFakeRepository;
