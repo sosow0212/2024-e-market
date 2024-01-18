@@ -1,7 +1,7 @@
 package com.market.board.infrastructure.image;
 
+import com.market.board.application.ImageUploader;
 import com.market.board.domain.image.Image;
-import com.market.board.domain.image.ImageUploader;
 import com.market.board.exception.exceptions.FileUploadFailureException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
