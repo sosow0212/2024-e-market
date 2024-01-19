@@ -14,7 +14,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 import static com.market.member.ui.auth.interceptor.HttpMethod.ANY;
+import static com.market.member.ui.auth.interceptor.HttpMethod.DELETE;
 import static com.market.member.ui.auth.interceptor.HttpMethod.OPTIONS;
+import static com.market.member.ui.auth.interceptor.HttpMethod.PATCH;
+import static com.market.member.ui.auth.interceptor.HttpMethod.POST;
 
 @RequiredArgsConstructor
 @Configuration
@@ -43,7 +46,8 @@ public class AuthConfig implements WebMvcConfigurer {
     private HandlerInterceptor loginValidCheckerInterceptor() {
         return new PathMatcherInterceptor(loginValidCheckerInterceptor)
                 .excludePathPattern("/**", OPTIONS)
-                .addPathPatterns("/api/boards/**", ANY);
+                .addPathPatterns("/api/boards/**", POST, PATCH, DELETE)
+                .addPathPatterns("/api/boards/**/comments", POST, PATCH, DELETE);
     }
 
     @Override
