@@ -15,7 +15,7 @@ public class MailScheduleService {
         mailService.resendMail();
     }
 
-    @Scheduled(cron = "0 */15 * * * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void deleteSendSuccessMails() {
         mailService.deleteSuccessMails();
     }

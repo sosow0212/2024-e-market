@@ -6,7 +6,6 @@ import com.market.alarm.domain.MailStorageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,26 +24,19 @@ public class MailService {
     private final MailSender mailSender;
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void sendMail(final MailStorage mailStorage) {
-        send(mailStorage);
-    }
-
-    private void send(final MailStorage mailStorage) {
-        log.info("{} 번 유저 생성. 닉네임 : {}, 메일 발송 시도!", mailStorage.getReceiverId(), mailStorage.getReceiverNickname());
-
         try {
             mailSender.pushMail(mailStorage.getReceiverEmail(), mailStorage.getId(), mailStorage.getReceiverNickname());
             mailStorage.updateStatusDone();
             log.info("{} 번 유저 생성. 닉네임 : {}, 메일 발송 성공!", mailStorage.getReceiverId(), mailStorage.getReceiverNickname());
         } catch (final Exception exception) {
-            handleErrors(mailStorage, exception);
+            saveFailureSendMail(mailStorage, exception);
         }
     }
 
-    private void handleErrors(final MailStorage mailStorage, final Exception exception) {
-        log.info("{} 번 유저 생성. 닉네임 : {}, 메일 발송 실패!", mailStorage.getReceiverId(), mailStorage.getReceiverNickname());
-        log.error(exception.getMessage());
+    private void saveFailureSendMail(final MailStorage mailStorage, final Exception exception) {
+        log.error("{} 번 유저 생성. 닉네임 : {}, 메일 발송 실패!", mailStorage.getReceiverId(), mailStorage.getReceiverNickname(), exception.getCause());
 
         mailStorage.updateStatusFail();
         mailStorageRepository.save(mailStorage);
@@ -55,16 +47,18 @@ public class MailService {
         List<MailStorage> sendFailureMails = mailStorageRepository.findAllByNotDone();
 
         if (isRunning.compareAndSet(false, true)) {
-            ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-
-            for (MailStorage sendFailureMail : sendFailureMails) {
-                executorService.submit(() -> send(sendFailureMail));
-            }
-
-            executorService.shutdown();
-            isRunning.set(false);
-            log.info("실패 메일 재전송 성공! 건수: {}", sendFailureMails.size());
+            resendFailureMailUsingExecutors(sendFailureMails);
         }
+    }
+
+    private void resendFailureMailUsingExecutors(final List<MailStorage> sendFailureMails) {
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+
+        sendFailureMails.forEach(failureMail -> executorService.submit(() -> sendMail(failureMail)));
+        executorService.shutdown();
+        isRunning.set(false);
+
+        log.info("실패 메일 재전송 성공! 건수: {}", sendFailureMails.size());
     }
 
     @Transactional
