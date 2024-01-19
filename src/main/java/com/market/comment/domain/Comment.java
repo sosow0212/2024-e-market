@@ -1,11 +1,13 @@
-package com.market.comment.domain.comment;
+package com.market.comment.domain;
 
+import com.market.comment.exception.exceptions.CommentWriterNotEqualsException;
 import com.market.global.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,9 +27,24 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 255, nullable = false)
+    @Lob
+    @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)
     private Long writerId;
+
+    @Column(nullable = false)
+    private Long boardId;
+
+    public void update(final String comment, final Long writerId) {
+        validateWriterId(writerId);
+        this.content = comment;
+    }
+
+    public void validateWriterId(final Long writerId) {
+        if (!this.writerId.equals(writerId)) {
+            throw new CommentWriterNotEqualsException();
+        }
+    }
 }
