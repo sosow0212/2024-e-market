@@ -5,8 +5,10 @@ import com.market.board.application.dto.BoardUpdateRequest;
 import com.market.board.domain.board.Board;
 import com.market.board.domain.board.BoardRepository;
 import com.market.board.domain.board.BoardUpdateResult;
+import com.market.board.domain.event.BoardDeletedEvent;
 import com.market.board.domain.image.ImageConverter;
 import com.market.board.exception.exceptions.BoardNotFoundException;
+import com.market.global.event.Events;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +72,7 @@ public class BoardService {
 
         boardRepository.deleteByBoardId(boardId);
         imageUploader.delete(board.getImages());
+
+        Events.raise(new BoardDeletedEvent(boardId));
     }
 }
