@@ -22,6 +22,7 @@ public class BoardFakeRepository implements BoardRepository {
                 .post(board.getPost())
                 .writerId(board.getWriterId())
                 .images(board.getImages())
+                .likeCount(board.getLikeCount())
                 .build();
 
         map.put(id, savedBoard);
@@ -30,6 +31,13 @@ public class BoardFakeRepository implements BoardRepository {
 
     @Override
     public Optional<Board> findById(final Long id) {
+        return map.values().stream()
+                .filter(board -> board.getId().equals(id))
+                .findAny();
+    }
+
+    @Override
+    public Optional<Board> findByIdUsingPessimistic(final Long id) {
         return map.values().stream()
                 .filter(board -> board.getId().equals(id))
                 .findAny();

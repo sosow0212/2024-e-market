@@ -2,6 +2,7 @@ package com.market.board.exception;
 
 import com.market.board.exception.exceptions.BoardNotFoundException;
 import com.market.board.exception.exceptions.FileUploadFailureException;
+import com.market.board.exception.exceptions.LikeCountNegativeNumberException;
 import com.market.board.exception.exceptions.UnsupportedImageFormatException;
 import com.market.board.exception.exceptions.WriterNotEqualsException;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,11 @@ public class BoardExceptionHandler {
     @ExceptionHandler(FileUploadFailureException.class)
     public ResponseEntity<String> handleFileUploadFailureException(final FileUploadFailureException e) {
         return getResponse(HttpStatus.INTERNAL_SERVER_ERROR, e);
+    }
+
+    @ExceptionHandler(LikeCountNegativeNumberException.class)
+    public ResponseEntity<String> handleLikeCountNegativeNumberException(final LikeCountNegativeNumberException e) {
+        return getResponse(HttpStatus.BAD_REQUEST, e);
     }
 
     private ResponseEntity<String> getResponse(final HttpStatus httpStatus, final RuntimeException e) {

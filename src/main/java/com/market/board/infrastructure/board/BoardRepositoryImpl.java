@@ -24,6 +24,11 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
+    public Optional<Board> findByIdUsingPessimistic(final Long id) {
+        return boardJpaRepository.findByIdUsingPessimistic(id);
+    }
+
+    @Override
     public Optional<Board> findBoardWithImages(final Long boardId) {
         return boardJpaRepository.findBoardWithImages(boardId);
     }

@@ -1,6 +1,7 @@
 package com.market.helper;
 
 import com.market.board.application.BoardService;
+import com.market.board.application.LikeService;
 import com.market.comment.application.CommentService;
 import com.market.member.application.auth.AuthService;
 import com.market.member.domain.auth.TokenProvider;
@@ -25,4 +26,7 @@ public class MockBeanInjection {
 
     @MockBean
     protected CommentService commentService;
+
+    @MockBean
+    protected LikeService likeService;
 }

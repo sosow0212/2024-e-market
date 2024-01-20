@@ -8,6 +8,8 @@ public interface BoardRepository {
 
     Optional<Board> findById(final Long id);
 
+    Optional<Board> findByIdUsingPessimistic(final Long id);
+
     Optional<Board> findBoardWithImages(final Long boardId);
 
     void deleteByBoardId(Long boardId);

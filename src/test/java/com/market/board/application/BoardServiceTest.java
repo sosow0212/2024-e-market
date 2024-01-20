@@ -138,4 +138,23 @@ class BoardServiceTest {
         assertThatThrownBy(() -> boardService.deleteBoardById(savedBoard.getId(), savedBoard.getWriterId() + 1))
                 .isInstanceOf(WriterNotEqualsException.class);
     }
+
+    @Test
+    void 게시글_좋아요_처리를_한다() {
+        // given
+        Board savedBoard = boardRepository.save(게시글_생성_사진없음());
+
+        // when
+        boardService.patchLike(savedBoard.getId(), true);
+
+        // then
+        assertThat(savedBoard.getLikeCount().getLikeCount()).isEqualTo(1);
+    }
+
+    @Test
+    void 게시글이_없다면_좋아요_처리를_못한다() {
+        // when & then
+        assertThatThrownBy(() -> boardService.patchLike(1L, true))
+                .isInstanceOf(BoardNotFoundException.class);
+     }
 }
