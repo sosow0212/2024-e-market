@@ -47,11 +47,15 @@ public class Board extends BaseEntity {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Image> images = new ArrayList<>();
 
+    @Embedded
+    private LikeCount likeCount;
+
     @Builder
     public Board(final String title, final String content, final Long writerId, final List<MultipartFile> imageFiles, final ImageConverter imageConverter) {
         this.post = Post.of(title, content);
         this.writerId = writerId;
         this.images.addAll(imageConverter.convertImageFilesToImages(imageFiles));
+        likeCount = LikeCount.createDefault();
     }
 
     public BoardUpdateResult update(final String title, final String content, final List<MultipartFile> imageFiles, final List<Long> deletedImageIds, final ImageConverter imageConverter) {
@@ -70,5 +74,9 @@ public class Board extends BaseEntity {
         if (!this.writerId.equals(memberId)) {
             throw new WriterNotEqualsException();
         }
+    }
+
+    public void patchLike(final boolean isIncreaseLike) {
+        this.likeCount.patchLike(isIncreaseLike);
     }
 }
