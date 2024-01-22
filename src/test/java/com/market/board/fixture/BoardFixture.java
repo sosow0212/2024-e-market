@@ -1,6 +1,7 @@
 package com.market.board.fixture;
 
 import com.market.board.domain.board.Board;
+import com.market.board.domain.board.LikeCount;
 import com.market.board.domain.board.Post;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class BoardFixture {
                 .post(Post.of("제목", "내용"))
                 .writerId(1L)
                 .images(new ArrayList<>())
+                .likeCount(LikeCount.createDefault())
                 .build();
     }
 
@@ -21,6 +23,7 @@ public class BoardFixture {
                 .post(Post.of("제목", "내용"))
                 .writerId(1L)
                 .images(new ArrayList<>())
+                .likeCount(LikeCount.createDefault())
                 .build();
     }
 
@@ -29,6 +32,7 @@ public class BoardFixture {
                 .post(Post.of("제목", "내용"))
                 .writerId(1L)
                 .images(new ArrayList<>())
+                .likeCount(LikeCount.createDefault())
                 .build();
     }
 }

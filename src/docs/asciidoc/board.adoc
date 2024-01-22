@@ -53,3 +53,15 @@ include::{snippets}/board-controller-web-mvc-test/delete_board/http-request.adoc
 === Response
 
 include::{snippets}/board-controller-web-mvc-test/delete_board/http-response.adoc[]
+
+== 좋아요 버튼을 누른다 (PATCH /api/boards/{id}/comments)
+
+=== Request
+
+include::{snippets}/like-controller-web-mvc-test/patch_like/request-headers.adoc[]
+include::{snippets}/like-controller-web-mvc-test/patch_like/path-parameters.adoc[]
+include::{snippets}/like-controller-web-mvc-test/patch_like/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/board-controller-web-mvc-test/delete_board/http-response.adoc[]

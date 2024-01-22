@@ -23,17 +23,10 @@ public class BoardService {
 
     @Transactional
     public Long saveBoard(final Long memberId, final BoardCreateRequest request) {
-        Board board = new Board(
-                request.title(),
-                request.content(),
-                memberId,
-                request.images(),
-                imageConverter
-        );
-
+        Board board = new Board(request.title(), request.content(), memberId, request.images(), imageConverter);
         Board savedBoard = boardRepository.save(board);
-        imageUploader.upload(board.getImages(), request.images());
 
+        imageUploader.upload(board.getImages(), request.images());
         return savedBoard.getId();
     }
 
@@ -50,8 +43,7 @@ public class BoardService {
     @Transactional
     public void patchBoardById(final Long boardId,
                                final Long memberId,
-                               final BoardUpdateRequest request
-    ) {
+                               final BoardUpdateRequest request) {
         Board board = findBoardWithImages(boardId);
         board.validateWriter(memberId);
         BoardUpdateResult result = board.update(request.title(), request.content(), request.addedImages(), request.deletedImages(), imageConverter);
@@ -74,5 +66,16 @@ public class BoardService {
         imageUploader.delete(board.getImages());
 
         Events.raise(new BoardDeletedEvent(boardId));
+    }
+
+    @Transactional
+    public void patchLike(final Long boardId, final boolean isIncreaseLike) {
+        Board board = findByIdUsingPessimisticLock(boardId);
+        board.patchLike(isIncreaseLike);
+    }
+
+    private Board findByIdUsingPessimisticLock(final Long boardId) {
+        return boardRepository.findByIdUsingPessimistic(boardId)
+                .orElseThrow(BoardNotFoundException::new);
     }
 }

@@ -54,6 +54,23 @@ class BoardJpaRepositoryTest {
     }
 
     @Test
+    void 게시글을_id로_비관적락을_걸어_단건조회한다() {
+        // given
+        Board saved = boardJpaRepository.save(board);
+
+        // when
+        Optional<Board> result = boardJpaRepository.findByIdUsingPessimistic(saved.getId());
+
+        // then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isPresent();
+            softly.assertThat(result.get()).usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(board);
+        });
+    }
+
+    @Test
     void 게시글을_id로_이미지와_함께_단건조회한다() {
         // given
         Board saved = boardJpaRepository.save(board);
