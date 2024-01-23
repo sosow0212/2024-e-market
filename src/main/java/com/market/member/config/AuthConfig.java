@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.market.member.ui.auth.interceptor.HttpMethod.ANY;
 import static com.market.member.ui.auth.interceptor.HttpMethod.DELETE;
+import static com.market.member.ui.auth.interceptor.HttpMethod.GET;
 import static com.market.member.ui.auth.interceptor.HttpMethod.OPTIONS;
 import static com.market.member.ui.auth.interceptor.HttpMethod.PATCH;
 import static com.market.member.ui.auth.interceptor.HttpMethod.POST;
@@ -47,7 +48,9 @@ public class AuthConfig implements WebMvcConfigurer {
         return new PathMatcherInterceptor(loginValidCheckerInterceptor)
                 .excludePathPattern("/**", OPTIONS)
                 .addPathPatterns("/api/boards/**", POST, PATCH, DELETE)
-                .addPathPatterns("/api/boards/**/comments", POST, PATCH, DELETE);
+                .addPathPatterns("/api/boards/**/comments", POST, PATCH, DELETE)
+                .addPathPatterns("/api/categories/**", GET, POST, PATCH, DELETE)
+                .addPathPatterns("/api/categories/**/products/**", GET, POST, PATCH, DELETE);
     }
 
     @Override
