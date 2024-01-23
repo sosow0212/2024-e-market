@@ -6,6 +6,8 @@ import com.market.market.exception.exceptions.ProductOwnerNotEqualsException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +40,10 @@ public class Product extends BaseEntity {
     private StatisticCount statisticCount;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private ProductStatus productStatus;
+
+    @Column(nullable = false)
     private Long categoryId;
 
     @Column(nullable = false)
@@ -50,6 +56,7 @@ public class Product extends BaseEntity {
                 .statisticCount(StatisticCount.createDefault())
                 .categoryId(categoryId)
                 .memberId(memberId)
+                .productStatus(ProductStatus.WAITING)
                 .build();
     }
 

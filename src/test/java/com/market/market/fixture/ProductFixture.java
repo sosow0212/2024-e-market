@@ -2,6 +2,7 @@ package com.market.market.fixture;
 
 import com.market.market.domain.product.Description;
 import com.market.market.domain.product.Product;
+import com.market.market.domain.product.ProductStatus;
 import com.market.market.domain.product.StatisticCount;
 import com.market.market.domain.product.vo.Price;
 
@@ -15,6 +16,7 @@ public class ProductFixture {
                 .description(new Description("title", "content"))
                 .statisticCount(StatisticCount.createDefault())
                 .price(new Price(10000))
+                .productStatus(ProductStatus.WAITING)
                 .build();
     }
 }
