@@ -1,11 +1,12 @@
 package com.market.market.infrastructure.product;
 
-import com.market.helper.IntegrationHelper;
 import com.market.market.domain.product.Product;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,27 +17,33 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-class ProductJpaRepositoryTest extends IntegrationHelper {
+@DataJpaTest
+class ProductJpaRepositoryTest {
 
     @Autowired
     private ProductJpaRepository productJpaRepository;
 
+    private Product product;
+
+    @BeforeEach
+    void setup() {
+        product = 상품_생성();
+    }
+
     @Test
     void 상품을_저장한다() {
-        // given
-        Product product = 상품_생성();
-
         // when
         Product saved = productJpaRepository.save(product);
 
         // then
-        assertThat(saved.getId()).isEqualTo(1L);
+        assertThat(saved).usingRecursiveComparison()
+                .ignoringFields("id", "createdAt", "updatedAt")
+                .isEqualTo(product);
     }
 
     @Test
     void 상품을_id로_찾는다() {
         // given
-        Product product = 상품_생성();
         Product saved = productJpaRepository.save(product);
 
         // when
@@ -54,7 +61,6 @@ class ProductJpaRepositoryTest extends IntegrationHelper {
     @Test
     void 상품을_id로_제거한다() {
         // given
-        Product product = 상품_생성();
         Product saved = productJpaRepository.save(product);
 
         // when
@@ -68,7 +74,6 @@ class ProductJpaRepositoryTest extends IntegrationHelper {
     @Test
     void 카테고리id에_해당되는_상품들을_모두_찾는다() {
         // given
-        Product product = 상품_생성();
         Product saved = productJpaRepository.save(product);
 
         // when

@@ -1,4 +1,4 @@
-package com.market.market.infrastructure;
+package com.market.market.infrastructure.product;
 
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;

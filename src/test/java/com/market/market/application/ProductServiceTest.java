@@ -6,7 +6,7 @@ import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
 import com.market.market.exception.exceptions.ProductNotFoundException;
 import com.market.market.exception.exceptions.ProductOwnerNotEqualsException;
-import com.market.market.infrastructure.ProductFakeRepository;
+import com.market.market.infrastructure.product.ProductFakeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
