@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public enum CategoryName {
 
+    A000("default"),
     A001("electorinic"),
     A002("fashion");
 
