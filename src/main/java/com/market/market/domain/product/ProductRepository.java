@@ -9,6 +9,8 @@ public interface ProductRepository {
 
     Optional<Product> findById(final Long productId);
 
+    Optional<Product> findByIdWithPessimisticLock(final Long productId);
+
     void deleteProductById(final Long productId);
 
     List<Product> findAllProductsInCategory(final Long categoryId);
