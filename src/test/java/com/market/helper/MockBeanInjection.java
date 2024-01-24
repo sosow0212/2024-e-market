@@ -4,6 +4,7 @@ import com.market.community.application.board.BoardService;
 import com.market.community.application.board.LikeService;
 import com.market.community.application.comment.CommentService;
 import com.market.market.application.ProductService;
+import com.market.market.ui.support.resolver.ProductCookieHelperImpl;
 import com.market.member.application.auth.AuthService;
 import com.market.member.domain.auth.TokenProvider;
 import com.market.member.ui.auth.support.AuthenticationContext;
@@ -18,6 +19,9 @@ public class MockBeanInjection {
 
     @MockBean
     protected AuthenticationContext authenticationContext;
+
+    @MockBean
+    protected ProductCookieHelperImpl productCookieProvider;
 
     @MockBean
     protected AuthService authService;
