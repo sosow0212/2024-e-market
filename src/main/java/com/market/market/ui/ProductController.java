@@ -49,8 +49,8 @@ public class ProductController {
     @GetMapping("/{categoryId}/products/{productId}")
     public ResponseEntity<ProductResponse> findProductById(@PathVariable("productId") final Long productId,
                                                            @PathVariable("categoryId") final Long categoryId,
-                                                           @ViewCountChecker final Boolean isNeedToBeAddViewCount) {
-        Product product = productService.findProductById(productId, isNeedToBeAddViewCount);
+                                                           @ViewCountChecker final Boolean canAddViewCount) {
+        Product product = productService.findProductById(productId, canAddViewCount);
         return ResponseEntity.ok(ProductResponse.from(product));
     }
 
