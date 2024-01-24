@@ -73,7 +73,7 @@ public class Product extends BaseEntity {
         }
     }
 
-    public void view(final boolean isNeedToBeAddViewCount) {
-        this.statisticCount.view(isNeedToBeAddViewCount);
+    public void view(final boolean canAddViewCount) {
+        this.statisticCount.view(canAddViewCount);
     }
 }

@@ -31,9 +31,9 @@ public class ProductService {
     }
 
     @Transactional
-    public Product findProductById(final Long productId, final Boolean isNeedToBeAddViewCount) {
+    public Product findProductById(final Long productId, final Boolean canAddViewCount) {
         Product product = findBoardWithPessimisticLock(productId);
-        product.view(isNeedToBeAddViewCount);
+        product.view(canAddViewCount);
 
         return product;
     }
