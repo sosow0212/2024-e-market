@@ -37,6 +37,7 @@ include::{snippets}/product-controller-web-mvc-test/upload_product/http-response
 === Request
 
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/request-headers.adoc[]
+include::{snippets}/product-controller-web-mvc-test/find_product_by_id/request-cookies.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/path-parameters.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/http-request.adoc[]
 
