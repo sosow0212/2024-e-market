@@ -68,18 +68,21 @@ class ProductServiceTest {
         Product savedProduct = productRepository.save(상품_생성());
 
         // when
-        Product found = productService.findProductById(savedProduct.getId());
+        Product found = productService.findProductById(savedProduct.getId(), true);
 
         // then
-        assertThat(savedProduct)
-                .usingRecursiveComparison()
-                .isEqualTo(found);
+        assertSoftly(softly -> {
+            softly.assertThat(savedProduct.getStatisticCount().getVisitedCount()).isEqualTo(1L);
+            softly.assertThat(savedProduct)
+                    .usingRecursiveComparison()
+                    .isEqualTo(found);
+        });
     }
 
     @Test
     void 상품이_존재하지_않으면_예외를_발생시킨다() {
         // when & then
-        assertThatThrownBy(() -> productService.findProductById(-1L))
+        assertThatThrownBy(() -> productService.findProductById(-1L, true))
                 .isInstanceOf(ProductNotFoundException.class);
     }
 

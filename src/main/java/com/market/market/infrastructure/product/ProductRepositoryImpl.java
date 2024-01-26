@@ -25,6 +25,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public Optional<Product> findByIdWithPessimisticLock(final Long productId) {
+        return productJpaRepository.findByIdWithPessimisticLock(productId);
+    }
+
+    @Override
     public void deleteProductById(final Long productId) {
         productJpaRepository.deleteById(productId);
     }

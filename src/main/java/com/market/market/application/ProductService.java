@@ -30,13 +30,22 @@ public class ProductService {
         return savedProduct.getId();
     }
 
-    @Transactional(readOnly = true)
-    public Product findProductById(final Long productId) {
-        return findProduct(productId);
+    @Transactional
+    public Product findProductById(final Long productId, final Boolean canAddViewCount) {
+        Product product = findBoardWithPessimisticLock(productId);
+        product.view(canAddViewCount);
+
+        return product;
     }
 
     private Product findProduct(final Long productId) {
         return productRepository.findById(productId)
+                .orElseThrow(ProductNotFoundException::new);
+    }
+
+    private Product findBoardWithPessimisticLock(final Long productId) {
+        // TODO : 추후 락 방식 변경 -> 비관적 락 느림
+        return productRepository.findByIdWithPessimisticLock(productId)
                 .orElseThrow(ProductNotFoundException::new);
     }
 

@@ -72,4 +72,8 @@ public class Product extends BaseEntity {
             throw new ProductOwnerNotEqualsException();
         }
     }
+
+    public void view(final boolean canAddViewCount) {
+        this.statisticCount.view(canAddViewCount);
+    }
 }

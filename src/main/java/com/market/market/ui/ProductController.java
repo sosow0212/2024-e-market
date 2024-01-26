@@ -6,6 +6,7 @@ import com.market.market.application.dto.ProductUpdateRequest;
 import com.market.market.domain.product.Product;
 import com.market.market.ui.dto.ProductResponse;
 import com.market.market.ui.dto.ProductsResponse;
+import com.market.market.ui.support.ViewCountChecker;
 import com.market.member.ui.auth.support.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,9 @@ public class ProductController {
 
     @GetMapping("/{categoryId}/products/{productId}")
     public ResponseEntity<ProductResponse> findProductById(@PathVariable("productId") final Long productId,
-                                                           @PathVariable("categoryId") final Long categoryId) {
-        Product product = productService.findProductById(productId);
+                                                           @PathVariable("categoryId") final Long categoryId,
+                                                           @ViewCountChecker final Boolean canAddViewCount) {
+        Product product = productService.findProductById(productId, canAddViewCount);
         return ResponseEntity.ok(ProductResponse.from(product));
     }
 

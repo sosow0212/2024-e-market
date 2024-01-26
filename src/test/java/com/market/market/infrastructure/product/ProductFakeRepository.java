@@ -39,6 +39,14 @@ public class ProductFakeRepository implements ProductRepository {
     }
 
     @Override
+    public Optional<Product> findByIdWithPessimisticLock(final Long productId) {
+        return map.keySet().stream()
+                .filter(it -> it.equals(productId))
+                .map(map::get)
+                .findAny();
+    }
+
+    @Override
     public void deleteProductById(final Long productId) {
         map.remove(productId);
     }

@@ -5,6 +5,7 @@ import com.market.helper.MockBeanInjection;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
 import com.market.market.domain.product.Product;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,13 @@ import java.util.List;
 import static com.market.helper.RestDocsHelper.customDocument;
 import static com.market.market.fixture.ProductFixture.상품_생성;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.cookies.CookieDocumentation.cookieWithName;
+import static org.springframework.restdocs.cookies.CookieDocumentation.requestCookies;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
@@ -111,13 +115,17 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         Long categoryId = 1L;
         Long productId = 1L;
         Product response = 상품_생성();
-        when(productService.findProductById(eq(productId))).thenReturn(response);
+        when(productService.findProductById(eq(productId), any())).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
-                        .header(AUTHORIZATION, "Bearer tokenInfo~"))
+                        .header(AUTHORIZATION, "Bearer tokenInfo~")
+                        .cookie(new Cookie("productView", "[1]")))
                 .andExpect(status().isOk())
                 .andDo(customDocument("find_product_by_id",
+                        requestCookies(
+                                cookieWithName("productView").description("방문한 Product Id들 (조회수 체킹용)")
+                        ),
                         requestHeaders(
                                 headerWithName(org.springframework.http.HttpHeaders.AUTHORIZATION).description("인증 토큰")
                         ),

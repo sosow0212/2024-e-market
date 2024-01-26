@@ -26,8 +26,10 @@ public class StatisticCount {
         return new StatisticCount(DEFAULT_VISITED_COUNT, DEFAULT_CONTACT_COUNT);
     }
 
-    public void view() {
-        this.visitedCount++;
+    public void view(final boolean canAddViewCount) {
+        if (canAddViewCount) {
+            this.visitedCount++;
+        }
     }
 
     public void contact() {
