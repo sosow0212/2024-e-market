@@ -9,6 +9,7 @@ import com.market.coupon.domain.Coupons;
 import com.market.coupon.domain.MemberCoupon;
 import com.market.coupon.domain.MemberCouponRepository;
 import com.market.coupon.exception.exceptions.CouponNotFoundException;
+import com.market.global.exception.exception.AuthenticationInvalidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,12 +45,20 @@ public class CouponService {
 
     // TODO: 추후 한 번에 조회하도록 변경 필요
     @Transactional(readOnly = true)
-    public Coupons findAllMemberCoupons(final Long memberId) {
+    public Coupons findAllMemberCoupons(final Long memberId, final Long authId) {
+        validateAuthentication(memberId, authId);
+
         List<Coupon> foundMemberCoupons = memberCouponRepository.findAllByMemberId(memberId).stream()
                 .map(memberCoupon -> findCoupon(memberCoupon.getCouponId()))
                 .toList();
 
         return new Coupons(foundMemberCoupons);
+    }
+
+    private static void validateAuthentication(final Long memberId, final Long authId) {
+        if (!memberId.equals(authId)) {
+            throw new AuthenticationInvalidException();
+        }
     }
 
     private Coupon findCoupon(final Long couponId) {

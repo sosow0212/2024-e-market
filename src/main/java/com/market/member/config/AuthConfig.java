@@ -36,6 +36,7 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private HandlerInterceptor parseMemberIdFromTokenInterceptor() {
         return new PathMatcherInterceptor(parseMemberIdFromTokenInterceptor)
+
                 .excludePathPattern("/**", OPTIONS)
                 .addPathPatterns("/admin/**", ANY);
     }
@@ -51,7 +52,8 @@ public class AuthConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/boards/**/comments", POST, PATCH, DELETE)
                 .addPathPatterns("/api/categories/**", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/categories/**/products/**", GET, POST, PATCH, DELETE)
-                .addPathPatterns("/api/coupons/**", GET, POST, PATCH, DELETE);
+                .addPathPatterns("/api/coupons/**", GET, POST, PATCH, DELETE)
+                .addPathPatterns("/api/members/**", GET, POST, PATCH, DELETE);
     }
 
     @Override

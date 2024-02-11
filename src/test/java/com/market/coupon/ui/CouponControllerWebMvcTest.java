@@ -75,10 +75,10 @@ class CouponControllerWebMvcTest extends MockBeanInjection {
     void 멤버가_가진_쿠폰을_모두_조회한다() throws Exception {
         // given
         Coupons response = new Coupons(List.of(쿠픈_생성_독자_사용_할인율_10_퍼센트()));
-        when(couponService.findAllMemberCoupons(anyLong())).thenReturn(response);
+        when(couponService.findAllMemberCoupons(anyLong(), anyLong())).thenReturn(response);
 
         // when & then
-        mockMvc.perform(get("/api/coupons/members")
+        mockMvc.perform(get("/api/members/{memberId}/coupons", 1L)
                         .header(AUTHORIZATION, "Bearer tokenInfo~~"))
                 .andExpect(status().isOk())
                 .andDo(customDocument("find_all_member_coupons",
@@ -104,7 +104,7 @@ class CouponControllerWebMvcTest extends MockBeanInjection {
         doNothing().when(couponService).saveMemberCoupons(anyLong(), eq(request));
 
         // when & then
-        mockMvc.perform(post("/api/coupons/members/{memberId}", 1L)
+        mockMvc.perform(post("/api/members/{memberId}/coupons", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 ).andExpect(status().isOk())

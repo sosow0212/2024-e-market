@@ -11,6 +11,7 @@ import com.market.coupon.exception.exceptions.CouponAmountRangeInvalidException;
 import com.market.coupon.exception.exceptions.CouponNotFoundException;
 import com.market.coupon.infrastructure.CouponFakeRepository;
 import com.market.coupon.infrastructure.MemberCouponFakeRepository;
+import com.market.global.exception.exception.AuthenticationInvalidException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -90,23 +91,38 @@ class CouponServiceTest {
         }
     }
 
-    @Test
-    void 멤버가_가진_쿠폰을_모두_조회한다() {
-        // given
-        Coupon coupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
-        MemberCoupon memberCoupon = memberCouponRepository.save(멤버_쿠폰_생성());
+    @DisplayName("멤버가_가진_쿠폰을_조회하는_경우")
+    @Nested
+    class findMemberCoupons {
+        @Test
+        void 멤버가_가진_쿠폰을_모두_조회한다() {
+            // given
+            Coupon coupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
+            MemberCoupon memberCoupon = memberCouponRepository.save(멤버_쿠폰_생성());
 
-        // when
-        List<Coupon> coupons = couponService.findAllMemberCoupons(memberCoupon.getMemberId())
-                .getCoupons();
+            // when
+            List<Coupon> coupons = couponService.findAllMemberCoupons(memberCoupon.getMemberId(), 1L)
+                    .getCoupons();
 
-        // then
-        assertSoftly(softly -> {
-            softly.assertThat(coupons).hasSize(1);
-            softly.assertThat(coupons.get(0))
-                    .usingRecursiveComparison()
-                    .isEqualTo(coupon);
-        });
+            // then
+            assertSoftly(softly -> {
+                softly.assertThat(coupons).hasSize(1);
+                softly.assertThat(coupons.get(0))
+                        .usingRecursiveComparison()
+                        .isEqualTo(coupon);
+            });
+        }
+
+        @Test
+        void 유저_정보가_로그인_한_유저와_동일하지_않으면_예외를_발생시킨다() {
+            // given
+            Coupon coupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
+            MemberCoupon memberCoupon = memberCouponRepository.save(멤버_쿠폰_생성());
+
+            // when & then
+            assertThatThrownBy(() -> couponService.findAllMemberCoupons(memberCoupon.getMemberId(), -1L))
+                    .isInstanceOf(AuthenticationInvalidException.class);
+        }
     }
 
     @Test
