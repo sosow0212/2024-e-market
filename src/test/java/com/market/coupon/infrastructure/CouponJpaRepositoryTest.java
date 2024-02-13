@@ -16,10 +16,10 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-class CouponRepositoryImplTest extends IntegrationHelper {
+class CouponJpaRepositoryTest extends IntegrationHelper {
 
     @Autowired
-    private CouponRepositoryImpl couponRepository;
+    private CouponJpaRepository couponRepository;
 
     @Test
     void 쿠폰을_저장한다() {
