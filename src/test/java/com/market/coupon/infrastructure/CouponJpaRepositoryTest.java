@@ -1,12 +1,12 @@
 package com.market.coupon.infrastructure;
 
 import com.market.coupon.domain.Coupon;
-import com.market.helper.IntegrationHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
@@ -16,7 +16,8 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
-class CouponJpaRepositoryTest extends IntegrationHelper {
+@DataJpaTest
+class CouponJpaRepositoryTest {
 
     @Autowired
     private CouponJpaRepository couponRepository;
