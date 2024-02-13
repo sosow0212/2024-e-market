@@ -1,5 +1,6 @@
 package com.market.global.exception;
 
+import com.market.global.exception.exception.AuthenticationInvalidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(errorMessage);
+    }
+
+    @ExceptionHandler(AuthenticationInvalidException.class)
+    public ResponseEntity<String> handleAuthenticationInvalidException(final AuthenticationInvalidException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(exception.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
