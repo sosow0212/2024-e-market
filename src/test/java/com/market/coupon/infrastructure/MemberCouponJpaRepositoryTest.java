@@ -50,7 +50,7 @@ class MemberCouponJpaRepositoryTest {
         // then
         assertThat(saved)
                 .usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("id", "createdAt", "updatedAt")
                 .isEqualTo(memberCoupon);
     }
 

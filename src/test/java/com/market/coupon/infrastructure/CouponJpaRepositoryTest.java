@@ -31,7 +31,9 @@ class CouponJpaRepositoryTest {
         Coupon savedCoupon = couponRepository.save(coupon);
 
         // then
-        assertThat(savedCoupon.getId()).isEqualTo(1L);
+        assertThat(savedCoupon).usingRecursiveComparison()
+                .ignoringFields("id", "createdAt", "updatedAt")
+                .isEqualTo(coupon);
     }
 
     @Test
