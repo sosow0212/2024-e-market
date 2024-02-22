@@ -7,6 +7,7 @@ import com.market.member.exception.exceptions.auth.TokenFormInvalidException;
 import com.market.member.exception.exceptions.auth.TokenInvalidException;
 import com.market.member.exception.exceptions.auth.UnsupportedTokenException;
 import com.market.member.exception.exceptions.member.MemberAlreadyExistedException;
+import com.market.member.exception.exceptions.member.MemberAuthInvalidException;
 import com.market.member.exception.exceptions.member.MemberNotFoundException;
 import com.market.member.exception.exceptions.member.PasswordNotMatchedException;
 import com.market.member.exception.exceptions.member.RoleNotFoundException;
@@ -20,73 +21,63 @@ public class MemberExceptionHandler {
 
     // member
     @ExceptionHandler(RoleNotFoundException.class)
-    public ResponseEntity<String> handleRoleNotFoundException(final RoleNotFoundException e) {
-        return getNotFoundResponse(e);
+    public ResponseEntity<String> handleRoleNotFoundException(final RoleNotFoundException exception) {
+        return getResponse(HttpStatus.NOT_FOUND, exception);
     }
 
     @ExceptionHandler(MemberAlreadyExistedException.class)
-    public ResponseEntity<String> handleMemberAlreadyExistedException(final MemberAlreadyExistedException e) {
-        return getConflicted(e);
+    public ResponseEntity<String> handleMemberAlreadyExistedException(final MemberAlreadyExistedException exception) {
+        return getResponse(HttpStatus.CONFLICT, exception);
     }
 
     @ExceptionHandler(MemberNotFoundException.class)
-    public ResponseEntity<String> handleMemberNotFoundException(final MemberNotFoundException e) {
-        return getNotFoundResponse(e);
+    public ResponseEntity<String> handleMemberNotFoundException(final MemberNotFoundException exception) {
+        return getResponse(HttpStatus.NOT_FOUND, exception);
     }
 
     @ExceptionHandler(PasswordNotMatchedException.class)
-    public ResponseEntity<String> handlePasswordNotMatchedException(final PasswordNotMatchedException e) {
-        return getConflicted(e);
+    public ResponseEntity<String> handlePasswordNotMatchedException(final PasswordNotMatchedException exception) {
+        return getResponse(HttpStatus.CONFLICT, exception);
+    }
+
+    @ExceptionHandler(MemberAuthInvalidException.class)
+    public ResponseEntity<String> handleMemberAuthInvalidException(final MemberAuthInvalidException exception) {
+        return getResponse(HttpStatus.CONFLICT, exception);
     }
 
     // auth
     @ExceptionHandler(SignatureInvalidException.class)
-    public ResponseEntity<String> handleSignatureInvalidException(final SignatureInvalidException e) {
-        return getUnauthorized(e);
+    public ResponseEntity<String> handleSignatureInvalidException(final SignatureInvalidException exception) {
+        return getResponse(HttpStatus.UNAUTHORIZED, exception);
     }
 
     @ExceptionHandler(TokenFormInvalidException.class)
-    public ResponseEntity<String> handleTokenFormInvalidException(final TokenFormInvalidException e) {
-        return getUnauthorized(e);
+    public ResponseEntity<String> handleTokenFormInvalidException(final TokenFormInvalidException exception) {
+        return getResponse(HttpStatus.UNAUTHORIZED, exception);
     }
 
     @ExceptionHandler(ExpiredTokenException.class)
-    public ResponseEntity<String> handleExpiredTokenException(final ExpiredTokenException e) {
-        return getUnauthorized(e);
+    public ResponseEntity<String> handleExpiredTokenException(final ExpiredTokenException exception) {
+        return getResponse(HttpStatus.UNAUTHORIZED, exception);
     }
 
     @ExceptionHandler(UnsupportedTokenException.class)
-    public ResponseEntity<String> handleUnsupportedTokenException(final UnsupportedTokenException e) {
-        return getUnauthorized(e);
+    public ResponseEntity<String> handleUnsupportedTokenException(final UnsupportedTokenException exception) {
+        return getResponse(HttpStatus.UNAUTHORIZED, exception);
     }
 
     @ExceptionHandler(TokenInvalidException.class)
-    public ResponseEntity<String> handleTokenInvalidException(final TokenInvalidException e) {
-        return getUnauthorized(e);
+    public ResponseEntity<String> handleTokenInvalidException(final TokenInvalidException exception) {
+        return getResponse(HttpStatus.UNAUTHORIZED, exception);
     }
 
     @ExceptionHandler(LoginInvalidException.class)
-    public ResponseEntity<String> handleLoginInvalidException(final LoginInvalidException e) {
-        return getUnauthorized(e);
+    public ResponseEntity<String> handleLoginInvalidException(final LoginInvalidException exception) {
+        return getResponse(HttpStatus.UNAUTHORIZED, exception);
     }
 
-    private ResponseEntity<String> getNotFoundResponse(final Exception e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
-    }
-
-    private ResponseEntity<String> getUnauthorized(final Exception e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(e.getMessage());
-    }
-
-    private ResponseEntity<String> getConflicted(final Exception e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(e.getMessage());
-    }
-
-    private ResponseEntity<String> getBadRequest(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
+    private ResponseEntity<String> getResponse(final HttpStatus httpStatus, final Exception exception) {
+        return ResponseEntity.status(httpStatus)
+                .body(exception.getMessage());
     }
 }

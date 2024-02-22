@@ -1,14 +1,16 @@
 package com.market.coupon.application;
 
 import com.market.coupon.application.dto.CouponCreateRequest;
-import com.market.coupon.application.dto.CouponDeletedRequest;
 import com.market.coupon.application.dto.MemberCouponCreateRequest;
+import com.market.coupon.domain.ApplyPolicy;
 import com.market.coupon.domain.Coupon;
 import com.market.coupon.domain.CouponRepository;
 import com.market.coupon.domain.Coupons;
 import com.market.coupon.domain.MemberCoupon;
 import com.market.coupon.domain.MemberCouponRepository;
+import com.market.coupon.exception.exceptions.ContainsNotExistedCouponException;
 import com.market.coupon.exception.exceptions.CouponNotFoundException;
+import com.market.coupon.exception.exceptions.MemberCouponSizeNotEqualsException;
 import com.market.global.exception.exception.AuthenticationInvalidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final MemberCouponRepository memberCouponRepository;
+    private final ApplyPolicy applyPolicy;
 
     @Transactional
     public Long saveNewCoupon(final CouponCreateRequest request) {
@@ -55,7 +58,7 @@ public class CouponService {
         return new Coupons(foundMemberCoupons);
     }
 
-    private static void validateAuthentication(final Long memberId, final Long authId) {
+    private void validateAuthentication(final Long memberId, final Long authId) {
         if (!memberId.equals(authId)) {
             throw new AuthenticationInvalidException();
         }
@@ -66,9 +69,32 @@ public class CouponService {
                 .orElseThrow(CouponNotFoundException::new);
     }
 
+    @Transactional(readOnly = true)
+    public void validateMemberCouponsExisted(final Long memberId, final List<Long> usingCouponIds) {
+        int count = memberCouponRepository.countMemberIdWithCouponIds(memberId, usingCouponIds);
+
+        if (usingCouponIds.size() != count) {
+            throw new MemberCouponSizeNotEqualsException();
+        }
+    }
+
     @Transactional
-    public void deleteUsingMemberCoupons(final Long memberId, final CouponDeletedRequest request) {
-        List<Long> deletedCouponsIds = request.deletedCouponIds();
-        memberCouponRepository.deleteByMemberIdAndCouponIdIn(memberId, deletedCouponsIds);
+    public void deleteUsedMemberCoupons(final Long buyerId, final List<Long> usedCoupons) {
+        memberCouponRepository.deleteByMemberIdAndCouponIdIn(buyerId, usedCoupons);
+    }
+
+    @Transactional(readOnly = true)
+    public int applyCoupons(final Integer productPrice, final List<Long> couponIds) {
+        List<Coupon> foundCoupons = couponRepository.findAllByIdsIn(couponIds);
+        validateContainsNotExistedCoupon(foundCoupons, couponIds);
+
+        Coupons coupons = new Coupons(foundCoupons);
+        return coupons.applyCoupons(productPrice, applyPolicy);
+    }
+
+    private void validateContainsNotExistedCoupon(final List<Coupon> foundCoupons, final List<Long> couponIds) {
+        if (foundCoupons.size() != couponIds.size()) {
+            throw new ContainsNotExistedCouponException();
+        }
     }
 }

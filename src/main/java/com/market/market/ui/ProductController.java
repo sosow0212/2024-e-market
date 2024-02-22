@@ -3,6 +3,7 @@ package com.market.market.ui;
 import com.market.market.application.ProductService;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
+import com.market.market.application.dto.UsingCouponRequest;
 import com.market.market.domain.product.Product;
 import com.market.market.ui.dto.ProductResponse;
 import com.market.market.ui.dto.ProductsResponse;
@@ -71,5 +72,14 @@ public class ProductController {
         productService.delete(productId, memberId);
         return ResponseEntity.noContent()
                 .build();
+    }
+
+    @PostMapping("/{categoryId}/products/{productId}")
+    public ResponseEntity<Void> buyProducts(@PathVariable("productId") final Long productId,
+                                            @PathVariable("categoryId") final Long categoryId,
+                                            @AuthMember final Long memberId,
+                                            @RequestBody final UsingCouponRequest usingCouponRequest) {
+        productService.buyProducts(productId, memberId, usingCouponRequest);
+        return null;
     }
 }

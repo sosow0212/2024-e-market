@@ -44,4 +44,15 @@ public class MemberCouponFakeRepository implements MemberCouponRepository {
             map.remove(memberCoupon.getId());
         });
     }
+
+    @Override
+    public int countMemberIdWithCouponIds(final Long memberId, final List<Long> couponIds) {
+        List<MemberCoupon> memberCoupons = map.values().stream()
+                .filter(it -> it.getMemberId().equals(memberId))
+                .toList();
+
+        return (int) memberCoupons.stream()
+                .filter(it -> couponIds.contains(it.getCouponId()))
+                .count();
+    }
 }

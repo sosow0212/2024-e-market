@@ -18,6 +18,7 @@ import java.util.List;
 
 import static com.market.coupon.fixture.CouponFixture.쿠픈_생성_독자_사용_할인율_10_퍼센트;
 import static com.market.helper.RestDocsHelper.customDocument;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -33,6 +34,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -114,6 +116,31 @@ class CouponControllerWebMvcTest extends MockBeanInjection {
                         ),
                         requestFields(
                                 fieldWithPath("couponIds[0]").description("유저에게 줄 쿠폰 id")
+                        )
+                ));
+    }
+
+    @Test
+    void 쿠폰을_적용한다() throws Exception {
+        // given
+        when(couponService.applyCoupons(any(), any())).thenReturn(5000);
+
+        // when & then
+        mockMvc.perform(get("/api/coupons?couponIds=1,2&price=20000")
+                        .header(AUTHORIZATION, "Bearer tokenInfo...")
+                ).andExpect(status().isOk())
+                .andDo(customDocument("apply_coupons",
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("유저 토큰 정보")
+                        ),
+                        queryParameters(
+                                parameterWithName("price").description("할인을 적용하고자 하는 상품의 가격"),
+                                parameterWithName("couponIds").description("사용할 쿠폰 id List")
+                        ),
+                        responseFields(
+                                fieldWithPath("originPrice").description("할인 적용 전 가격"),
+                                fieldWithPath("discountPrice").description("할인 적용 후 가격"),
+                                fieldWithPath("usingCouponIds").description("적용한 쿠폰 ids")
                         )
                 ));
     }

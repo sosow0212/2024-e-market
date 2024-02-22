@@ -38,3 +38,16 @@ include::{snippets}/coupon-controller-web-mvc-test/save_member_coupon/path-param
 === Response
 
 include::{snippets}/coupon-controller-web-mvc-test/save_member_coupon/http-response.adoc[]
+
+== 쿠폰을 적용한다 (GET /api/coupons?couponIds=1,2&price=10000)
+
+=== Request
+
+include::{snippets}/coupon-controller-web-mvc-test/apply_coupons/request-headers.adoc[]
+include::{snippets}/coupon-controller-web-mvc-test/apply_coupons/query-parameters.adoc[]
+include::{snippets}/coupon-controller-web-mvc-test/apply_coupons/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/coupon-controller-web-mvc-test/apply_coupons/response-fields.adoc[]
+include::{snippets}/coupon-controller-web-mvc-test/apply_coupons/http-response.adoc[]

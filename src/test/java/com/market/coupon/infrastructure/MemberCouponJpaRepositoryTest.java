@@ -66,4 +66,23 @@ class MemberCouponJpaRepositoryTest {
         List<MemberCoupon> response = memberCouponRepository.findAllByMemberId(memberCoupon.getMemberId());
         assertThat(response).isEmpty();
     }
+
+    @Test
+    void 멤버가_가진_쿠폰의_수를_반환한다() {
+        // given
+        MemberCoupon memberCoupon = 멤버_쿠폰_생성();
+        MemberCoupon memberCoupon2 = MemberCoupon.builder()
+                .couponId(2L)
+                .memberId(1L)
+                .build();
+
+        memberCouponRepository.save(memberCoupon);
+        memberCouponRepository.save(memberCoupon2);
+
+        // when
+        int result = memberCouponRepository.countMemberIdWithCouponIds(1L, List.of(1L, 2L));
+
+        // then
+        assertThat(result).isEqualTo(2);
+     }
 }

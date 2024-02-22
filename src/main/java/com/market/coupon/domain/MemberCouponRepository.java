@@ -9,4 +9,6 @@ public interface MemberCouponRepository {
     MemberCoupon save(MemberCoupon memberCoupon);
 
     void deleteByMemberIdAndCouponIdIn(Long memberId, List<Long> couponIds);
+
+    int countMemberIdWithCouponIds(Long memberId, List<Long> couponIds);
 }

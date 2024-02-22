@@ -1,18 +1,20 @@
 package com.market.coupon.application;
 
 import com.market.coupon.application.dto.CouponCreateRequest;
-import com.market.coupon.application.dto.CouponDeletedRequest;
 import com.market.coupon.application.dto.MemberCouponCreateRequest;
 import com.market.coupon.domain.Coupon;
 import com.market.coupon.domain.CouponRepository;
 import com.market.coupon.domain.MemberCoupon;
 import com.market.coupon.domain.MemberCouponRepository;
+import com.market.coupon.exception.exceptions.ContainsNotExistedCouponException;
 import com.market.coupon.exception.exceptions.CouponAmountRangeInvalidException;
 import com.market.coupon.exception.exceptions.CouponNotFoundException;
+import com.market.coupon.exception.exceptions.MemberCouponSizeNotEqualsException;
+import com.market.coupon.exception.exceptions.UsingAloneCouponContainsException;
+import com.market.coupon.infrastructure.ApplyBasicPolicy;
 import com.market.coupon.infrastructure.CouponFakeRepository;
 import com.market.coupon.infrastructure.MemberCouponFakeRepository;
 import com.market.global.exception.exception.AuthenticationInvalidException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -23,10 +25,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static com.market.coupon.fixture.CouponFixture.쿠픈_생성_독자_사용_할인율_10_퍼센트;
+import static com.market.coupon.fixture.CouponFixture.쿠픈_생성_함께_사용_할인금액_10000원;
 import static com.market.coupon.fixture.MemberCouponFixture.멤버_쿠폰_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -40,7 +44,7 @@ class CouponServiceTest {
     void setup() {
         couponRepository = new CouponFakeRepository();
         memberCouponRepository = new MemberCouponFakeRepository();
-        couponService = new CouponService(couponRepository, memberCouponRepository);
+        couponService = new CouponService(couponRepository, memberCouponRepository, new ApplyBasicPolicy());
     }
 
     @DisplayName("쿠폰을 생성하는 경우")
@@ -80,7 +84,7 @@ class CouponServiceTest {
             Coupon coupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
 
             // when & then
-            Assertions.assertDoesNotThrow(() -> couponService.saveMemberCoupons(coupon.getId(), new MemberCouponCreateRequest(List.of(1L))));
+            assertDoesNotThrow(() -> couponService.saveMemberCoupons(coupon.getId(), new MemberCouponCreateRequest(List.of(1L))));
         }
 
         @Test
@@ -94,6 +98,7 @@ class CouponServiceTest {
     @DisplayName("멤버가_가진_쿠폰을_조회하는_경우")
     @Nested
     class findMemberCoupons {
+
         @Test
         void 멤버가_가진_쿠폰을_모두_조회한다() {
             // given
@@ -130,13 +135,88 @@ class CouponServiceTest {
         // given
         Coupon coupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
         MemberCoupon memberCoupon = memberCouponRepository.save(멤버_쿠폰_생성());
-        CouponDeletedRequest request = new CouponDeletedRequest(List.of(coupon.getId()));
 
         // when
-        couponService.deleteUsingMemberCoupons(memberCoupon.getMemberId(), request);
+        couponService.deleteUsedMemberCoupons(memberCoupon.getMemberId(), List.of(coupon.getId()));
 
         // then
         List<MemberCoupon> result = memberCouponRepository.findAllByMemberId(memberCoupon.getMemberId());
-        assertThat(result).hasSize(0);
+        assertThat(result).isEmpty();
+    }
+
+    @DisplayName("멤버가 사용한 쿠폰의 존재 유효성 검사")
+    @Nested
+    class ValidateMemberCouponSize {
+
+        @Test
+        void 멤버가_사용한_쿠폰이_존재하는지_확인한다() {
+            // given
+            MemberCoupon memberCoupon = 멤버_쿠폰_생성();
+            MemberCoupon memberCoupon2 = MemberCoupon.builder()
+                    .couponId(2L)
+                    .memberId(1L)
+                    .build();
+
+            memberCouponRepository.save(memberCoupon);
+            memberCouponRepository.save(memberCoupon2);
+
+            // when & then
+            assertDoesNotThrow(() -> couponService.validateMemberCouponsExisted(1L, List.of(memberCoupon.getCouponId(), memberCoupon2.getCouponId())));
+        }
+
+        @Test
+        void 쿠폰을_적용하지_않으면_예외를_발생하지_않는다() {
+            // when & then
+            assertDoesNotThrow(() -> couponService.validateMemberCouponsExisted(1L, List.of()));
+        }
+
+        @Test
+        void 멤버가_사용한_쿠폰이_존재하지_않으면_예외를_발생한다() {
+            // given
+            MemberCoupon memberCoupon = 멤버_쿠폰_생성();
+            memberCouponRepository.save(memberCoupon);
+
+            // when & then
+            assertThatThrownBy(() -> couponService.validateMemberCouponsExisted(1L, List.of(memberCoupon.getCouponId(), 2L)))
+                    .isInstanceOf(MemberCouponSizeNotEqualsException.class);
+        }
+    }
+
+    @DisplayName("유저가 쿠폰을 사용하여 가격을 할인한다")
+    @Nested
+    class ApplyCoupons {
+
+        @Test
+        void 쿠폰을_정상적으로_적용한다() {
+            // given
+            Coupon savedCoupon = couponRepository.save(쿠픈_생성_함께_사용_할인금액_10000원());
+
+            // when
+            int result = couponService.applyCoupons(10000, List.of(savedCoupon.getId()));
+
+            // then
+            assertThat(result).isZero();
+        }
+
+        @Test
+        void 독립_사용_쿠폰이_다른_쿠폰과_함께_적용되면_예외를_발생시킨다() {
+            // given
+            Coupon savedCoupon = couponRepository.save(쿠픈_생성_함께_사용_할인금액_10000원());
+            Coupon savedCoupon2 = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
+
+            // when & then
+            assertThatThrownBy(() -> couponService.applyCoupons(10000, List.of(savedCoupon.getId(), savedCoupon2.getId())))
+                    .isInstanceOf(UsingAloneCouponContainsException.class);
+        }
+
+        @Test
+        void 적용하는_쿠폰_중_존재하지_않는_쿠폰이_있다면_예외를_발생시킨다() {
+            // given
+            Coupon savedCoupon = couponRepository.save(쿠픈_생성_함께_사용_할인금액_10000원());
+
+            // when & then
+            assertThatThrownBy(() -> couponService.applyCoupons(10000, List.of(savedCoupon.getId(), -1L)))
+                    .isInstanceOf(ContainsNotExistedCouponException.class);
+         }
     }
 }

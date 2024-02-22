@@ -1,6 +1,7 @@
 package com.market.member.domain.member;
 
 import com.market.global.domain.BaseEntity;
+import com.market.member.exception.exceptions.member.MemberAuthInvalidException;
 import com.market.member.exception.exceptions.member.PasswordNotMatchedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,6 +60,12 @@ public class Member extends BaseEntity {
     public void validatePassword(final String password) {
         if (!this.password.equals(password)) {
             throw new PasswordNotMatchedException();
+        }
+    }
+
+    public void validateAuth(final Long memberId) {
+        if (!this.id.equals(memberId)) {
+            throw new MemberAuthInvalidException();
         }
     }
 }

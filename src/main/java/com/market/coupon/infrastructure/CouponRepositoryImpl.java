@@ -5,6 +5,7 @@ import com.market.coupon.domain.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,5 +27,10 @@ public class CouponRepositoryImpl implements CouponRepository {
     @Override
     public void deleteById(final Long id) {
         couponJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Coupon> findAllByIdsIn(final List<Long> couponIds) {
+        return couponJpaRepository.findAllByIdIn(couponIds);
     }
 }

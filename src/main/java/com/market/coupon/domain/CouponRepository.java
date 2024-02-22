@@ -1,12 +1,15 @@
 package com.market.coupon.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CouponRepository {
 
-    Coupon save(final Coupon coupon);
+    Coupon save(Coupon coupon);
 
-    Optional<Coupon> findById(final Long id);
+    Optional<Coupon> findById(Long id);
 
-    void deleteById(final Long id);
+    void deleteById(Long id);
+
+    List<Coupon> findAllByIdsIn(List<Long> couponIds);
 }
