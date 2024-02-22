@@ -2,6 +2,7 @@ package com.market.market.application;
 
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
+import com.market.market.application.dto.UsingCouponRequest;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
 import com.market.market.exception.exceptions.ProductNotFoundException;
@@ -19,6 +20,7 @@ import static com.market.market.fixture.ProductFixture.상품_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -153,6 +155,16 @@ class ProductServiceTest {
         // when & then
         assertThatThrownBy(() -> productService.delete(savedProduct.getId(), -1L))
                 .isInstanceOf(ProductOwnerNotEqualsException.class);
+    }
+
+    @Test
+    void 상품을_구매한다() {
+        // given
+        Product savedProduct = productRepository.save(상품_생성());
+        UsingCouponRequest request = new UsingCouponRequest(List.of(1L), savedProduct.getPrice().getPrice(), 0);
+
+        // when & then
+        assertDoesNotThrow(() -> productService.buyProducts(savedProduct.getId(), 1L, request));
     }
 }
 

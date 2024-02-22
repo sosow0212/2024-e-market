@@ -27,4 +27,9 @@ public class MemberCouponRepositoryImpl implements MemberCouponRepository {
     public void deleteByMemberIdAndCouponIdIn(final Long memberId, final List<Long> couponIds) {
         memberCouponJpaRepository.deleteByMemberIdAndCouponIdIn(memberId, couponIds);
     }
+
+    @Override
+    public int countMemberIdWithCouponIds(final Long memberId, final List<Long> couponIds) {
+        return memberCouponJpaRepository.countMemberIdWithCouponIds(memberId, couponIds);
+    }
 }

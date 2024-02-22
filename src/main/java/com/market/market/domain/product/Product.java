@@ -76,4 +76,8 @@ public class Product extends BaseEntity {
     public void view(final boolean canAddViewCount) {
         this.statisticCount.view(canAddViewCount);
     }
+
+    public void sell() {
+        this.productStatus = ProductStatus.COMPLETED;
+    }
 }
