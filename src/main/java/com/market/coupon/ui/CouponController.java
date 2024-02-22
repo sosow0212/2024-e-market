@@ -4,6 +4,7 @@ import com.market.coupon.application.CouponService;
 import com.market.coupon.application.dto.CouponCreateRequest;
 import com.market.coupon.application.dto.MemberCouponCreateRequest;
 import com.market.coupon.domain.Coupons;
+import com.market.coupon.ui.dto.ApplyCouponResponse;
 import com.market.coupon.ui.dto.CouponsResponse;
 import com.market.member.ui.auth.support.AuthMember;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -48,5 +51,12 @@ public class CouponController {
         couponService.saveMemberCoupons(memberId, request);
         return ResponseEntity.ok()
                 .build();
+    }
+
+    @GetMapping("/coupons")
+    public ResponseEntity<ApplyCouponResponse> applyCoupons(@RequestParam(value = "couponIds") final List<Long> couponIds,
+                                                            @RequestParam(value = "price") final Integer price) {
+        int discountPrice = couponService.applyCoupons(price, couponIds);
+        return ResponseEntity.ok(new ApplyCouponResponse(price, discountPrice, couponIds));
     }
 }

@@ -49,4 +49,16 @@ public class Coupon extends BaseEntity {
             throw new CouponAmountRangeInvalidException();
         }
     }
+
+    public boolean isUsingAloneCoupon() {
+        return this.policy.isCanUseAlone();
+    }
+
+    public boolean isPercentageCoupon() {
+        return this.policy.isDiscountPercentage();
+    }
+
+    public int discount(final Integer price) {
+        return this.policy.discount(price);
+    }
 }

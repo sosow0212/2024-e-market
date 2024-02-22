@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.market.coupon.fixture.CouponFixture.쿠픈_생성_독자_사용_할인율_10_퍼센트;
@@ -61,4 +62,19 @@ class CouponJpaRepositoryTest {
         // when & then
         Assertions.assertDoesNotThrow(() -> couponRepository.deleteById(savedCoupon.getId()));
     }
+
+    @Test
+    void id에_포함되는_쿠폰을_모두_조회한다() {
+        // given
+        Coupon savedCoupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
+
+        // when
+        List<Coupon> result = couponRepository.findAllByIdIn(List.of(savedCoupon.getId()));
+
+        // then
+        assertSoftly(softly -> {
+            softly.assertThat(result).hasSize(1);
+            softly.assertThat(result.get(0)).usingRecursiveComparison().isEqualTo(savedCoupon);
+        });
+     }
 }

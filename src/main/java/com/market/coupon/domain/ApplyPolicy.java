@@ -1,6 +1,11 @@
 package com.market.coupon.domain;
 
+import java.util.List;
+
 public interface ApplyPolicy {
 
-    void apply();
+    int apply(Integer price,
+               List<Coupon> percentageCoupons,
+               List<Coupon> discountCoupons
+    );
 }

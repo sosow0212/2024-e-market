@@ -6,6 +6,7 @@ import com.market.coupon.domain.Description;
 import com.market.coupon.domain.Policy;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,5 +48,12 @@ public class CouponFakeRepository implements CouponRepository {
     @Override
     public void deleteById(final Long id) {
         map.remove(id);
+    }
+
+    @Override
+    public List<Coupon> findAllByIdsIn(final List<Long> couponIds) {
+        return map.values().stream()
+                .filter(it -> couponIds.contains(it.getId()))
+                .toList();
     }
 }
