@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static com.market.coupon.fixture.CouponFixture.쿠픈_생성_함께_사용_할인금액_10000원;
 import static com.market.market.fixture.ProductFixture.상품_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -36,8 +35,8 @@ class ProductServiceTest {
     @BeforeEach
     void setup() {
         productRepository = new ProductFakeRepository();
-        productService = new ProductService(productRepository);
         couponRepository = new CouponFakeRepository();
+        productService = new ProductService(productRepository);
     }
 
     @Test
@@ -165,9 +164,8 @@ class ProductServiceTest {
     @Test
     void 상품을_구매한다() {
         // given
-        couponRepository.save(쿠픈_생성_함께_사용_할인금액_10000원());
         Product savedProduct = productRepository.save(상품_생성());
-        UsingCouponRequest request = new UsingCouponRequest(List.of(1L), savedProduct.getPrice().getPrice(), 0);
+        UsingCouponRequest request = new UsingCouponRequest(List.of(), savedProduct.getPrice().getPrice(), 0);
 
         // when & then
         assertDoesNotThrow(() -> productService.buyProducts(savedProduct.getId(), 1L, request));

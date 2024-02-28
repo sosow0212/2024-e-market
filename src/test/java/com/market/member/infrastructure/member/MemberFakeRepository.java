@@ -14,7 +14,7 @@ public class MemberFakeRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findById(final Long id) {
-        return Optional.of(map.get(id));
+        return Optional.ofNullable(map.get(id));
     }
 
     @Override
@@ -33,6 +33,8 @@ public class MemberFakeRepository implements MemberRepository {
 
     @Override
     public Member save(final Member member) {
+        id++;
+
         Member saved = Member.builder()
                 .id(id)
                 .email(member.getEmail())
@@ -41,9 +43,8 @@ public class MemberFakeRepository implements MemberRepository {
                 .memberRole(member.getMemberRole())
                 .build();
 
-        map.put(id, member);
+        map.put(id, saved);
 
-        id++;
         return saved;
     }
 

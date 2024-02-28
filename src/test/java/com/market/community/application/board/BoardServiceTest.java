@@ -156,5 +156,5 @@ class BoardServiceTest {
         // when & then
         assertThatThrownBy(() -> boardService.patchLike(1L, true))
                 .isInstanceOf(BoardNotFoundException.class);
-     }
+    }
 }
