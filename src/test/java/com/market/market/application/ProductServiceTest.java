@@ -1,7 +1,5 @@
 package com.market.market.application;
 
-import com.market.coupon.domain.CouponRepository;
-import com.market.coupon.infrastructure.CouponFakeRepository;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
 import com.market.market.application.dto.UsingCouponRequest;
@@ -30,12 +28,10 @@ class ProductServiceTest {
 
     private ProductService productService;
     private ProductRepository productRepository;
-    private CouponRepository couponRepository;
 
     @BeforeEach
     void setup() {
         productRepository = new ProductFakeRepository();
-        couponRepository = new CouponFakeRepository();
         productService = new ProductService(productRepository);
     }
 
