@@ -7,11 +7,13 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+import static com.market.member.domain.member.Member.createDefaultRole;
 import static com.market.member.fixture.member.MemberFixture.어드민_유저_생성;
 import static com.market.member.fixture.member.MemberFixture.일반_유저_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -50,12 +52,23 @@ class MemberTest {
     @Test
     void 회원가입시_기본적으로_MEMBER_ROLE과_랜덤한_닉네임으로_생성된다() {
         // when
-        Member member = Member.createDefaultRole("email@email.com", "password", nicknameGenerator);
+        Member member = createDefaultRole("email@email.com", "password", nicknameGenerator);
 
         // then
         assertSoftly(softly -> {
             softly.assertThat(member.getMemberRole()).isEqualTo(MemberRole.MEMBER);
             softly.assertThat(member.getNickname()).isEqualTo("nickname");
         });
+    }
+
+    @Test
+    void 멤버가_일치하는지_확인한다() {
+        // given
+        Member member = Member.builder()
+                .id(1L)
+                .build();
+
+        // when & then
+        assertDoesNotThrow(() -> member.validateAuth(member.getId()));
     }
 }

@@ -1,7 +1,7 @@
 package com.market.member.ui.member;
 
 import com.market.member.application.member.MemberService;
-import com.market.member.domain.member.TradeHistory;
+import com.market.member.domain.member.dto.TradeHistoryResponse;
 import com.market.member.ui.auth.support.AuthMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +21,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{memberId}/histories")
-    public ResponseEntity<Void> findTradeHistories(@PathVariable("memberId") final Long memberId,
-                                                   @AuthMember final Long authId,
-                                                   @RequestParam(value = "isSeller") final boolean isSeller) {
-        // TODO : 거래내역 조회 구현 (join)
-        List<TradeHistory> histories = memberService.findTradeHistories(memberId, authId, isSeller);
-        return null;
+    public ResponseEntity<List<TradeHistoryResponse>> findTradeHistories(@PathVariable("memberId") final Long memberId,
+                                                                         @AuthMember final Long authId,
+                                                                         @RequestParam(value = "isSeller") final boolean isSeller) {
+        List<TradeHistoryResponse> response = memberService.findTradeHistories(memberId, authId, isSeller);
+        return ResponseEntity.ok(response);
     }
 }

@@ -4,5 +4,9 @@ public enum ProductStatus {
 
     WAITING,
     RESERVED,
-    COMPLETED
+    COMPLETED;
+
+    public boolean isCompleted() {
+        return this.equals(COMPLETED);
+    }
 }

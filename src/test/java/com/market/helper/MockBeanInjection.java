@@ -7,6 +7,7 @@ import com.market.coupon.application.CouponService;
 import com.market.market.application.ProductService;
 import com.market.market.ui.support.resolver.ProductCookieHelperImpl;
 import com.market.member.application.auth.AuthService;
+import com.market.member.application.member.MemberService;
 import com.market.member.domain.auth.TokenProvider;
 import com.market.member.ui.auth.support.AuthenticationContext;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -41,4 +42,7 @@ public class MockBeanInjection {
 
     @MockBean
     protected CouponService couponService;
+
+    @MockBean
+    protected MemberService memberService;
 }

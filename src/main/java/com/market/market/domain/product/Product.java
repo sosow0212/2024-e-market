@@ -2,6 +2,7 @@ package com.market.market.domain.product;
 
 import com.market.global.domain.BaseEntity;
 import com.market.market.domain.product.vo.Price;
+import com.market.market.exception.exceptions.ProductAlreadySoldOutException;
 import com.market.market.exception.exceptions.ProductOwnerNotEqualsException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -78,6 +79,10 @@ public class Product extends BaseEntity {
     }
 
     public void sell() {
+        if (this.productStatus.isCompleted()) {
+            throw new ProductAlreadySoldOutException();
+        }
+
         this.productStatus = ProductStatus.COMPLETED;
     }
 }

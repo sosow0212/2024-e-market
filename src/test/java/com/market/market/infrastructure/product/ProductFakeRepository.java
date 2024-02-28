@@ -24,6 +24,7 @@ public class ProductFakeRepository implements ProductRepository {
                 .memberId(product.getMemberId())
                 .categoryId(product.getCategoryId())
                 .price(product.getPrice())
+                .productStatus(product.getProductStatus())
                 .build();
 
         map.put(id, saved);

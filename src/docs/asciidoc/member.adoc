@@ -1,0 +1,20 @@
+= Member API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+
+== 구매 혹은 판매 내역 조회 (GET /api/members/{memberId}/histories?isSeller=boolean {true / false})
+
+=== Request
+
+include::{snippets}/member-controller-test/find_trade_histories/request-headers.adoc[]
+include::{snippets}/member-controller-test/find_trade_histories/query-parameters.adoc[]
+include::{snippets}/member-controller-test/find_trade_histories/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/member-controller-test/find_trade_histories/response-fields.adoc[]
+include::{snippets}/member-controller-test/find_trade_histories/http-response.adoc[]
+

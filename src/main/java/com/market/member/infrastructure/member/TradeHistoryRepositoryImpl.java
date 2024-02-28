@@ -2,6 +2,7 @@ package com.market.member.infrastructure.member;
 
 import com.market.member.domain.member.TradeHistory;
 import com.market.member.domain.member.TradeHistoryRepository;
+import com.market.member.domain.member.dto.TradeHistoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class TradeHistoryRepositoryImpl implements TradeHistoryRepository {
 
     private final TradeHistoryJpaRepository tradeHistoryJpaRepository;
+    private final TradeHistoryQueryRepository tradeHistoryQueryRepository;
 
     @Override
     public TradeHistory save(final TradeHistory tradeHistory) {
@@ -19,12 +21,7 @@ public class TradeHistoryRepositoryImpl implements TradeHistoryRepository {
     }
 
     @Override
-    public List<TradeHistory> findAllByBuyerId(final Long buyerId) {
-        return tradeHistoryJpaRepository.findAllByBuyerId(buyerId);
-    }
-
-    @Override
-    public List<TradeHistory> findAllBySellerId(final Long sellerId) {
-        return tradeHistoryJpaRepository.findAllBySellerId(sellerId);
+    public List<TradeHistoryResponse> findHistories(final Long memberId, final boolean isSeller) {
+        return tradeHistoryQueryRepository.findTradeHistories(memberId, isSeller);
     }
 }

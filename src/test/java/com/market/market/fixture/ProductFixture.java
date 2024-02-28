@@ -19,4 +19,16 @@ public class ProductFixture {
                 .productStatus(ProductStatus.WAITING)
                 .build();
     }
+
+    public static Product 구매된_상품_생성() {
+        return Product.builder()
+                .id(1L)
+                .categoryId(1L)
+                .memberId(1L)
+                .description(new Description("title", "content"))
+                .statisticCount(StatisticCount.createDefault())
+                .price(new Price(10000))
+                .productStatus(ProductStatus.COMPLETED)
+                .build();
+    }
 }

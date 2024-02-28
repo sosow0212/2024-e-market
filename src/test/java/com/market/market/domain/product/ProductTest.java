@@ -1,11 +1,14 @@
 package com.market.market.domain.product;
 
+import com.market.market.exception.exceptions.ProductAlreadySoldOutException;
 import com.market.market.exception.exceptions.ProductOwnerNotEqualsException;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+import static com.market.market.fixture.ProductFixture.구매된_상품_생성;
 import static com.market.market.fixture.ProductFixture.상품_생성;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
@@ -39,5 +42,29 @@ class ProductTest {
         // when & then
         assertThatThrownBy(() -> product.updateDescription(newDescription, newDescription, 10, 1L, -1L))
                 .isInstanceOf(ProductOwnerNotEqualsException.class);
+    }
+
+    @Test
+    void 상품_조회수를_올린다() {
+        // given
+        Product product = 상품_생성();
+        Integer beforeViewCount = product.getStatisticCount().getVisitedCount();
+
+        // when
+        product.view(true);
+
+        // then
+        assertThat(product.getStatisticCount().getVisitedCount())
+                .isEqualTo(beforeViewCount + 1);
+    }
+
+    @Test
+    void 구매된_상품이면_주문하지_못한다() {
+        // given
+        Product product = 구매된_상품_생성();
+
+        // when & then
+        assertThatThrownBy(product::sell)
+                .isInstanceOf(ProductAlreadySoldOutException.class);
     }
 }
