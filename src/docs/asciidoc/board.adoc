@@ -5,64 +5,64 @@
 :toc: left
 :toclevels: 3
 
-== 게시글을 작성한다 (POST /api/boards)
+=== 게시글을 작성한다 (POST /api/boards)
 
-=== Request
+==== Request
 
 include::{snippets}/board-controller-web-mvc-test/save_board/request-headers.adoc[]
 include::{snippets}/board-controller-web-mvc-test/save_board/request-parts.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/board-controller-web-mvc-test/save_board/response-headers.adoc[]
 include::{snippets}/board-controller-web-mvc-test/save_board/http-response.adoc[]
 
-== 게시글을 단건 조회한다 (GET /api/boards/{id})
+=== 게시글을 단건 조회한다 (GET /api/boards/{id})
 
-=== Request
+==== Request
 
 include::{snippets}/board-controller-web-mvc-test/find_board_by_id/path-parameters.adoc[]
 include::{snippets}/board-controller-web-mvc-test/find_board_by_id/http-request.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/board-controller-web-mvc-test/find_board_by_id/response-fields.adoc[]
 include::{snippets}/board-controller-web-mvc-test/find_board_by_id/http-response.adoc[]
 
-== 게시글을 수정한다 (PATCH /api/boards/{id})
+=== 게시글을 수정한다 (PATCH /api/boards/{id})
 
-=== Request
+==== Request
 
 include::{snippets}/board-controller-web-mvc-test/patch_board/request-headers.adoc[]
 include::{snippets}/board-controller-web-mvc-test/patch_board/path-parameters.adoc[]
 include::{snippets}/board-controller-web-mvc-test/patch_board/request-parts.adoc[]
 include::{snippets}/board-controller-web-mvc-test/patch_board/http-request.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/board-controller-web-mvc-test/patch_board/http-response.adoc[]
 
-== 게시글을 삭제한다 (DELETE /api/boards/{id})
+=== 게시글을 삭제한다 (DELETE /api/boards/{id})
 
-=== Request
+==== Request
 
 include::{snippets}/board-controller-web-mvc-test/delete_board/request-headers.adoc[]
 include::{snippets}/board-controller-web-mvc-test/delete_board/path-parameters.adoc[]
 include::{snippets}/board-controller-web-mvc-test/delete_board/http-request.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/board-controller-web-mvc-test/delete_board/http-response.adoc[]
 
-== 좋아요 버튼을 누른다 (PATCH /api/boards/{id}/comments)
+=== 좋아요 버튼을 누른다 (PATCH /api/boards/{id}/comments)
 
-=== Request
+==== Request
 
 include::{snippets}/like-controller-web-mvc-test/patch_like/request-headers.adoc[]
 include::{snippets}/like-controller-web-mvc-test/patch_like/path-parameters.adoc[]
 include::{snippets}/like-controller-web-mvc-test/patch_like/http-request.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/like-controller-web-mvc-test/patch_like/response-fields.adoc[]
 include::{snippets}/like-controller-web-mvc-test/patch_like/http-response.adoc[]

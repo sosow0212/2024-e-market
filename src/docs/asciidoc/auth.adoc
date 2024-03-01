@@ -5,26 +5,26 @@
 :toc: left
 :toclevels: 3
 
-== 회원가입을 진행한다 (POST /api/signup)
+=== 회원가입을 진행한다 (POST /api/signup)
 
-=== Request
+==== Request
 
 include::{snippets}/auth-controller-web-mvc-test/do_signup/request-fields.adoc[]
 include::{snippets}/auth-controller-web-mvc-test/do_signup/http-request.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/auth-controller-web-mvc-test/do_signup/response-fields.adoc[]
 include::{snippets}/auth-controller-web-mvc-test/do_signup/http-response.adoc[]
 
-== 로그인을 진행한다 (POST /api/login)
+=== 로그인을 진행한다 (POST /api/login)
 
-=== Request
+==== Request
 
 include::{snippets}/auth-controller-web-mvc-test/do_login/request-fields.adoc[]
 include::{snippets}/auth-controller-web-mvc-test/do_login/http-request.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/auth-controller-web-mvc-test/do_login/response-fields.adoc[]
 include::{snippets}/auth-controller-web-mvc-test/do_login/http-response.adoc[]
