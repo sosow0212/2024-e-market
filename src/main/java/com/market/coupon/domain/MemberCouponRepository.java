@@ -11,4 +11,6 @@ public interface MemberCouponRepository {
     void deleteByMemberIdAndCouponIdIn(Long memberId, List<Long> couponIds);
 
     int countMemberIdWithCouponIds(Long memberId, List<Long> couponIds);
+
+    void insertBulk(List<MemberCoupon> memberCoupons);
 }

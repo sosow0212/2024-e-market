@@ -76,5 +76,17 @@ class CouponJpaRepositoryTest {
             softly.assertThat(result).hasSize(1);
             softly.assertThat(result.get(0)).usingRecursiveComparison().isEqualTo(savedCoupon);
         });
-     }
+    }
+
+    @Test
+    void id에_포함되는_쿠폰의_개수를_반환한다() {
+        // given
+        Coupon savedCoupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
+
+        // when
+        int result = couponRepository.countAllByIdIn(List.of(savedCoupon.getId(), -1L));
+
+        // then
+        assertThat(result).isEqualTo(1);
+    }
 }

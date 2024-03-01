@@ -1,4 +1,4 @@
-package com.market.community.domain.board;
+package com.market.community.domain.board.vo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

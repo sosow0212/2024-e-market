@@ -1,4 +1,6 @@
-package com.market.community.domain.board;
+package com.market.community.domain.board.dto;
+
+import com.market.community.domain.board.Image;
 
 import java.util.ArrayList;
 import java.util.List;

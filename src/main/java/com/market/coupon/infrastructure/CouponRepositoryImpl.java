@@ -33,4 +33,9 @@ public class CouponRepositoryImpl implements CouponRepository {
     public List<Coupon> findAllByIdsIn(final List<Long> couponIds) {
         return couponJpaRepository.findAllByIdIn(couponIds);
     }
+
+    @Override
+    public int countAllByIdIn(final List<Long> couponIds) {
+        return couponJpaRepository.countAllByIdIn(couponIds);
+    }
 }

@@ -22,6 +22,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Coupon extends BaseEntity {
 
+    private static final int MINIMUM_PERCENTAGE_DISCOUNT_AMOUNT = 0;
+    private static final int MAXIMUM_PERCENTAGE_DISCOUNT_AMOUNT = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,7 +48,7 @@ public class Coupon extends BaseEntity {
     }
 
     private static void validateAmountRange(final boolean isDiscountPercentage, final int amount) {
-        if (isDiscountPercentage && (amount <= 0 || amount > 100)) {
+        if (isDiscountPercentage && (amount <= MINIMUM_PERCENTAGE_DISCOUNT_AMOUNT || amount > MAXIMUM_PERCENTAGE_DISCOUNT_AMOUNT)) {
             throw new CouponAmountRangeInvalidException();
         }
     }

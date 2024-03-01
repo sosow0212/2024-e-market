@@ -8,7 +8,6 @@ import com.market.coupon.domain.CouponRepository;
 import com.market.coupon.domain.Coupons;
 import com.market.coupon.domain.MemberCoupon;
 import com.market.coupon.domain.MemberCouponRepository;
-import com.market.coupon.exception.exceptions.ContainsNotExistedCouponException;
 import com.market.coupon.exception.exceptions.CouponNotFoundException;
 import com.market.coupon.exception.exceptions.MemberCouponSizeNotEqualsException;
 import com.market.global.exception.exception.AuthenticationInvalidException;
@@ -35,38 +34,42 @@ public class CouponService {
 
     @Transactional
     public void saveMemberCoupons(final Long memberId, final MemberCouponCreateRequest request) {
-        request.couponIds().forEach(couponId -> {
-            findCoupon(couponId);
-            MemberCoupon memberCoupon = MemberCoupon.builder()
-                    .memberId(memberId)
-                    .couponId(couponId)
-                    .build();
+        List<Long> couponIds = request.couponIds();
+        validateExistedInCouponsIds(couponIds);
 
-            memberCouponRepository.save(memberCoupon);
-        });
+        List<MemberCoupon> memberCoupons = couponIds.stream()
+                .map(it -> MemberCoupon.builder()
+                        .memberId(memberId)
+                        .couponId(it)
+                        .build()
+                ).toList();
+
+        memberCouponRepository.insertBulk(memberCoupons);
     }
 
-    // TODO: 추후 한 번에 조회하도록 변경 필요
+    private void validateExistedInCouponsIds(final List<Long> couponIds) {
+        if (couponRepository.countAllByIdIn(couponIds) != couponIds.size()) {
+            throw new CouponNotFoundException();
+        }
+    }
+
     @Transactional(readOnly = true)
     public Coupons findAllMemberCoupons(final Long memberId, final Long authId) {
         validateAuthentication(memberId, authId);
 
-        List<Coupon> foundMemberCoupons = memberCouponRepository.findAllByMemberId(memberId).stream()
-                .map(memberCoupon -> findCoupon(memberCoupon.getCouponId()))
+        List<Long> couponIds = memberCouponRepository.findAllByMemberId(memberId).stream()
+                .map(MemberCoupon::getCouponId)
                 .toList();
 
-        return new Coupons(foundMemberCoupons);
+        List<Coupon> coupons = couponRepository.findAllByIdsIn(couponIds);
+
+        return new Coupons(coupons);
     }
 
     private void validateAuthentication(final Long memberId, final Long authId) {
         if (!memberId.equals(authId)) {
             throw new AuthenticationInvalidException();
         }
-    }
-
-    private Coupon findCoupon(final Long couponId) {
-        return couponRepository.findById(couponId)
-                .orElseThrow(CouponNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
@@ -86,15 +89,8 @@ public class CouponService {
     @Transactional(readOnly = true)
     public int applyCoupons(final Integer productPrice, final List<Long> couponIds) {
         List<Coupon> foundCoupons = couponRepository.findAllByIdsIn(couponIds);
-        validateContainsNotExistedCoupon(foundCoupons, couponIds);
-
         Coupons coupons = new Coupons(foundCoupons);
+        coupons.validateContainsNotExistedCoupon(couponIds);
         return coupons.applyCoupons(productPrice, applyPolicy);
-    }
-
-    private void validateContainsNotExistedCoupon(final List<Coupon> foundCoupons, final List<Long> couponIds) {
-        if (foundCoupons.size() != couponIds.size()) {
-            throw new ContainsNotExistedCouponException();
-        }
     }
 }

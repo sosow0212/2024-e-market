@@ -1,5 +1,6 @@
 package com.market.coupon.domain;
 
+import com.market.coupon.exception.exceptions.ContainsNotExistedCouponException;
 import com.market.coupon.exception.exceptions.UsingAloneCouponContainsException;
 import com.market.coupon.infrastructure.ApplyBasicPolicy;
 import org.junit.jupiter.api.DisplayName;
@@ -47,6 +48,16 @@ class CouponsTest {
 
             // then
             assertThat(afterPrice).isEqualTo(72000);
-         }
+        }
+
+        @Test
+        void 존재하지_않는_쿠폰이_있어서_사이즈가_다르면_예외를_반환한다() {
+            // given
+            Coupons coupons = new Coupons(List.of(쿠픈_생성_함께_사용_할인금액_10000원()));
+
+            // when & then
+            assertThatThrownBy(() -> coupons.validateContainsNotExistedCoupon(List.of(1L, 2L)))
+                    .isInstanceOf(ContainsNotExistedCouponException.class);
+        }
     }
 }

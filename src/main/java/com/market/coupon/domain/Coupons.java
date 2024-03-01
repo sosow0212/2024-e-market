@@ -1,5 +1,6 @@
 package com.market.coupon.domain;
 
+import com.market.coupon.exception.exceptions.ContainsNotExistedCouponException;
 import com.market.coupon.exception.exceptions.UsingAloneCouponContainsException;
 import lombok.AllArgsConstructor;
 
@@ -45,5 +46,11 @@ public class Coupons {
         return coupons.stream()
                 .filter(coupon -> !coupon.isPercentageCoupon())
                 .toList();
+    }
+
+    public void validateContainsNotExistedCoupon(final List<Long> couponIds) {
+        if (this.coupons.size() != couponIds.size()) {
+            throw new ContainsNotExistedCouponException();
+        }
     }
 }

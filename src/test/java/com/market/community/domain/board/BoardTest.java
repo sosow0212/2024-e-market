@@ -1,5 +1,6 @@
 package com.market.community.domain.board;
 
+import com.market.community.domain.board.dto.BoardUpdateResult;
 import com.market.community.exception.exceptions.WriterNotEqualsException;
 import com.market.community.infrastructure.board.ImageConverterImpl;
 import org.junit.jupiter.api.DisplayNameGeneration;

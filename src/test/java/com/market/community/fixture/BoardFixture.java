@@ -1,8 +1,8 @@
 package com.market.community.fixture;
 
 import com.market.community.domain.board.Board;
-import com.market.community.domain.board.Post;
 import com.market.community.domain.board.vo.LikeCount;
+import com.market.community.domain.board.vo.Post;
 
 import java.util.ArrayList;
 

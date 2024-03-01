@@ -12,6 +12,7 @@ import java.util.List;
 public class MemberCouponRepositoryImpl implements MemberCouponRepository {
 
     private final MemberCouponJpaRepository memberCouponJpaRepository;
+    private final MemberCouponJdbcRepository memberCouponJdbcRepository;
 
     @Override
     public List<MemberCoupon> findAllByMemberId(final Long memberId) {
@@ -31,5 +32,10 @@ public class MemberCouponRepositoryImpl implements MemberCouponRepository {
     @Override
     public int countMemberIdWithCouponIds(final Long memberId, final List<Long> couponIds) {
         return memberCouponJpaRepository.countMemberIdWithCouponIds(memberId, couponIds);
+    }
+
+    @Override
+    public void insertBulk(final List<MemberCoupon> memberCoupons) {
+        memberCouponJdbcRepository.insertBulk(memberCoupons);
     }
 }

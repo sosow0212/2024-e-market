@@ -55,4 +55,11 @@ public class MemberCouponFakeRepository implements MemberCouponRepository {
                 .filter(it -> couponIds.contains(it.getCouponId()))
                 .count();
     }
+
+    @Override
+    public void insertBulk(final List<MemberCoupon> memberCoupons) {
+        for (MemberCoupon memberCoupon : memberCoupons) {
+            save(memberCoupon);
+        }
+    }
 }
