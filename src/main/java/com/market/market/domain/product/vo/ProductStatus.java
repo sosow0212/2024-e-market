@@ -1,4 +1,4 @@
-package com.market.market.domain.product;
+package com.market.market.domain.product.vo;
 
 public enum ProductStatus {
 

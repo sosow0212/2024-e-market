@@ -1,7 +1,10 @@
 package com.market.market.domain.product;
 
 import com.market.global.domain.BaseEntity;
+import com.market.market.domain.product.vo.Description;
 import com.market.market.domain.product.vo.Price;
+import com.market.market.domain.product.vo.ProductStatus;
+import com.market.market.domain.product.vo.StatisticCount;
 import com.market.market.exception.exceptions.ProductAlreadySoldOutException;
 import com.market.market.exception.exceptions.ProductOwnerNotEqualsException;
 import jakarta.persistence.Column;

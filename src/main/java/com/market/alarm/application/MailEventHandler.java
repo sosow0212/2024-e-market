@@ -1,7 +1,7 @@
 package com.market.alarm.application;
 
 import com.market.alarm.domain.MailStorage;
-import com.market.member.domain.auth.RegisteredEvent;
+import com.market.member.domain.auth.event.RegisteredEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;

@@ -1,5 +1,6 @@
 package com.market.market.domain.product;
 
+import com.market.market.domain.product.vo.Description;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
