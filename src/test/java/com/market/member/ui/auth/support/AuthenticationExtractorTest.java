@@ -17,9 +17,8 @@ import static org.mockito.Mockito.when;
 class AuthenticationExtractorTest {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String BEARER = "Bearer";
 
-    private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+    private final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 
     @Test
     void 토큰이_정상적으로_조회된다() {

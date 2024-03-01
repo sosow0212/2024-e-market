@@ -83,4 +83,17 @@ class ProductControllerAcceptanceTest extends ProductControllerAcceptanceFixture
         // then
         상품_제거_검증(상품_제거_결과);
     }
+
+    @Test
+    void 상품을_구매한다() {
+        // given
+        상품들을_생성한다();
+        var 쿠폰_사용_요청서 = 쿠폰_사용_요청서();
+
+        // when
+        var 상품_구매_결과 = 상품_구매_결과(쿠폰_사용_요청서, 토큰);
+
+        // then
+        상품_구매_검증(상품_구매_결과);
+    }
 }

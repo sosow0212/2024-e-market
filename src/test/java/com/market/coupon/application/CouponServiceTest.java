@@ -121,7 +121,7 @@ class CouponServiceTest {
         @Test
         void 유저_정보가_로그인_한_유저와_동일하지_않으면_예외를_발생시킨다() {
             // given
-            Coupon coupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
+            couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
             MemberCoupon memberCoupon = memberCouponRepository.save(멤버_쿠폰_생성());
 
             // when & then

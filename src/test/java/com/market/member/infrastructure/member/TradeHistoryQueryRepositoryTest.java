@@ -40,17 +40,13 @@ class TradeHistoryQueryRepositoryTest extends IntegrationHelper {
     private Member seller;
     private Member buyer;
     private Product product;
-    private TradeHistory tradeHistory;
 
     @BeforeEach
     void setup() {
         seller = memberRepository.save(일반_유저_생성());
         buyer = memberRepository.save(일반_유저_생성2());
         product = productRepository.save(상품_생성());
-        tradeHistory = tradeHistoryRepository.save(new TradeHistory(buyer.getId(), seller.getId(), product.getId(), product.getPrice().getPrice(), 10, List.of()));
-
-        System.out.println("hihihihi");
-        System.out.println(seller.getId() + " " + buyer.getId());
+        tradeHistoryRepository.save(new TradeHistory(buyer.getId(), seller.getId(), product.getId(), product.getPrice().getPrice(), 10, List.of()));
     }
 
     @Test

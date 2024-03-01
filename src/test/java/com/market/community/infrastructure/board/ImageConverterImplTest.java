@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @SuppressWarnings("NonAsciiCharacters")
 class ImageConverterImplTest {
 
-    private static final List<String> supportedExtensions = List.of("jpg", "jpeg", "gif", "bmp", "png");
     private static final Image 이미지를_생성한다 = 이미지를_생성한다();
 
     private final ImageConverterImpl imageConverter = new ImageConverterImpl();

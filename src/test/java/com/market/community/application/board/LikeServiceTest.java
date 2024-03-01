@@ -13,12 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings("NonAsciiCharacters")
 class LikeServiceTest {
 
-    private LikeStorageRepository likeStorageRepository;
     private LikeService likeService;
 
     @BeforeEach
     void setup() {
-        likeStorageRepository = new LikeStorageFakeRepository();
+        LikeStorageRepository likeStorageRepository = new LikeStorageFakeRepository();
         likeService = new LikeService(likeStorageRepository);
     }
 
