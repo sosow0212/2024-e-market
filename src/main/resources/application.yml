@@ -32,3 +32,11 @@ mail:
   sender:
     email: ENC(Pv5Gvm0N7LAl4wx51TrKXrkDENW2VIvpW4Ae3ZIod+I=)
     name: ENC(mCgRGGxEhhOBxoVnSOrbJxKMEWBjrDLd)
+
+management:
+  server:
+    port: 8089
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health

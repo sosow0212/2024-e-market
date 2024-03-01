@@ -73,6 +73,10 @@ dependencies {
 
     // mail-sender
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // actuator, prometheus
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 def generated = 'src/main/generated'
