@@ -15,9 +15,10 @@ public class LikeService {
     private final LikeStorageRepository likeStorageRepository;
 
     @Transactional
-    public void patchLike(final Long boardId, final Long memberId) {
+    public boolean patchLike(final Long boardId, final Long memberId) {
         boolean isNeedToIncrease = doesNeedToIncreaseLikeCount(boardId, memberId);
         Events.raise(new LikePushedEvent(boardId, isNeedToIncrease));
+        return isNeedToIncrease;
     }
 
     private boolean doesNeedToIncreaseLikeCount(final Long boardId, final Long memberId) {

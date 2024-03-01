@@ -64,4 +64,5 @@ include::{snippets}/like-controller-web-mvc-test/patch_like/http-request.adoc[]
 
 === Response
 
-include::{snippets}/board-controller-web-mvc-test/delete_board/http-response.adoc[]
+include::{snippets}/like-controller-web-mvc-test/patch_like/response-fields.adoc[]
+include::{snippets}/like-controller-web-mvc-test/patch_like/http-response.adoc[]

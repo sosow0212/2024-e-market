@@ -1,6 +1,7 @@
 package com.market.community.ui.board;
 
 import com.market.community.application.board.LikeService;
+import com.market.community.application.board.dto.LikeResultResponse;
 import com.market.member.ui.auth.support.AuthMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,8 @@ public class LikeController {
     private final LikeService likeService;
 
     @PatchMapping("/{boardId}/likes")
-    public ResponseEntity<Void> patchLike(@AuthMember final Long memberId, @PathVariable("boardId") final Long boardId) {
-        likeService.patchLike(boardId, memberId);
-        return ResponseEntity.ok()
-                .build();
+    public ResponseEntity<LikeResultResponse> patchLike(@AuthMember final Long memberId, @PathVariable("boardId") final Long boardId) {
+        boolean likeStatus = likeService.patchLike(boardId, memberId);
+        return ResponseEntity.ok(new LikeResultResponse(boardId, likeStatus));
     }
 }
