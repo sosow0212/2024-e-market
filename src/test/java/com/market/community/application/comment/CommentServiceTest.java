@@ -76,7 +76,7 @@ class CommentServiceTest {
     @Test
     void 글쓴이가_아니라면_댓글을_수정하지_못한다() {
         // given
-        Comment saved = commentRepository.save(댓글_생성());
+        commentRepository.save(댓글_생성());
         String text = "edit";
         CommentPatchRequest req = new CommentPatchRequest(text);
 
@@ -108,7 +108,7 @@ class CommentServiceTest {
     @Test
     void 글쓴이가_아니라면_댓글을_삭제하지_못한다() {
         // given
-        Comment saved = commentRepository.save(댓글_생성());
+        commentRepository.save(댓글_생성());
 
         // when & then
         assertThatThrownBy(() -> commentService.deleteCommentById(2L, 1L))

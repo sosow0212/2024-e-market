@@ -1,10 +1,10 @@
 package com.market.market.fixture;
 
-import com.market.market.domain.product.Description;
 import com.market.market.domain.product.Product;
-import com.market.market.domain.product.ProductStatus;
-import com.market.market.domain.product.StatisticCount;
+import com.market.market.domain.product.vo.Description;
 import com.market.market.domain.product.vo.Price;
+import com.market.market.domain.product.vo.ProductStatus;
+import com.market.market.domain.product.vo.StatisticCount;
 
 public class ProductFixture {
 

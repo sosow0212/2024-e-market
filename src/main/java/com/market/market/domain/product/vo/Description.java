@@ -1,28 +1,29 @@
-package com.market.community.domain.board;
+package com.market.market.domain.product.vo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Lob;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class Post {
+public class Description {
 
-    @Column(length = 32, nullable = false)
+    @Column(nullable = false)
     private String title;
 
     @Lob
     @Column(nullable = false)
     private String content;
 
-    public static Post of(final String title, final String content) {
-        return new Post(title, content);
+    // todo : images
+
+    public Description(final String title, final String content) {
+        this.title = title;
+        this.content = content;
     }
 
     public void update(final String title, final String content) {

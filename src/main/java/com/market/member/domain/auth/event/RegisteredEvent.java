@@ -1,4 +1,4 @@
-package com.market.member.domain.auth;
+package com.market.member.domain.auth.event;
 
 import com.market.global.event.Event;
 import lombok.Getter;

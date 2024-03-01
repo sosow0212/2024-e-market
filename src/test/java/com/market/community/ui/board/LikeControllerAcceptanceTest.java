@@ -16,13 +16,12 @@ class LikeControllerAcceptanceTest extends LikeControllerAcceptanceFixture {
 
     private static final String 좋아요_url = "/api/boards/1/likes";
 
-    private Member 멤버;
     private Board 게시글;
     private String 토큰;
 
     @BeforeEach
     void setup() {
-        멤버 = memberRepository.save(일반_유저_생성());
+        Member 멤버 = memberRepository.save(일반_유저_생성());
         게시글 = boardRepository.save(게시글_생성_사진없음());
         토큰 = tokenProvider.create(멤버.getId());
     }

@@ -56,4 +56,14 @@ public class CouponFakeRepository implements CouponRepository {
                 .filter(it -> couponIds.contains(it.getId()))
                 .toList();
     }
+
+    @Override
+    public int countAllByIdIn(final List<Long> couponIds) {
+        List<Coupon> coupons = map.values()
+                .stream()
+                .filter(it -> couponIds.contains(it.getId()))
+                .toList();
+
+        return coupons.size();
+    }
 }

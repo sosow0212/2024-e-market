@@ -8,8 +8,13 @@ endif::[]
 :sectlinks:
 
 include::auth.adoc[]
+
 include::board.adoc[]
+
 include::comment.adoc[]
+
 include::coupon.adoc[]
+
 include::member.adoc[]
+
 include::product.adoc[]

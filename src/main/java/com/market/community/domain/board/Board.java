@@ -1,6 +1,8 @@
 package com.market.community.domain.board;
 
+import com.market.community.domain.board.dto.BoardUpdateResult;
 import com.market.community.domain.board.vo.LikeCount;
+import com.market.community.domain.board.vo.Post;
 import com.market.community.exception.exceptions.WriterNotEqualsException;
 import com.market.global.domain.BaseEntity;
 import jakarta.persistence.CascadeType;

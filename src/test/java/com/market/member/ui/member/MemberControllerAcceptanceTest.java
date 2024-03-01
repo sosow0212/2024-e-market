@@ -12,12 +12,11 @@ class MemberControllerAcceptanceTest extends MemberControllerAcceptanceFixture {
 
     private static final String 판매_내역_조회_요청_url = "/api/members/1/histories?isSeller=true";
 
-    private Member 멤버;
     private String 토큰;
 
     @BeforeEach
     void setup() {
-        멤버 = 멤버_생성();
+        Member 멤버 = 멤버_생성();
         토큰 = 토큰_생성(멤버.getId());
     }
 

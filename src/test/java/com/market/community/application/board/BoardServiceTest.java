@@ -31,14 +31,12 @@ class BoardServiceTest {
 
     private BoardService boardService;
     private BoardRepository boardRepository;
-    private ImageConverter imageConverter;
-    private ImageUploader imageUploader;
 
     @BeforeEach
     void setup() {
         boardRepository = new BoardFakeRepository();
-        imageConverter = new ImageFakeConverter();
-        imageUploader = new ImageFakeUploader();
+        ImageConverter imageConverter = new ImageFakeConverter();
+        ImageUploader imageUploader = new ImageFakeUploader();
 
         boardService = new BoardService(
                 boardRepository,

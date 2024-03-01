@@ -4,6 +4,7 @@ import com.market.helper.IntegrationHelper;
 import com.market.market.application.ProductService;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
+import com.market.market.application.dto.UsingCouponRequest;
 import com.market.market.domain.category.CategoryRepository;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
@@ -15,6 +16,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -135,5 +137,24 @@ public class ProductControllerAcceptanceFixture extends IntegrationHelper {
 
     protected void 상품_제거_검증(final ExtractableResponse<Response> actual) {
         assertThat(actual.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    protected UsingCouponRequest 쿠폰_사용_요청서() {
+        return new UsingCouponRequest(List.of(), 10000, 1000);
+    }
+
+    protected ExtractableResponse<Response> 상품_구매_결과(final UsingCouponRequest couponRequest, final String token) {
+        return RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .body(couponRequest)
+                .when()
+                .post("/api/categories/1/products/1")
+                .then().log().all()
+                .extract();
+    }
+
+    protected void 상품_구매_검증(final ExtractableResponse response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }

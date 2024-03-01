@@ -12,4 +12,6 @@ public interface CouponRepository {
     void deleteById(Long id);
 
     List<Coupon> findAllByIdsIn(List<Long> couponIds);
+
+    int countAllByIdIn(List<Long> couponIds);
 }

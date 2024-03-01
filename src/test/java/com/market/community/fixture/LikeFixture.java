@@ -10,12 +10,4 @@ public class LikeFixture {
                 .memberId(1L)
                 .build();
     }
-
-    public static LikeStorage 좋아요_생성_id_존재() {
-        return LikeStorage.builder()
-                .id(1L)
-                .boardId(1L)
-                .memberId(1L)
-                .build();
-    }
 }

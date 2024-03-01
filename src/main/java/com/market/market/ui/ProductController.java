@@ -80,6 +80,6 @@ public class ProductController {
                                             @AuthMember final Long memberId,
                                             @RequestBody final UsingCouponRequest usingCouponRequest) {
         productService.buyProducts(productId, memberId, usingCouponRequest);
-        return null;
+        return ResponseEntity.ok().build();
     }
 }
