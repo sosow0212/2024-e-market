@@ -16,6 +16,6 @@
 - [x] 마켓에 물품을 올리고 구매할 수 있는 기능 구현
 - [x] Jenkins를 이용한 CD 환경 구축
 - [x] Prometheus, Grafana 이용한 모니터링 구축
-- [ ] 무중단배포 스크립트 작성
+- [x] Dockerfile 및 무중단배포 쉘 스크립트 작성, Jenkins 스크립트 작성
 
 
