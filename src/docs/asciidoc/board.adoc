@@ -17,6 +17,19 @@ include::{snippets}/board-controller-web-mvc-test/save_board/request-parts.adoc[
 include::{snippets}/board-controller-web-mvc-test/save_board/response-headers.adoc[]
 include::{snippets}/board-controller-web-mvc-test/save_board/http-response.adoc[]
 
+=== 게시글을 전체 페이징 조회한다 (GET /api/boards/)
+
+==== Request
+
+include::{snippets}/board-controller-web-mvc-test/find_all_boards_with_paging/request-headers.adoc[]
+include::{snippets}/board-controller-web-mvc-test/find_all_boards_with_paging/request-parts.adoc[]
+include::{snippets}/board-controller-web-mvc-test/find_all_boards_with_paging/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/board-controller-web-mvc-test/find_all_boards_with_paging/response-fields.adoc[]
+include::{snippets}/board-controller-web-mvc-test/find_all_boards_with_paging/http-response.adoc[]
+
 === 게시글을 단건 조회한다 (GET /api/boards/{id})
 
 ==== Request

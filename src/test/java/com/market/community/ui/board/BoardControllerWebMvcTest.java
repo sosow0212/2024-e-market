@@ -2,7 +2,9 @@ package com.market.community.ui.board;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.community.application.board.dto.BoardCreateRequest;
+import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
+import com.market.community.application.board.dto.BoardsSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.helper.MockBeanInjection;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -11,17 +13,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.market.community.fixture.BoardFixture.게시글_생성_사진없음_id있음;
 import static com.market.helper.RestDocsHelper.customDocument;
 import static org.apache.http.HttpHeaders.LOCATION;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -84,6 +89,38 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
                                 partWithName("content").description("수정한 내용").optional()
                         ),
                         responseHeaders(headerWithName(LOCATION).description("리다이렉션 위치"))
+                ));
+    }
+
+    @Test
+    void 게시글을_페이징으로_조회한다() throws Exception {
+        // given
+        Board board = 게시글_생성_사진없음_id있음();
+        BoardSimpleResponse boardSimpleResponse = new BoardSimpleResponse(board.getId(), "nickname", board.getPost().getTitle(), LocalDateTime.now());
+        List<BoardSimpleResponse> response = List.of(boardSimpleResponse);
+        when(boardService.findAllBoards(any(Pageable.class))).thenReturn(new BoardsSimpleResponse(response, 1));
+
+        // when & then
+        mockMvc.perform(get("/api/boards")
+                        .param("page", "0")
+                        .param("scope", "10")
+                        .header(AUTHORIZATION, "Bearer tokenInfo")
+                ).andExpect(status().isOk())
+                .andDo(customDocument("find_all_boards_with_paging",
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("유저 토큰 정보")
+                        ),
+                        requestParts(
+                                partWithName("page").description("페이지 번호").optional(),
+                                partWithName("scope").description("몇 개씩 조회를 할 것인지").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("boards[].id").description("게시글 id"),
+                                fieldWithPath("boards[].writerNickname").description("게시글 작성자 닉네임"),
+                                fieldWithPath("boards[].title").description("게시글 제목"),
+                                fieldWithPath("boards[].createdDate").description("게시글 생성일"),
+                                fieldWithPath("nextPage").description("다음 페이지가 존재하면 1, 없다면 -1")
+                        )
                 ));
     }
 

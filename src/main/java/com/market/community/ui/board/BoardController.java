@@ -3,10 +3,13 @@ package com.market.community.ui.board;
 import com.market.community.application.board.BoardService;
 import com.market.community.application.board.dto.BoardCreateRequest;
 import com.market.community.application.board.dto.BoardUpdateRequest;
+import com.market.community.application.board.dto.BoardsSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.community.ui.board.dto.BoardResponse;
 import com.market.member.ui.auth.support.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/boards")
@@ -31,6 +36,11 @@ public class BoardController {
         Long boardId = boardService.saveBoard(memberId, request);
         return ResponseEntity.created(URI.create("/api/boards/" + boardId))
                 .build();
+    }
+
+    @GetMapping
+    public ResponseEntity<BoardsSimpleResponse> findAllBoardWithPaging(@PageableDefault(sort = "id", direction = DESC) Pageable pageable) {
+        return ResponseEntity.ok(boardService.findAllBoards(pageable));
     }
 
     @GetMapping("/{id}")

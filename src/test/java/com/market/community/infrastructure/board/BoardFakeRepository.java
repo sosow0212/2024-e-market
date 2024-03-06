@@ -1,9 +1,15 @@
 package com.market.community.infrastructure.board;
 
+import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.community.domain.board.BoardRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,6 +40,17 @@ public class BoardFakeRepository implements BoardRepository {
         return map.values().stream()
                 .filter(board -> board.getId().equals(id))
                 .findAny();
+    }
+
+    @Override
+    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable) {
+        List<BoardSimpleResponse> expected = map.values().stream()
+                .sorted(Comparator.comparing(Board::getId).reversed())
+                .limit(10)
+                .map(it -> new BoardSimpleResponse(it.getId(), "nickname", it.getPost().getTitle(), it.getCreatedAt()))
+                .toList();
+
+        return new PageImpl<>(expected);
     }
 
     @Override

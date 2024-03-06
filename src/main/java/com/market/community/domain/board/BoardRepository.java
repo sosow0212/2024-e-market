@@ -1,16 +1,22 @@
 package com.market.community.domain.board;
 
+import com.market.community.application.board.dto.BoardSimpleResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 public interface BoardRepository {
 
-    Board save(final Board board);
+    Board save(Board board);
 
-    Optional<Board> findById(final Long id);
+    Optional<Board> findById(Long id);
 
-    Optional<Board> findByIdUsingPessimistic(final Long id);
+    Page<BoardSimpleResponse> findAllBoardsWithPaging(Pageable pageable);
 
-    Optional<Board> findBoardWithImages(final Long boardId);
+    Optional<Board> findByIdUsingPessimistic(Long id);
+
+    Optional<Board> findBoardWithImages(Long boardId);
 
     void deleteByBoardId(Long boardId);
 }

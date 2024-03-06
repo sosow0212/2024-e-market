@@ -2,6 +2,7 @@ package com.market.community.application.board;
 
 import com.market.community.application.board.dto.BoardCreateRequest;
 import com.market.community.application.board.dto.BoardUpdateRequest;
+import com.market.community.application.board.dto.BoardsSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.community.domain.board.BoardRepository;
 import com.market.community.domain.board.ImageConverter;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.ArrayList;
@@ -57,6 +59,15 @@ class BoardServiceTest {
         // then
         assertThat(result).isEqualTo(1L);
     }
+
+    @Test
+    void 게시글을_모두_조회한다() {
+        // when
+        BoardsSimpleResponse result = boardService.findAllBoards(PageRequest.of(0, 10));
+
+        // then
+        assertThat(result.nextPage()).isEqualTo(-1);
+     }
 
     @Test
     void 게시글을_찾는다() {
