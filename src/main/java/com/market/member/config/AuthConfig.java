@@ -48,8 +48,8 @@ public class AuthConfig implements WebMvcConfigurer {
     private HandlerInterceptor loginValidCheckerInterceptor() {
         return new PathMatcherInterceptor(loginValidCheckerInterceptor)
                 .excludePathPattern("/**", OPTIONS)
-                .addPathPatterns("/api/boards/**", POST, PATCH, DELETE)
-                .addPathPatterns("/api/boards/**/comments", POST, PATCH, DELETE)
+                .addPathPatterns("/api/boards/**", GET, POST, PATCH, DELETE)
+                .addPathPatterns("/api/boards/**/comments", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/categories/**", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/categories/**/products/**", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/coupons/**", GET, POST, PATCH, DELETE)

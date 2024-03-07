@@ -1,11 +1,13 @@
 package com.market.community.ui.board;
 
 import com.market.community.application.board.dto.BoardCreateRequest;
+import com.market.community.application.board.dto.BoardFoundResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
 import com.market.community.domain.board.Board;
 import com.market.community.domain.board.BoardRepository;
-import com.market.community.ui.board.dto.BoardResponse;
 import com.market.helper.IntegrationHelper;
+import com.market.member.domain.member.Member;
+import com.market.member.domain.member.MemberRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 
+import static com.market.member.fixture.member.MemberFixture.일반_유저_생성;
 import static io.restassured.config.EncoderConfig.encoderConfig;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +27,13 @@ class BoardControllerAcceptanceFixture extends IntegrationHelper {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    protected Member 멤버_생성() {
+        return memberRepository.save(일반_유저_생성());
+    }
 
     protected Board 게시글을_생성한다(final Board board) {
         return boardRepository.save(board);
@@ -66,13 +76,14 @@ class BoardControllerAcceptanceFixture extends IntegrationHelper {
 
     protected void 게시글_조회_검증(final ExtractableResponse actual, final Board board) {
         int code = actual.statusCode();
-        BoardResponse result = actual.as(BoardResponse.class);
+        BoardFoundResponse result = actual.as(BoardFoundResponse.class);
 
         assertSoftly(softly -> {
             softly.assertThat(code).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat(result.boardId()).isEqualTo(1L);
+            softly.assertThat(result.id()).isEqualTo(1L);
             softly.assertThat(result.title()).isEqualTo(board.getPost().getTitle());
             softly.assertThat(result.content()).isEqualTo(board.getPost().getContent());
+            softly.assertThat(result.isMyPost()).isTrue();
         });
     }
 

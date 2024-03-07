@@ -2,11 +2,13 @@ package com.market.community.ui.board;
 
 import com.market.community.application.board.BoardService;
 import com.market.community.application.board.dto.BoardCreateRequest;
+import com.market.community.application.board.dto.BoardFoundResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
-import com.market.community.domain.board.Board;
-import com.market.community.ui.board.dto.BoardResponse;
+import com.market.community.application.board.dto.BoardsSimpleResponse;
 import com.market.member.ui.auth.support.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/boards")
@@ -33,10 +37,14 @@ public class BoardController {
                 .build();
     }
 
+    @GetMapping
+    public ResponseEntity<BoardsSimpleResponse> findAllBoardWithPaging(@PageableDefault(sort = "id", direction = DESC) Pageable pageable) {
+        return ResponseEntity.ok(boardService.findAllBoards(pageable));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<BoardResponse> findBoardById(@PathVariable("id") final Long boardId) {
-        Board board = boardService.findBoardById(boardId);
-        return ResponseEntity.ok(BoardResponse.from(board));
+    public ResponseEntity<BoardFoundResponse> findBoardById(@AuthMember final Long memberId, @PathVariable("id") final Long boardId) {
+        return ResponseEntity.ok(boardService.findBoardById(boardId, memberId));
     }
 
     @PatchMapping("/{id}")

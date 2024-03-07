@@ -1,7 +1,10 @@
 package com.market.community.application.board;
 
 import com.market.community.application.board.dto.BoardCreateRequest;
+import com.market.community.application.board.dto.BoardFoundResponse;
+import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
+import com.market.community.application.board.dto.BoardsSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.community.domain.board.BoardRepository;
 import com.market.community.domain.board.ImageConverter;
@@ -10,6 +13,8 @@ import com.market.community.domain.event.BoardDeletedEvent;
 import com.market.community.exception.exceptions.BoardNotFoundException;
 import com.market.global.event.Events;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +35,16 @@ public class BoardService {
         return savedBoard.getId();
     }
 
+    @Transactional
+    public BoardsSimpleResponse findAllBoards(final Pageable pageable) {
+        Page<BoardSimpleResponse> response = boardRepository.findAllBoardsWithPaging(pageable);
+        return BoardsSimpleResponse.of(response, pageable);
+    }
+
     @Transactional(readOnly = true)
-    public Board findBoardById(final Long boardId) {
-        return findBoard(boardId);
+    public BoardFoundResponse findBoardById(final Long boardId, final Long memberId) {
+        return boardRepository.findByIdForRead(boardId, memberId)
+                .orElseThrow(BoardNotFoundException::new);
     }
 
     private Board findBoard(final Long boardId) {

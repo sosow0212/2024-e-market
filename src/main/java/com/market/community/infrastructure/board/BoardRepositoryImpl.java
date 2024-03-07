@@ -1,8 +1,12 @@
 package com.market.community.infrastructure.board;
 
+import com.market.community.application.board.dto.BoardFoundResponse;
+import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.community.domain.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -12,6 +16,7 @@ import java.util.Optional;
 public class BoardRepositoryImpl implements BoardRepository {
 
     private final BoardJpaRepository boardJpaRepository;
+    private final BoardQueryRepository boardQueryRepository;
 
     @Override
     public Board save(final Board board) {
@@ -21,6 +26,16 @@ public class BoardRepositoryImpl implements BoardRepository {
     @Override
     public Optional<Board> findById(final Long id) {
         return boardJpaRepository.findById(id);
+    }
+
+    @Override
+    public Optional<BoardFoundResponse> findByIdForRead(final Long boardId, final Long memberId) {
+        return boardQueryRepository.findById(boardId, memberId);
+    }
+
+    @Override
+    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable) {
+        return boardQueryRepository.findAllBoard(pageable);
     }
 
     @Override
