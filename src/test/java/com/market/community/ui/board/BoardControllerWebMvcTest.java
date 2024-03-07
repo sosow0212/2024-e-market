@@ -2,6 +2,7 @@ package com.market.community.ui.board;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.community.application.board.dto.BoardCreateRequest;
+import com.market.community.application.board.dto.BoardFoundResponse;
 import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
 import com.market.community.application.board.dto.BoardsSimpleResponse;
@@ -103,7 +104,7 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
         // when & then
         mockMvc.perform(get("/api/boards")
                         .param("page", "0")
-                        .param("scope", "10")
+                        .param("size", "10")
                         .header(AUTHORIZATION, "Bearer tokenInfo")
                 ).andExpect(status().isOk())
                 .andDo(customDocument("find_all_boards_with_paging",
@@ -112,7 +113,7 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
                         ),
                         requestParts(
                                 partWithName("page").description("페이지 번호").optional(),
-                                partWithName("scope").description("몇 개씩 조회를 할 것인지").optional()
+                                partWithName("size").description("몇 개씩 조회를 할 것인지").optional()
                         ),
                         responseFields(
                                 fieldWithPath("boards[].id").description("게시글 id"),
@@ -128,20 +129,28 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
     void 게시글을_단건_조회한다() throws Exception {
         // given
         Board board = 게시글_생성_사진없음_id있음();
-        when(boardService.findBoardById(anyLong())).thenReturn(board);
+        BoardFoundResponse response = new BoardFoundResponse(board.getId(), "nickname", board.getPost().getTitle(), board.getPost().getContent(), 10L, true, board.getCreatedAt());
+        when(boardService.findBoardById(anyLong(), anyLong())).thenReturn(response);
 
         // when & then
-        mockMvc.perform(get("/api/boards/{id}", board.getId()))
-                .andExpect(status().isOk())
+        mockMvc.perform(get("/api/boards/{id}", board.getId())
+                        .header(AUTHORIZATION, "Bearer tokenInfo")
+                ).andExpect(status().isOk())
                 .andDo(customDocument("find_board_by_id",
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("유저 토큰 정보")
+                        ),
                         pathParameters(
                                 parameterWithName("id").description("게시글 id")
                         ),
                         responseFields(
-                                fieldWithPath("boardId").description("게시글 id"),
+                                fieldWithPath("id").description("게시글 id"),
+                                fieldWithPath("writerNickname").description("작성자 닉네임"),
                                 fieldWithPath("title").description("게시글 제목"),
                                 fieldWithPath("content").description("게시글 내용"),
-                                fieldWithPath("memberId").description("작성자 id")
+                                fieldWithPath("likeCount").description("게시글 좋아요 수"),
+                                fieldWithPath("isMyPost").description("현재 요청을 보낸 유저가 작성한 글인지 여부"),
+                                fieldWithPath("createdDate").description("게시글 작성 날짜")
                         )
                 ));
     }

@@ -1,6 +1,7 @@
 package com.market.community.application.board;
 
 import com.market.community.application.board.dto.BoardCreateRequest;
+import com.market.community.application.board.dto.BoardFoundResponse;
 import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
 import com.market.community.application.board.dto.BoardsSimpleResponse;
@@ -41,8 +42,9 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Board findBoardById(final Long boardId) {
-        return findBoard(boardId);
+    public BoardFoundResponse findBoardById(final Long boardId, final Long memberId) {
+        return boardRepository.findByIdForRead(boardId, memberId)
+                .orElseThrow(BoardNotFoundException::new);
     }
 
     private Board findBoard(final Long boardId) {

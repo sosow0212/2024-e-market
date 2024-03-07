@@ -1,6 +1,7 @@
 package com.market.community.application.board;
 
 import com.market.community.application.board.dto.BoardCreateRequest;
+import com.market.community.application.board.dto.BoardFoundResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
 import com.market.community.application.board.dto.BoardsSimpleResponse;
 import com.market.community.domain.board.Board;
@@ -75,16 +76,22 @@ class BoardServiceTest {
         Board savedBoard = boardRepository.save(게시글_생성_사진없음());
 
         // when
-        Board result = boardService.findBoardById(savedBoard.getId());
+        BoardFoundResponse result = boardService.findBoardById(savedBoard.getId(), 1L);
 
         // then
-        assertThat(savedBoard).usingRecursiveComparison().isEqualTo(result);
+        assertSoftly(softly -> {
+            softly.assertThat(result.id()).isEqualTo(savedBoard.getId());
+            softly.assertThat(result.title()).isEqualTo(savedBoard.getPost().getTitle());
+            softly.assertThat(result.content()).isEqualTo(savedBoard.getPost().getContent());
+            softly.assertThat(result.likeCount()).isEqualTo(savedBoard.getLikeCount().getLikeCount());
+            softly.assertThat(result.isMyPost()).isEqualTo(true);
+        });
     }
 
     @Test
     void 게시글이_없으면_에외를_발생시킨다() {
         // when & then
-        assertThatThrownBy(() -> boardService.findBoardById(1L))
+        assertThatThrownBy(() -> boardService.findBoardById(1L, 1L))
                 .isInstanceOf(BoardNotFoundException.class);
     }
 

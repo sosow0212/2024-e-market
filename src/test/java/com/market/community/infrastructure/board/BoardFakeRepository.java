@@ -1,5 +1,6 @@
 package com.market.community.infrastructure.board;
 
+import com.market.community.application.board.dto.BoardFoundResponse;
 import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.community.domain.board.BoardRepository;
@@ -40,6 +41,20 @@ public class BoardFakeRepository implements BoardRepository {
         return map.values().stream()
                 .filter(board -> board.getId().equals(id))
                 .findAny();
+    }
+
+    @Override
+    public Optional<BoardFoundResponse> findByIdForRead(final Long boardId, final Long memberId) {
+        Optional<Board> board = map.values().stream()
+                .filter(it -> it.getId().equals(boardId))
+                .findAny();
+
+        if (board.isPresent()) {
+            Board found = board.get();
+            return Optional.of(new BoardFoundResponse(found.getId(), "nickname", found.getPost().getTitle(), found.getPost().getContent(), found.getLikeCount().getLikeCount(), found.getWriterId().equals(memberId), found.getCreatedAt()));
+        }
+
+        return Optional.empty();
     }
 
     @Override

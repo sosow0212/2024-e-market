@@ -7,6 +7,7 @@ public record BoardFoundResponse(
         String writerNickname,
         String title,
         String content,
+        Long likeCount,
         Boolean isMyPost,
         LocalDateTime createdDate
 ) {

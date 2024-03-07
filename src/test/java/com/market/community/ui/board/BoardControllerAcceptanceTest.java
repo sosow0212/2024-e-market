@@ -2,6 +2,7 @@ package com.market.community.ui.board;
 
 import com.market.community.domain.board.Board;
 import com.market.member.domain.auth.TokenProvider;
+import com.market.member.domain.member.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -23,12 +24,14 @@ class BoardControllerAcceptanceTest extends BoardControllerAcceptanceFixture {
     private TokenProvider provider;
 
     private Board 게시글;
+    private Member 멤버;
     private String 멤버_토큰;
 
     @BeforeEach
     void setup() {
         게시글 = 게시글_생성_사진없음();
-        멤버_토큰 = provider.create(1L);
+        멤버 = 멤버_생성();
+        멤버_토큰 = provider.create(멤버.getId());
     }
 
     @Test
