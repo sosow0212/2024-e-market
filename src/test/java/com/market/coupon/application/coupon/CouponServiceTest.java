@@ -217,6 +217,13 @@ class CouponServiceTest {
             // when & then
             assertThatThrownBy(() -> couponService.applyCoupons(10000, List.of(savedCoupon.getId(), -1L)))
                     .isInstanceOf(ContainsNotExistedCouponException.class);
-         }
+        }
+    }
+
+    @Test
+    void 쿠폰이_존재하지_않으면_예외를_발생시킨다() {
+        // when & then
+        assertThatThrownBy(() -> couponService.validateCouponExisted(-1L))
+                .isInstanceOf(CouponNotFoundException.class);
     }
 }

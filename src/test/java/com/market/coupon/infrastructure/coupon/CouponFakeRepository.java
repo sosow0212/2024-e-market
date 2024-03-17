@@ -66,4 +66,9 @@ public class CouponFakeRepository implements CouponRepository {
 
         return coupons.size();
     }
+
+    @Override
+    public boolean isExistedById(final Long couponId) {
+        return map.containsKey(couponId);
+    }
 }

@@ -14,4 +14,6 @@ public interface CouponRepository {
     List<Coupon> findAllByIdsIn(List<Long> couponIds);
 
     int countAllByIdIn(List<Long> couponIds);
+
+    boolean isExistedById(Long couponId);
 }

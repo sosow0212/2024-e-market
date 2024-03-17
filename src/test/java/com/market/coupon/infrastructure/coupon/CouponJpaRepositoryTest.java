@@ -89,4 +89,16 @@ class CouponJpaRepositoryTest {
         // then
         assertThat(result).isEqualTo(1);
     }
+
+    @Test
+    void 쿠폰이_존재하면_true를_반환한다() {
+        // given
+        Coupon savedCoupon = couponRepository.save(쿠픈_생성_독자_사용_할인율_10_퍼센트());
+
+        // when
+        boolean result = couponRepository.existsById(savedCoupon.getId());
+
+        // then
+        assertThat(result).isTrue();
+     }
 }

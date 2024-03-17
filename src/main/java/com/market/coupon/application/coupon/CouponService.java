@@ -93,4 +93,11 @@ public class CouponService {
         coupons.validateContainsNotExistedCoupon(couponIds);
         return coupons.applyCoupons(productPrice, applyPolicy);
     }
+
+    @Transactional(readOnly = true)
+    public void validateCouponExisted(final Long couponId) {
+        if (!couponRepository.isExistedById(couponId)) {
+            throw new CouponNotFoundException();
+        }
+    }
 }
