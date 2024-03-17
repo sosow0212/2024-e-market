@@ -5,6 +5,9 @@ import com.market.coupon.exception.exceptions.CouponAmountRangeInvalidException;
 import com.market.coupon.exception.exceptions.CouponNotFoundException;
 import com.market.coupon.exception.exceptions.MemberCouponSizeNotEqualsException;
 import com.market.coupon.exception.exceptions.UsingAloneCouponContainsException;
+import com.market.coupon.exception.exceptions.VoucherAlreadyUsedException;
+import com.market.coupon.exception.exceptions.VoucherNotFoundException;
+import com.market.coupon.exception.exceptions.VoucherNumbersNotEqualsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +38,21 @@ public class CouponExceptionHandler {
 
     @ExceptionHandler(ContainsNotExistedCouponException.class)
     public ResponseEntity<String> handleContainsNotExistedCouponException(final ContainsNotExistedCouponException exception) {
+        return getResponse(exception, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(VoucherAlreadyUsedException.class)
+    public ResponseEntity<String> handleVoucherAlreadyUsedException(final VoucherAlreadyUsedException exception) {
+        return getResponse(exception, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(VoucherNotFoundException.class)
+    public ResponseEntity<String> handleVoucherNotFoundException(final VoucherNotFoundException exception) {
+        return getResponse(exception, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(VoucherNumbersNotEqualsException.class)
+    public ResponseEntity<String> handleVoucherNumbersNotEqualsException(final VoucherNumbersNotEqualsException exception) {
         return getResponse(exception, HttpStatus.BAD_REQUEST);
     }
 
