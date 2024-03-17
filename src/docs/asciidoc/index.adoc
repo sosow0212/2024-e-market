@@ -18,3 +18,5 @@ include::coupon.adoc[]
 include::member.adoc[]
 
 include::product.adoc[]
+
+include::voucher.adoc[]

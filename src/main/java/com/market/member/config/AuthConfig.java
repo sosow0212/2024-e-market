@@ -53,7 +53,8 @@ public class AuthConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/categories/**", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/categories/**/products/**", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/coupons/**", GET, POST, PATCH, DELETE)
-                .addPathPatterns("/api/members/**", GET, POST, PATCH, DELETE);
+                .addPathPatterns("/api/members/**", GET, POST, PATCH, DELETE)
+                .addPathPatterns("/api/vouchers/**", GET, POST, DELETE);
     }
 
     @Override
