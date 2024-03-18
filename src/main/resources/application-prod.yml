@@ -15,12 +15,13 @@ spring:
 
     properties:
       hibernate:
-        format_sql: true
-        show_sql: true
+        format_sql: false
+        show_sql: false
 
 schedule:
   enable: true
-  mail: true
+  resend-mail: true
+  delete-mail: true
 
 file:
   upload:
