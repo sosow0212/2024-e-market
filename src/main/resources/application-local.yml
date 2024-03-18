@@ -20,7 +20,8 @@ spring:
 
 schedule:
   enable: true
-  mail: true
+  resend-mail: true
+  delete-mail: true
 
 file:
   upload:
