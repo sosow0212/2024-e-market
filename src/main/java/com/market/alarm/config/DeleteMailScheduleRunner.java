@@ -8,14 +8,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "schedule.mail", havingValue = "true")
+@ConditionalOnProperty(name = "schedule.delete-mail", havingValue = "true")
 @Configuration
-public class ResendScheduleRunner implements ApplicationRunner {
+public class DeleteMailScheduleRunner implements ApplicationRunner {
 
     private final MailScheduleService mailScheduleService;
 
     @Override
     public void run(final ApplicationArguments args) {
-        mailScheduleService.resendMail();
+        mailScheduleService.deleteSendSuccessMails();
     }
 }
