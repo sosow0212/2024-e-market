@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.helper.MockBeanInjection;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
-import com.market.market.domain.product.Product;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -12,15 +13,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static com.market.helper.RestDocsHelper.customDocument;
-import static com.market.market.fixture.ProductFixture.상품_생성;
+import static com.market.market.fixture.ProductFixture.상품_상세정보_생성;
+import static com.market.market.fixture.ProductFixture.상품_페이징_생성;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -39,6 +43,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -54,27 +59,39 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
     private ObjectMapper objectMapper;
 
     @Test
-    void 카테고리에_해당되는_상품들을_조회한다() throws Exception {
+    void 카테고리에_해당되는_상품들을_조회한다_페이징() throws Exception {
         // given
         Long categoryId = 1L;
-        List<Product> response = List.of(상품_생성());
-        when(productService.findAllProductsInCategory(eq(categoryId))).thenReturn(response);
+        List<ProductPagingSimpleResponse> response = List.of(상품_페이징_생성());
+
+        when(productQueryService.findAllProductsInCategory(anyLong(), anyLong(), anyInt())).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products", categoryId)
-                        .header(AUTHORIZATION, "Bearer tokenInfo~"))
-                .andExpect(status().isOk())
+                        .header(AUTHORIZATION, "Bearer tokenInfo~")
+                        .param("productId", "11")
+                        .param("pageSize", "10")
+                ).andExpect(status().isOk())
                 .andDo(customDocument("find_all_products_in_category",
                         requestHeaders(
-                                headerWithName(org.springframework.http.HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
                         ),
                         pathParameters(
-                                parameterWithName("categoryId").description("카테고리 id")
+                                parameterWithName("categoryId").description("카테고리 id (필수)")
+                        ),
+                        queryParameters(
+                                parameterWithName("productId").description("마지막으로 받은 product Id, 맨 처음 조회라면 null 허용"),
+                                parameterWithName("pageSize").description("한 페이지에 조회되는 사이즈")
                         ),
                         responseFields(
-                                fieldWithPath("products[0].productId").description("상품 id"),
-                                fieldWithPath("products[0].title").description("상품 제목"),
-                                fieldWithPath("products[0].price").description("상품 가격")
+                                fieldWithPath("[].id").description("상품 id"),
+                                fieldWithPath("[].title").description("상품 제목"),
+                                fieldWithPath("[].price").description("상품 가격"),
+                                fieldWithPath("[].visitedCount").description("상품 조회수"),
+                                fieldWithPath("[].contactCount").description("구매자가 판매자에게 건 채팅 수"),
+                                fieldWithPath("[].productStatus").description("상품 상태 (WAITING, RESERVED, COMPLETED)"),
+                                fieldWithPath("[].ownerName").description("판매자 닉네임"),
+                                fieldWithPath("[].createDate").description("상품 판매 등록일")
                         )
                 ));
     }
@@ -93,7 +110,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                 ).andExpect(status().isCreated())
                 .andDo(customDocument("upload_product",
                         requestHeaders(
-                                headerWithName(org.springframework.http.HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
                         ),
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 id")
@@ -114,8 +131,8 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         // given
         Long categoryId = 1L;
         Long productId = 1L;
-        Product response = 상품_생성();
-        when(productService.findProductById(eq(productId), any())).thenReturn(response);
+        ProductSpecificResponse response = 상품_상세정보_생성();
+        when(productQueryService.findById(any())).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
@@ -127,18 +144,24 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 cookieWithName("productView").description("방문한 Product Id들 (조회수 체킹용)")
                         ),
                         requestHeaders(
-                                headerWithName(org.springframework.http.HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
                         ),
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 id"),
                                 parameterWithName("productId").description("조회하는 상품 id")
                         ),
                         responseFields(
-                                fieldWithPath("productId").description("상품 id"),
-                                fieldWithPath("ownerId").description("상품 게시글 주인 id"),
+                                fieldWithPath("id").description("상품 id"),
                                 fieldWithPath("title").description("상품 제목"),
                                 fieldWithPath("content").description("상품 내용"),
-                                fieldWithPath("price").description("상품 가격")
+                                fieldWithPath("price").description("상품 가격"),
+                                fieldWithPath("productStatus").description("상품 상태 (WAITING, RESERVED, COMPLETED)"),
+                                fieldWithPath("visitedCount").description("상품 조회자 수"),
+                                fieldWithPath("contactCount").description("판매자에게 연락한 사람 수"),
+                                fieldWithPath("categoryId").description("카테고리 id"),
+                                fieldWithPath("categoryName").description("카테고리 이름"),
+                                fieldWithPath("ownerNickname").description("판매자 닉네임"),
+                                fieldWithPath("createDate").description("상품 등록일")
                         )
                 ));
     }
@@ -159,7 +182,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                 ).andExpect(status().isOk())
                 .andDo(customDocument("patch_product_by_id",
                         requestHeaders(
-                                headerWithName(org.springframework.http.HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
                         ),
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 id"),
@@ -187,7 +210,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                 ).andExpect(status().isNoContent())
                 .andDo(customDocument("delete_product_by_id",
                         requestHeaders(
-                                headerWithName(org.springframework.http.HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
                         ),
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 id"),

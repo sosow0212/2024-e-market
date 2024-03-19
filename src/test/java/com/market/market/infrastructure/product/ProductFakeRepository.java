@@ -1,8 +1,13 @@
 package com.market.market.infrastructure.product;
 
+import com.market.market.domain.category.CategoryName;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,14 +53,49 @@ public class ProductFakeRepository implements ProductRepository {
     }
 
     @Override
+    public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId) {
+        if (map.containsKey(id)) {
+            Product product = map.get(id);
+            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, "owner", LocalDateTime.now()));
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public void deleteProductById(final Long productId) {
         map.remove(productId);
     }
 
     @Override
-    public List<Product> findAllProductsInCategory(final Long categoryId) {
+    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize) {
+        if (productId == null) {
+            return map.values().stream()
+                    .sorted(Comparator.comparing(Product::getId).reversed())
+                    .limit(pageSize)
+                    .map(ProductFakeRepository::parse)
+                    .toList();
+        }
+
         return map.values().stream()
+                .filter(it -> it.getId() < productId)
                 .filter(it -> it.getCategoryId().equals(categoryId))
+                .sorted(Comparator.comparing(Product::getId).reversed())
+                .limit(pageSize)
+                .map(ProductFakeRepository::parse)
                 .toList();
+    }
+
+    private static ProductPagingSimpleResponse parse(final Product product) {
+        return new ProductPagingSimpleResponse(
+                product.getId(),
+                product.getDescription().getTitle(),
+                product.getPrice().getPrice(),
+                product.getStatisticCount().getVisitedCount(),
+                product.getStatisticCount().getContactCount(),
+                product.getProductStatus(),
+                "owner",
+                LocalDateTime.now()
+        );
     }
 }

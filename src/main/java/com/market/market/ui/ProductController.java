@@ -1,12 +1,12 @@
 package com.market.market.ui;
 
+import com.market.market.application.ProductQueryService;
 import com.market.market.application.ProductService;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
 import com.market.market.application.dto.UsingCouponRequest;
-import com.market.market.domain.product.Product;
-import com.market.market.ui.dto.ProductResponse;
-import com.market.market.ui.dto.ProductsResponse;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 import com.market.market.ui.support.ViewCountChecker;
 import com.market.member.ui.auth.support.AuthMember;
 import jakarta.validation.Valid;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -30,12 +31,13 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductQueryService productQueryService;
 
     @GetMapping("/{categoryId}/products")
-    public ResponseEntity<ProductsResponse> findAllProductsInCategory(@PathVariable("categoryId") final Long categoryId) {
-        // TODO : 페이징
-        List<Product> products = productService.findAllProductsInCategory(categoryId);
-        return ResponseEntity.ok(ProductsResponse.from(products));
+    public ResponseEntity<List<ProductPagingSimpleResponse>> findAllProductsInCategory(@PathVariable("categoryId") final Long categoryId,
+                                                                                       @RequestParam(name = "productId", required = false) final Long productId,
+                                                                                       @RequestParam(name = "pageSize") final Integer pageSize) {
+        return ResponseEntity.ok(productQueryService.findAllProductsInCategory(productId, categoryId, pageSize));
     }
 
     @PostMapping("/{categoryId}/products")
@@ -48,11 +50,11 @@ public class ProductController {
     }
 
     @GetMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<ProductResponse> findProductById(@PathVariable("productId") final Long productId,
-                                                           @PathVariable("categoryId") final Long categoryId,
-                                                           @ViewCountChecker final Boolean canAddViewCount) {
-        Product product = productService.findProductById(productId, canAddViewCount);
-        return ResponseEntity.ok(ProductResponse.from(product));
+    public ResponseEntity<ProductSpecificResponse> findProductById(@PathVariable("productId") final Long productId,
+                                                                   @PathVariable("categoryId") final Long categoryId,
+                                                                   @ViewCountChecker final Boolean canAddViewCount) {
+        productService.addViewCount(productId, canAddViewCount);
+        return ResponseEntity.ok(productQueryService.findById(productId));
     }
 
     @PatchMapping("/{categoryId}/products/{productId}")

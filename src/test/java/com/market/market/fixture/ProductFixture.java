@@ -1,10 +1,15 @@
 package com.market.market.fixture;
 
+import com.market.market.domain.category.CategoryName;
 import com.market.market.domain.product.Product;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 import com.market.market.domain.product.vo.Description;
 import com.market.market.domain.product.vo.Price;
 import com.market.market.domain.product.vo.ProductStatus;
 import com.market.market.domain.product.vo.StatisticCount;
+
+import java.time.LocalDateTime;
 
 public class ProductFixture {
 
@@ -30,5 +35,13 @@ public class ProductFixture {
                 .price(new Price(10000))
                 .productStatus(ProductStatus.COMPLETED)
                 .build();
+    }
+
+    public static ProductPagingSimpleResponse 상품_페이징_생성() {
+        return new ProductPagingSimpleResponse(1L, "상품명", 10000, 10, 2, ProductStatus.WAITING, "귀여운_피그미123", LocalDateTime.now());
+    }
+
+    public static ProductSpecificResponse 상품_상세정보_생성() {
+        return new ProductSpecificResponse(1L, "상품명", "상품 참 좋아요~", 10000, ProductStatus.WAITING, 4, 1, 1L, CategoryName.A000, "귀여운_피그미123", LocalDateTime.now());
     }
 }

@@ -6,6 +6,7 @@ import com.market.community.application.comment.CommentService;
 import com.market.coupon.application.coupon.CouponService;
 import com.market.coupon.application.voucher.VoucherQueryService;
 import com.market.coupon.application.voucher.VoucherService;
+import com.market.market.application.ProductQueryService;
 import com.market.market.application.ProductService;
 import com.market.market.ui.support.resolver.ProductCookieHelperImpl;
 import com.market.member.application.auth.AuthService;
@@ -41,6 +42,9 @@ public class MockBeanInjection {
 
     @MockBean
     protected ProductService productService;
+
+    @MockBean
+    protected ProductQueryService productQueryService;
 
     @MockBean
     protected CouponService couponService;

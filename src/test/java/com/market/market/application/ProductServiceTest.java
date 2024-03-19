@@ -5,6 +5,7 @@ import com.market.market.application.dto.ProductUpdateRequest;
 import com.market.market.application.dto.UsingCouponRequest;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.market.market.exception.exceptions.ProductNotFoundException;
 import com.market.market.exception.exceptions.ProductOwnerNotEqualsException;
 import com.market.market.infrastructure.product.ProductFakeRepository;
@@ -27,11 +28,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class ProductServiceTest {
 
     private ProductService productService;
+    private ProductQueryService productQueryService;
     private ProductRepository productRepository;
 
     @BeforeEach
     void setup() {
         productRepository = new ProductFakeRepository();
+        productQueryService = new ProductQueryService(productRepository);
         productService = new ProductService(productRepository);
     }
 
@@ -41,14 +44,12 @@ class ProductServiceTest {
         Product savedProduct = productRepository.save(상품_생성());
 
         // when
-        List<Product> result = productService.findAllProductsInCategory(savedProduct.getCategoryId());
+        List<ProductPagingSimpleResponse> result = productQueryService.findAllProductsInCategory(null, 1L, 10);
 
         // then
         assertSoftly(softly -> {
             softly.assertThat(result).hasSize(1);
-            softly.assertThat(result.get(0))
-                    .usingRecursiveComparison()
-                    .isEqualTo(savedProduct);
+            softly.assertThat(result.get(0).id()).isEqualTo(savedProduct.getId());
         });
     }
 
@@ -70,7 +71,7 @@ class ProductServiceTest {
         Product savedProduct = productRepository.save(상품_생성());
 
         // when
-        Product found = productService.findProductById(savedProduct.getId(), true);
+        Product found = productService.addViewCount(savedProduct.getId(), true);
 
         // then
         assertSoftly(softly -> {
@@ -84,7 +85,7 @@ class ProductServiceTest {
     @Test
     void 상품이_존재하지_않으면_예외를_발생시킨다() {
         // when & then
-        assertThatThrownBy(() -> productService.findProductById(-1L, true))
+        assertThatThrownBy(() -> productService.addViewCount(-1L, true))
                 .isInstanceOf(ProductNotFoundException.class);
     }
 
