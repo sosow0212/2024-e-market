@@ -17,7 +17,6 @@ public class ProductQueryService {
 
     private final ProductRepository productRepository;
 
-    @Transactional(readOnly = true)
     public List<ProductPagingSimpleResponse> findAllProductsInCategory(final Long productId, final Long categoryId, final int pageSize) {
         return productRepository.findAllProductsInCategoryWithPaging(productId, categoryId, pageSize);
     }
