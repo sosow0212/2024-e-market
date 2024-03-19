@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class ProductControllerAcceptanceTest extends ProductControllerAcceptanceFixture {
 
     private static final String 상품_생성_url = "/api/categories/1/products";
-    private static final String 카테고리에_포함된_상품_조회_url = "/api/categories/1/products";
+    private static final String 카테고리에_포함된_상품_조회_url = "/api/categories/1/products?pageSize=10";
     private static final String 상품_상세조회_url = "/api/categories/1/products/1";
     private static final String 상품_수정_url = "/api/categories/1/products/1";
     private static final String 상품_제거_url = "/api/categories/1/products/1";

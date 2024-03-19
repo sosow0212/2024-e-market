@@ -5,6 +5,7 @@ import com.market.market.application.dto.ProductUpdateRequest;
 import com.market.market.application.dto.UsingCouponRequest;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.market.market.exception.exceptions.ProductNotFoundException;
 import com.market.market.exception.exceptions.ProductOwnerNotEqualsException;
 import com.market.market.infrastructure.product.ProductFakeRepository;
@@ -43,14 +44,12 @@ class ProductServiceTest {
         Product savedProduct = productRepository.save(상품_생성());
 
         // when
-        List<Product> result = productQueryService.findAllProductsInCategory(savedProduct.getCategoryId());
+        List<ProductPagingSimpleResponse> result = productQueryService.findAllProductsInCategory(null, 1L, 10);
 
         // then
         assertSoftly(softly -> {
             softly.assertThat(result).hasSize(1);
-            softly.assertThat(result.get(0))
-                    .usingRecursiveComparison()
-                    .isEqualTo(savedProduct);
+            softly.assertThat(result.get(0).id()).isEqualTo(savedProduct.getId());
         });
     }
 

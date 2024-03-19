@@ -6,8 +6,8 @@ import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
 import com.market.market.application.dto.UsingCouponRequest;
 import com.market.market.domain.product.Product;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.market.market.ui.dto.ProductResponse;
-import com.market.market.ui.dto.ProductsResponse;
 import com.market.market.ui.support.ViewCountChecker;
 import com.market.member.ui.auth.support.AuthMember;
 import jakarta.validation.Valid;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -34,10 +35,10 @@ public class ProductController {
     private final ProductQueryService productQueryService;
 
     @GetMapping("/{categoryId}/products")
-    public ResponseEntity<ProductsResponse> findAllProductsInCategory(@PathVariable("categoryId") final Long categoryId) {
-        // TODO : 페이징
-        List<Product> products = productQueryService.findAllProductsInCategory(categoryId);
-        return ResponseEntity.ok(ProductsResponse.from(products));
+    public ResponseEntity<List<ProductPagingSimpleResponse>> findAllProductsInCategory(@PathVariable("categoryId") final Long categoryId,
+                                                                                       @RequestParam(name = "productId", required = false) final Long productId,
+                                                                                       @RequestParam(name = "pageSize") final Integer pageSize) {
+        return ResponseEntity.ok(productQueryService.findAllProductsInCategory(productId, categoryId, pageSize));
     }
 
     @PostMapping("/{categoryId}/products")

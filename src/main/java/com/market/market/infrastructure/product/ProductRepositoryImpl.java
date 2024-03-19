@@ -2,6 +2,7 @@ package com.market.market.infrastructure.product;
 
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductJpaRepository productJpaRepository;
+    private final ProductQueryRepository productQueryRepository;
 
     @Override
     public Product save(final Product product) {
@@ -34,8 +36,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         productJpaRepository.deleteById(productId);
     }
 
-    @Override
-    public List<Product> findAllProductsInCategory(final Long categoryId) {
-        return productJpaRepository.findAllByCategoryId(categoryId);
+    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize) {
+        return productQueryRepository.findAllWithPagingByCategoryId(productId, categoryId, pageSize);
     }
 }

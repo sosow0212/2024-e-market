@@ -1,5 +1,7 @@
 package com.market.market.domain.product;
 
+import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,5 +15,5 @@ public interface ProductRepository {
 
     void deleteProductById(final Long productId);
 
-    List<Product> findAllProductsInCategory(final Long categoryId);
+    List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize);
 }

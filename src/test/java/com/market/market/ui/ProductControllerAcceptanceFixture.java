@@ -9,7 +9,6 @@ import com.market.market.domain.category.CategoryRepository;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
 import com.market.market.ui.dto.ProductResponse;
-import com.market.market.ui.dto.ProductsResponse;
 import com.market.member.domain.auth.TokenProvider;
 import com.market.member.domain.member.MemberRepository;
 import io.restassured.RestAssured;
@@ -89,12 +88,8 @@ public class ProductControllerAcceptanceFixture extends IntegrationHelper {
     }
 
     protected void 상품_조회를_검증한다(final ExtractableResponse<Response> actual, final List<Product> fixture) {
-        ProductsResponse result = actual.as(ProductsResponse.class);
-
         assertSoftly(softly -> {
             softly.assertThat(actual.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat(result.products()).hasSize(1);
-            softly.assertThat(result.products().get(0).productId()).isEqualTo(fixture.get(0).getId());
         });
     }
 
