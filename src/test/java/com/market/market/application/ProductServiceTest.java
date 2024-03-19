@@ -27,11 +27,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class ProductServiceTest {
 
     private ProductService productService;
+    private ProductQueryService productQueryService;
     private ProductRepository productRepository;
 
     @BeforeEach
     void setup() {
         productRepository = new ProductFakeRepository();
+        productQueryService = new ProductQueryService(productRepository);
         productService = new ProductService(productRepository);
     }
 
@@ -41,7 +43,7 @@ class ProductServiceTest {
         Product savedProduct = productRepository.save(상품_생성());
 
         // when
-        List<Product> result = productService.findAllProductsInCategory(savedProduct.getCategoryId());
+        List<Product> result = productQueryService.findAllProductsInCategory(savedProduct.getCategoryId());
 
         // then
         assertSoftly(softly -> {

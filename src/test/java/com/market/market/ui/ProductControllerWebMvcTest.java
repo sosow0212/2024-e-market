@@ -58,7 +58,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         // given
         Long categoryId = 1L;
         List<Product> response = List.of(상품_생성());
-        when(productService.findAllProductsInCategory(eq(categoryId))).thenReturn(response);
+        when(productQueryService.findAllProductsInCategory(eq(categoryId))).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products", categoryId)

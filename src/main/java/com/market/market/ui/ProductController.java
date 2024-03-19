@@ -1,5 +1,6 @@
 package com.market.market.ui;
 
+import com.market.market.application.ProductQueryService;
 import com.market.market.application.ProductService;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
@@ -30,11 +31,12 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductQueryService productQueryService;
 
     @GetMapping("/{categoryId}/products")
     public ResponseEntity<ProductsResponse> findAllProductsInCategory(@PathVariable("categoryId") final Long categoryId) {
         // TODO : 페이징
-        List<Product> products = productService.findAllProductsInCategory(categoryId);
+        List<Product> products = productQueryService.findAllProductsInCategory(categoryId);
         return ResponseEntity.ok(ProductsResponse.from(products));
     }
 
