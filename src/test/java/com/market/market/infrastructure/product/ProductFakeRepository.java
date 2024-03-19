@@ -1,8 +1,10 @@
 package com.market.market.infrastructure.product;
 
+import com.market.market.domain.category.CategoryName;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
 import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -48,6 +50,16 @@ public class ProductFakeRepository implements ProductRepository {
                 .filter(it -> it.equals(productId))
                 .map(map::get)
                 .findAny();
+    }
+
+    @Override
+    public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId) {
+        if (map.containsKey(id)) {
+            Product product = map.get(id);
+            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, "owner", LocalDateTime.now()));
+        }
+
+        return Optional.empty();
     }
 
     @Override

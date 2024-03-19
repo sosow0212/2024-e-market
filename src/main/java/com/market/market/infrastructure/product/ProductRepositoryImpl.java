@@ -3,6 +3,7 @@ package com.market.market.infrastructure.product;
 import com.market.market.domain.product.Product;
 import com.market.market.domain.product.ProductRepository;
 import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Optional<Product> findByIdWithPessimisticLock(final Long productId) {
         return productJpaRepository.findByIdWithPessimisticLock(productId);
+    }
+
+    @Override
+    public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId) {
+        return productQueryRepository.findSpecificProductById(productId);
     }
 
     @Override

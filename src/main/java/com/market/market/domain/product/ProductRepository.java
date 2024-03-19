@@ -1,19 +1,22 @@
 package com.market.market.domain.product;
 
 import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository {
 
-    Product save(final Product product);
+    Product save(Product product);
 
-    Optional<Product> findById(final Long productId);
+    Optional<Product> findById(Long productId);
 
-    Optional<Product> findByIdWithPessimisticLock(final Long productId);
+    Optional<Product> findByIdWithPessimisticLock(Long productId);
 
-    void deleteProductById(final Long productId);
+    Optional<ProductSpecificResponse> findSpecificProductById(Long productId);
 
-    List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize);
+    void deleteProductById(Long productId);
+
+    List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(Long productId, Long categoryId, int pageSize);
 }

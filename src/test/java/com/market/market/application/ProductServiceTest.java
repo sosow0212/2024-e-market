@@ -71,7 +71,7 @@ class ProductServiceTest {
         Product savedProduct = productRepository.save(상품_생성());
 
         // when
-        Product found = productService.findProductById(savedProduct.getId(), true);
+        Product found = productService.addViewCount(savedProduct.getId(), true);
 
         // then
         assertSoftly(softly -> {
@@ -85,7 +85,7 @@ class ProductServiceTest {
     @Test
     void 상품이_존재하지_않으면_예외를_발생시킨다() {
         // when & then
-        assertThatThrownBy(() -> productService.findProductById(-1L, true))
+        assertThatThrownBy(() -> productService.addViewCount(-1L, true))
                 .isInstanceOf(ProductNotFoundException.class);
     }
 

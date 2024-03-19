@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.helper.MockBeanInjection;
 import com.market.market.application.dto.ProductCreateRequest;
 import com.market.market.application.dto.ProductUpdateRequest;
-import com.market.market.domain.product.Product;
 import com.market.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.market.market.domain.product.dto.ProductSpecificResponse;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static com.market.helper.RestDocsHelper.customDocument;
-import static com.market.market.fixture.ProductFixture.상품_생성;
+import static com.market.market.fixture.ProductFixture.상품_상세정보_생성;
 import static com.market.market.fixture.ProductFixture.상품_페이징_생성;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.mockito.ArgumentMatchers.any;
@@ -131,8 +131,8 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         // given
         Long categoryId = 1L;
         Long productId = 1L;
-        Product response = 상품_생성();
-        when(productService.findProductById(eq(productId), any())).thenReturn(response);
+        ProductSpecificResponse response = 상품_상세정보_생성();
+        when(productQueryService.findById(any())).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
@@ -151,11 +151,17 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 parameterWithName("productId").description("조회하는 상품 id")
                         ),
                         responseFields(
-                                fieldWithPath("productId").description("상품 id"),
-                                fieldWithPath("ownerId").description("상품 게시글 주인 id"),
+                                fieldWithPath("id").description("상품 id"),
                                 fieldWithPath("title").description("상품 제목"),
                                 fieldWithPath("content").description("상품 내용"),
-                                fieldWithPath("price").description("상품 가격")
+                                fieldWithPath("price").description("상품 가격"),
+                                fieldWithPath("productStatus").description("상품 상태 (WAITING, RESERVED, COMPLETED)"),
+                                fieldWithPath("visitedCount").description("상품 조회자 수"),
+                                fieldWithPath("contactCount").description("판매자에게 연락한 사람 수"),
+                                fieldWithPath("categoryId").description("카테고리 id"),
+                                fieldWithPath("categoryName").description("카테고리 이름"),
+                                fieldWithPath("ownerNickname").description("판매자 닉네임"),
+                                fieldWithPath("createDate").description("상품 등록일")
                         )
                 ));
     }

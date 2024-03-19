@@ -27,7 +27,7 @@ public class ProductService {
         return savedProduct.getId();
     }
 
-    public Product findProductById(final Long productId, final Boolean canAddViewCount) {
+    public Product addViewCount(final Long productId, final Boolean canAddViewCount) {
         Product product = findBoardWithPessimisticLock(productId);
         product.view(canAddViewCount);
         return product;
