@@ -15,7 +15,7 @@ import static com.market.community.fixture.CommentFixture.댓글_생성;
 class CommentControllerAcceptanceTest extends CommentAcceptanceFixture {
 
     private static final String 댓글_생성_url = "/api/boards/1/comments";
-    private static final String 댓글_조회_url = "/api/boards/1/comments";
+    private static final String 댓글_조회_url = "/api/boards/1/comments?pageSize=10";
     private static final String 댓글_수정_url = "/api/boards/1/comments/1";
     private static final String 댓글_삭제_url = "/api/boards/1/comments/1";
     private static final String 게시글_삭제_url = "/api/boards/1";

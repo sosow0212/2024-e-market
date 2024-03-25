@@ -4,6 +4,7 @@ import com.market.community.application.comment.dto.CommentCreateRequest;
 import com.market.community.application.comment.dto.CommentPatchRequest;
 import com.market.community.domain.comment.Comment;
 import com.market.community.domain.comment.CommentRepository;
+import com.market.community.domain.comment.dto.CommentSimpleResponse;
 import com.market.community.exception.exceptions.CommentNotFoundException;
 import com.market.community.exception.exceptions.CommentWriterNotEqualsException;
 import com.market.community.infrastructure.comment.CommentFakeRepository;
@@ -25,11 +26,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class CommentServiceTest {
 
     private CommentService commentService;
+    private CommentQueryService commentQueryService;
     private CommentRepository commentRepository;
 
     @BeforeEach
     void setup() {
         commentRepository = new CommentFakeRepository();
+        commentQueryService = new CommentQueryService(commentRepository);
         commentService = new CommentService(commentRepository);
     }
 
@@ -49,13 +52,12 @@ class CommentServiceTest {
         Long boardId = saved.getBoardId();
 
         // when
-        List<Comment> result = commentService.findAllCommentsByBoardId(boardId);
+        List<CommentSimpleResponse> result = commentQueryService.findAllCommentsByBoardId(boardId, null, 10);
 
         // then
         assertSoftly(softly -> {
             softly.assertThat(result).hasSize(1);
-            softly.assertThat(result.get(0)).usingRecursiveComparison()
-                    .isEqualTo(saved);
+            softly.assertThat(result.get(0).id()).isEqualTo(saved.getId());
         });
     }
 
@@ -131,7 +133,7 @@ class CommentServiceTest {
         assertDoesNotThrow(() -> commentService.deleteAllCommentsByBoardId(saved.getBoardId()));
 
         // then
-        List<Comment> result = commentService.findAllCommentsByBoardId(saved.getBoardId());
+        List<CommentSimpleResponse> result = commentQueryService.findAllCommentsByBoardId(saved.getBoardId(), null, 10);
         assertThat(result).isEmpty();
     }
 }

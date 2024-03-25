@@ -2,7 +2,10 @@ package com.market.community.infrastructure.comment;
 
 import com.market.community.domain.comment.Comment;
 import com.market.community.domain.comment.CommentRepository;
+import com.market.community.domain.comment.dto.CommentSimpleResponse;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +40,21 @@ public class CommentFakeRepository implements CommentRepository {
     }
 
     @Override
-    public List<Comment> findAllCommentsByBoardId(final Long boardId) {
+    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long commentId, final int pageSize) {
+        if (commentId == null) {
+            return map.values().stream()
+                    .sorted(Comparator.comparing(Comment::getId).reversed())
+                    .limit(pageSize)
+                    .map(CommentFakeRepository::parse)
+                    .toList();
+        }
+
         return map.values().stream()
+                .filter(it -> it.getId() < commentId)
                 .filter(it -> it.getBoardId().equals(boardId))
+                .sorted(Comparator.comparing(Comment::getId).reversed())
+                .limit(pageSize)
+                .map(CommentFakeRepository::parse)
                 .toList();
     }
 
@@ -59,5 +74,15 @@ public class CommentFakeRepository implements CommentRepository {
         for (Long id : commentIds) {
             map.remove(id);
         }
+    }
+
+    private static CommentSimpleResponse parse(final Comment comment) {
+        return new CommentSimpleResponse(
+                comment.getId(),
+                comment.getContent(),
+                comment.getWriterId(),
+                "writer",
+                LocalDateTime.now()
+        );
     }
 }

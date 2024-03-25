@@ -1,10 +1,10 @@
 package com.market.community.ui.comment;
 
+import com.market.community.application.comment.CommentQueryService;
 import com.market.community.application.comment.CommentService;
 import com.market.community.application.comment.dto.CommentCreateRequest;
 import com.market.community.application.comment.dto.CommentPatchRequest;
-import com.market.community.domain.comment.Comment;
-import com.market.community.ui.comment.dto.CommentsResponse;
+import com.market.community.domain.comment.dto.CommentSimpleResponse;
 import com.market.member.ui.auth.support.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
+    private final CommentQueryService commentQueryService;
 
     @PostMapping("/{boardId}/comments")
     public ResponseEntity<Void> createComment(@AuthMember final Long memberId,
@@ -38,9 +40,11 @@ public class CommentController {
     }
 
     @GetMapping("/{boardId}/comments")
-    public ResponseEntity<CommentsResponse> findAllCommentsByBoardId(@PathVariable("boardId") final Long boardId) {
-        List<Comment> comments = commentService.findAllCommentsByBoardId(boardId);
-        return ResponseEntity.ok(CommentsResponse.from(comments));
+    public ResponseEntity<List<CommentSimpleResponse>> findAllCommentsByBoardId(@PathVariable("boardId") final Long boardId,
+                                                                                @RequestParam(name = "commentId", required = false) final Long commentId,
+                                                                                @RequestParam(name = "pageSize") final Integer pageSize) {
+        List<CommentSimpleResponse> comments = commentQueryService.findAllCommentsByBoardId(boardId, commentId, pageSize);
+        return ResponseEntity.ok(comments);
     }
 
     @PatchMapping("/{boardId}/comments/{commentId}")

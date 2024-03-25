@@ -2,6 +2,7 @@ package com.market.community.infrastructure.comment;
 
 import com.market.community.domain.comment.Comment;
 import com.market.community.domain.comment.CommentRepository;
+import com.market.community.domain.comment.dto.CommentSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     private final CommentJpaRepository commentJpaRepository;
     private final CommentJdbcRepository commentJdbcRepository;
+    private final CommentQueryRepository commentQueryRepository;
 
     @Override
     public Comment save(final Comment comment) {
@@ -25,9 +27,8 @@ public class CommentRepositoryImpl implements CommentRepository {
         return commentJpaRepository.findById(id);
     }
 
-    @Override
-    public List<Comment> findAllCommentsByBoardId(final Long boardId) {
-        return commentJpaRepository.findAll();
+    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long commentId, final int pageSize) {
+        return commentQueryRepository.findAllWithPaging(boardId, commentId, pageSize);
     }
 
     @Override

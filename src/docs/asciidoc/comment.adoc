@@ -24,6 +24,7 @@ include::{snippets}/comment-controller-web-mvc-test/save_comment/http-response.a
 
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/request-headers.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/path-parameters.adoc[]
+include::{snippets}/comment-controller-web-mvc-test/find_all_comments/query-parameters.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/request-body.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/http-request.adoc[]
 

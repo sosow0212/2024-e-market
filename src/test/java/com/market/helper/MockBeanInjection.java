@@ -3,6 +3,7 @@ package com.market.helper;
 import com.market.community.application.board.BoardQueryService;
 import com.market.community.application.board.BoardService;
 import com.market.community.application.board.LikeService;
+import com.market.community.application.comment.CommentQueryService;
 import com.market.community.application.comment.CommentService;
 import com.market.coupon.application.coupon.CouponService;
 import com.market.coupon.application.voucher.VoucherQueryService;
@@ -40,6 +41,9 @@ public class MockBeanInjection {
 
     @MockBean
     protected CommentService commentService;
+
+    @MockBean
+    protected CommentQueryService commentQueryService;
 
     @MockBean
     protected LikeService likeService;
