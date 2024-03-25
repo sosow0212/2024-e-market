@@ -5,44 +5,44 @@
 :toc: left
 :toclevels: 3
 
-=== 카테고리에 해당되는 상품 목록을 조회한다 (GET /api/categories/{categoryId}/products?boardId=?(null)?pageSize=Number)
+== 카테고리에 해당되는 상품 목록을 조회한다 (GET /api/categories/{categoryId}/products?boardId=?(null)?pageSize=Number)
 
-==== Request
+=== Request
 
 include::{snippets}/product-controller-web-mvc-test/find_all_products_in_category/request-headers.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_all_products_in_category/path-parameters.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_all_products_in_category/query-parameters.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_all_products_in_category/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/product-controller-web-mvc-test/find_all_products_in_category/response-fields.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_all_products_in_category/http-response.adoc[]
 
-=== 상품을 등록한다 (POST /api/categories/{categoryId}/products)
+== 상품을 등록한다 (POST /api/categories/{categoryId}/products)
 
-==== Request
+=== Request
 
 include::{snippets}/product-controller-web-mvc-test/upload_product/request-headers.adoc[]
 include::{snippets}/product-controller-web-mvc-test/upload_product/path-parameters.adoc[]
 include::{snippets}/product-controller-web-mvc-test/upload_product/request-fields.adoc[]
 include::{snippets}/product-controller-web-mvc-test/upload_product/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/product-controller-web-mvc-test/upload_product/response-headers.adoc[]
 include::{snippets}/product-controller-web-mvc-test/upload_product/http-response.adoc[]
 
-=== 상품을 id로 조회한다 (GET /api/categories/{categoryId}/products/{productId})
+== 상품을 id로 조회한다 (GET /api/categories/{categoryId}/products/{productId})
 
-==== Request
+=== Request
 
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/request-headers.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/request-cookies.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/path-parameters.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/response-fields.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/http-response.adoc[]

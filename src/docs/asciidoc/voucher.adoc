@@ -5,53 +5,53 @@
 :toc: left
 :toclevels: 3
 
-=== 바우처를 생성한다 (관리자) (POST /api/vouchers)
+== 바우처를 생성한다 (관리자) (POST /api/vouchers)
 
-==== Request
+=== Request
 
 include::{snippets}/voucher-controller-web-mvc-test/create_voucher/request-headers.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/create_voucher/request-fields.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/create_voucher/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/voucher-controller-web-mvc-test/create_voucher/response-headers.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/create_voucher/http-response.adoc[]
 
-=== 바우처를 사용한다 (POST /api/vouchers/{voucherId})
+== 바우처를 사용한다 (POST /api/vouchers/{voucherId})
 
-==== Request
+=== Request
 
 include::{snippets}/voucher-controller-web-mvc-test/use_voucher/request-headers.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/use_voucher/path-parameters.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/use_voucher/request-fields.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/use_voucher/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/voucher-controller-web-mvc-test/use_voucher/http-response.adoc[]
 
-=== 발급된 모든 바우처를 페이징 조회한다 (관리자) (GET /api/vouchers?page=value?size=value)
+== 발급된 모든 바우처를 페이징 조회한다 (관리자) (GET /api/vouchers?page=value?size=value)
 
-==== Request
+=== Request
 
 include::{snippets}/voucher-controller-web-mvc-test/find_vouchers_with_paging/request-headers.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/find_vouchers_with_paging/request-parts.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/find_vouchers_with_paging/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/voucher-controller-web-mvc-test/find_vouchers_with_paging/response-fields.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/find_vouchers_with_paging/http-response.adoc[]
 
-=== 바우처를 단건 조회한다 (관리자) (GET /api/vouchers/{voucherId})
+== 바우처를 단건 조회한다 (관리자) (GET /api/vouchers/{voucherId})
 
-==== Request
+=== Request
 
 include::{snippets}/voucher-controller-web-mvc-test/find_voucher_specific/request-headers.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/find_voucher_specific/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/voucher-controller-web-mvc-test/find_voucher_specific/response-fields.adoc[]
 include::{snippets}/voucher-controller-web-mvc-test/find_voucher_specific/response-body.adoc[]
