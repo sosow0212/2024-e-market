@@ -5,54 +5,55 @@
 :toc: left
 :toclevels: 3
 
-=== 댓글을 작성한다 (POST /api/boards/{boardId}/comments)
+== 댓글을 작성한다 (POST /api/boards/{boardId}/comments)
 
-==== Request
+=== Request
 
 include::{snippets}/comment-controller-web-mvc-test/save_comment/request-headers.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/save_comment/path-parameters.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/save_comment/request-body.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/save_comment/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/comment-controller-web-mvc-test/save_comment/http-response.adoc[]
 
-=== 댓글을 모두 조회한다 (GET /api/boards/{boardId}/comments)
+== 댓글을 모두 조회한다 (GET /api/boards/{boardId}/comments)
 
-==== Request
+=== Request
 
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/request-headers.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/path-parameters.adoc[]
+include::{snippets}/comment-controller-web-mvc-test/find_all_comments/query-parameters.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/request-body.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/response-fields.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/find_all_comments/http-response.adoc[]
 
-=== 댓글을 수정한다 (PATCH /api/boards/{boardId}/comments/{commentId})
+== 댓글을 수정한다 (PATCH /api/boards/{boardId}/comments/{commentId})
 
-==== Request
+=== Request
 
 include::{snippets}/comment-controller-web-mvc-test/patch_comment/request-headers.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/patch_comment/path-parameters.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/patch_comment/request-body.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/patch_comment/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/comment-controller-web-mvc-test/patch_comment/http-response.adoc[]
 
-=== 댓글을 삭제한다 (DELETE /api/boards/{boardId}/comments/{commentId})
+== 댓글을 삭제한다 (DELETE /api/boards/{boardId}/comments/{commentId})
 
-==== Request
+=== Request
 
 include::{snippets}/comment-controller-web-mvc-test/delete_comment/request-headers.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/delete_comment/path-parameters.adoc[]
 include::{snippets}/comment-controller-web-mvc-test/delete_comment/http-request.adoc[]
 
-==== Response
+=== Response
 
 include::{snippets}/comment-controller-web-mvc-test/delete_comment/http-response.adoc[]

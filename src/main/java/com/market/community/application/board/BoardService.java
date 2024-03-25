@@ -1,10 +1,7 @@
 package com.market.community.application.board;
 
 import com.market.community.application.board.dto.BoardCreateRequest;
-import com.market.community.application.board.dto.BoardFoundResponse;
-import com.market.community.application.board.dto.BoardSimpleResponse;
 import com.market.community.application.board.dto.BoardUpdateRequest;
-import com.market.community.application.board.dto.BoardsSimpleResponse;
 import com.market.community.domain.board.Board;
 import com.market.community.domain.board.BoardRepository;
 import com.market.community.domain.board.ImageConverter;
@@ -13,12 +10,11 @@ import com.market.community.domain.event.BoardDeletedEvent;
 import com.market.community.exception.exceptions.BoardNotFoundException;
 import com.market.global.event.Events;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class BoardService {
 
@@ -26,7 +22,6 @@ public class BoardService {
     private final ImageConverter imageConverter;
     private final ImageUploader imageUploader;
 
-    @Transactional
     public Long saveBoard(final Long memberId, final BoardCreateRequest request) {
         Board board = new Board(request.title(), request.content(), memberId, request.images(), imageConverter);
         Board savedBoard = boardRepository.save(board);
@@ -35,24 +30,11 @@ public class BoardService {
         return savedBoard.getId();
     }
 
-    @Transactional
-    public BoardsSimpleResponse findAllBoards(final Pageable pageable) {
-        Page<BoardSimpleResponse> response = boardRepository.findAllBoardsWithPaging(pageable);
-        return BoardsSimpleResponse.of(response, pageable);
-    }
-
-    @Transactional(readOnly = true)
-    public BoardFoundResponse findBoardById(final Long boardId, final Long memberId) {
-        return boardRepository.findByIdForRead(boardId, memberId)
-                .orElseThrow(BoardNotFoundException::new);
-    }
-
     private Board findBoard(final Long boardId) {
         return boardRepository.findById(boardId)
                 .orElseThrow(BoardNotFoundException::new);
     }
 
-    @Transactional
     public void patchBoardById(final Long boardId,
                                final Long memberId,
                                final BoardUpdateRequest request) {
@@ -69,7 +51,6 @@ public class BoardService {
                 .orElseThrow(BoardNotFoundException::new);
     }
 
-    @Transactional
     public void deleteBoardById(final Long boardId, final Long memberId) {
         Board board = findBoard(boardId);
         board.validateWriter(memberId);
@@ -80,7 +61,6 @@ public class BoardService {
         Events.raise(new BoardDeletedEvent(boardId));
     }
 
-    @Transactional
     public void patchLike(final Long boardId, final boolean isIncreaseLike) {
         Board board = findByIdUsingPessimisticLock(boardId);
         board.patchLike(isIncreaseLike);

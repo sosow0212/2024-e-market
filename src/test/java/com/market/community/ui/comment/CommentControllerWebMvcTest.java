@@ -3,7 +3,7 @@ package com.market.community.ui.comment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.community.application.comment.dto.CommentCreateRequest;
 import com.market.community.application.comment.dto.CommentPatchRequest;
-import com.market.community.domain.comment.Comment;
+import com.market.community.domain.comment.dto.CommentSimpleResponse;
 import com.market.helper.MockBeanInjection;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -15,9 +15,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.market.community.fixture.CommentFixture.댓글_생성;
 import static com.market.helper.RestDocsHelper.customDocument;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -35,6 +35,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -79,12 +80,14 @@ class CommentControllerWebMvcTest extends MockBeanInjection {
     void 게시글의_댓글을_모두_조회한다() throws Exception {
         // given
         Long boardId = 1L;
-        Comment comment = 댓글_생성();
-        when(commentService.findAllCommentsByBoardId(boardId)).thenReturn(List.of(comment));
+        CommentSimpleResponse response = new CommentSimpleResponse(1L, "댓글 내용", 1L, "꿈꾸는돼지_123", LocalDateTime.now());
+        when(commentQueryService.findAllCommentsByBoardId(1L, 2L, 10)).thenReturn(List.of(response));
 
         // when & then
         mockMvc.perform(get("/api/boards/{boardId}/comments", boardId)
                         .header(AUTHORIZATION, "Bearer tokenInfo~")
+                        .param("commentId", "2")
+                        .param("pageSize", "10")
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andDo(customDocument("find_all_comments",
@@ -94,11 +97,16 @@ class CommentControllerWebMvcTest extends MockBeanInjection {
                         pathParameters(
                                 parameterWithName("boardId").description("게시글 id")
                         ),
+                        queryParameters(
+                                parameterWithName("commentId").description("마지막으로 받은 comment Id, 맨 처음 조회라면 null 허용"),
+                                parameterWithName("pageSize").description("한 페이지에 조회되는 사이즈")
+                        ),
                         responseFields(
-                                fieldWithPath("comments[0].commentId").description("댓글 id"),
-                                fieldWithPath("comments[0].boardId").description("게시글 id"),
-                                fieldWithPath("comments[0].writerId").description("작성자 id"),
-                                fieldWithPath("comments[0].comment").description("댓글 내용")
+                                fieldWithPath("[].id").description("댓글 id"),
+                                fieldWithPath("[].content").description("댓글 내용"),
+                                fieldWithPath("[].writerId").description("작성자 id"),
+                                fieldWithPath("[].writerNickname").description("작성자 닉네임"),
+                                fieldWithPath("[].createDate").description("댓글 생성일자")
                         )
                 ));
     }

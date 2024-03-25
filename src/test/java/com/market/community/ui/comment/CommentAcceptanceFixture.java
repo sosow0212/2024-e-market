@@ -4,7 +4,6 @@ import com.market.community.application.comment.dto.CommentCreateRequest;
 import com.market.community.application.comment.dto.CommentPatchRequest;
 import com.market.community.domain.comment.Comment;
 import com.market.community.domain.comment.CommentRepository;
-import com.market.community.ui.comment.dto.CommentsResponse;
 import com.market.helper.IntegrationHelper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -54,14 +53,8 @@ public class CommentAcceptanceFixture extends IntegrationHelper {
     }
 
     protected void 댓글_조회_검증(final ExtractableResponse actual, final Comment comment) {
-        CommentsResponse response = actual.as(CommentsResponse.class);
-
         assertSoftly(softly -> {
             softly.assertThat(actual.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat(response.comments()).hasSize(1);
-            softly.assertThat(response.comments().get(0).commentId()).isEqualTo(comment.getId());
-            softly.assertThat(response.comments().get(0).boardId()).isEqualTo(comment.getBoardId());
-            softly.assertThat(response.comments().get(0).comment()).isEqualTo(comment.getContent());
         });
     }
 

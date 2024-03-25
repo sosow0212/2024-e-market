@@ -1,5 +1,6 @@
 package com.market.community.ui.board;
 
+import com.market.community.application.board.BoardQueryService;
 import com.market.community.application.board.BoardService;
 import com.market.community.application.board.dto.BoardCreateRequest;
 import com.market.community.application.board.dto.BoardFoundResponse;
@@ -29,6 +30,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 public class BoardController {
 
     private final BoardService boardService;
+    private final BoardQueryService boardQueryService;
 
     @PostMapping
     public ResponseEntity<Void> saveBoard(@AuthMember final Long memberId, @ModelAttribute final BoardCreateRequest request) {
@@ -39,12 +41,12 @@ public class BoardController {
 
     @GetMapping
     public ResponseEntity<BoardsSimpleResponse> findAllBoardWithPaging(@PageableDefault(sort = "id", direction = DESC) Pageable pageable) {
-        return ResponseEntity.ok(boardService.findAllBoards(pageable));
+        return ResponseEntity.ok(boardQueryService.findAllBoards(pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BoardFoundResponse> findBoardById(@AuthMember final Long memberId, @PathVariable("id") final Long boardId) {
-        return ResponseEntity.ok(boardService.findBoardById(boardId, memberId));
+        return ResponseEntity.ok(boardQueryService.findBoardById(boardId, memberId));
     }
 
     @PatchMapping("/{id}")
