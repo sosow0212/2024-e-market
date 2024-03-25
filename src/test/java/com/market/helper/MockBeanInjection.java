@@ -1,5 +1,6 @@
 package com.market.helper;
 
+import com.market.community.application.board.BoardQueryService;
 import com.market.community.application.board.BoardService;
 import com.market.community.application.board.LikeService;
 import com.market.community.application.comment.CommentService;
@@ -33,6 +34,9 @@ public class MockBeanInjection {
 
     @MockBean
     protected BoardService boardService;
+
+    @MockBean
+    protected BoardQueryService boardQueryService;
 
     @MockBean
     protected CommentService commentService;

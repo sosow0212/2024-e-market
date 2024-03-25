@@ -99,7 +99,7 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
         Board board = 게시글_생성_사진없음_id있음();
         BoardSimpleResponse boardSimpleResponse = new BoardSimpleResponse(board.getId(), "nickname", board.getPost().getTitle(), LocalDateTime.now());
         List<BoardSimpleResponse> response = List.of(boardSimpleResponse);
-        when(boardService.findAllBoards(any(Pageable.class))).thenReturn(new BoardsSimpleResponse(response, 1));
+        when(boardQueryService.findAllBoards(any(Pageable.class))).thenReturn(new BoardsSimpleResponse(response, 1));
 
         // when & then
         mockMvc.perform(get("/api/boards")
@@ -130,7 +130,7 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
         // given
         Board board = 게시글_생성_사진없음_id있음();
         BoardFoundResponse response = new BoardFoundResponse(board.getId(), "nickname", board.getPost().getTitle(), board.getPost().getContent(), 10L, true, board.getCreatedAt());
-        when(boardService.findBoardById(anyLong(), anyLong())).thenReturn(response);
+        when(boardQueryService.findBoardById(anyLong(), anyLong())).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/boards/{id}", board.getId())
