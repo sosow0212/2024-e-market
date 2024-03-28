@@ -24,10 +24,6 @@ jasypt:
   encryptor:
     password: password
 
-jwt:
-  secret: fortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortestfortest
-  expiration-period: 10000
-
 mail:
   host: smtp.blabla.com
   username: username
@@ -39,7 +35,3 @@ mail:
 schedule:
   enable: true
   mail: true
-
-file:
-  upload:
-    location: "/home/images"

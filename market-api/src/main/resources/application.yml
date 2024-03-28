@@ -34,7 +34,7 @@ jwt:
 
 management:
   server:
-    port: 8089
+    port: 9000
   endpoints:
     web:
       exposure:
