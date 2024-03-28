@@ -5,7 +5,7 @@ on:
     branches:
       - develop
       - dev
-      - release
+      - prod
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ jobs:
     environment: test
     defaults:
       run:
-        working-directory: ./
+        working-directory: ./market-api
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
