@@ -54,13 +54,17 @@ subprojects {
 
         // jasypt
         implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+
+        // actuator, prometheus
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     }
 
-    tasks.named('bootJar') { // 빌드할 때 bootjar 파일로 하겠다는 의미
+    tasks.named('bootJar') {
         enabled = false
     }
 
-    tasks.named('jar') { // 빌드할 때 jar 파일로 하겠다는 의미
+    tasks.named('jar') {
         enabled = true
     }
 
