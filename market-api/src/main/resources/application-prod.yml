@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: ENC(X0CT83XE4XPYUd9gNpFxwcBWh1Sfo3kCGxMAqU7TP4qb2zf5hIHGqVSpEjL5YpjS4TG/zinJ3ORLg+XhjkA4VqTB3cmb9l5ZAj+jFrS602jx0wM36nLNw3hThf4LVXBi5e8rknhho+A+taAclbyMuD3MO+RAsKHyY0qZUKFO8VFBtfab3aS8LSFOWbBE8tnr8+M6MUrD/Yg=)
+    username: ENC(Vt4CpxfngX+cLFkAFmlCjw==)
+    password: ENC(Vt4CpxfngX+cLFkAFmlCjw==)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  flyway:
+    enabled: false
+    baseline-on-migrate: false
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql: false
+        show_sql: false
+
+file:
+  upload:
+    location: ENC(sC+qXiI6EobSpCEDLmoWyCUiV+b8eJiJxOsQIyGP/9mopq8ZAlbGHg==)
