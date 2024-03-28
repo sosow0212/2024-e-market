@@ -1,1 +1,4 @@
 rootProject.name = 'market'
+include 'market-api'
+include 'market-batch'
+

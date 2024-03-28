@@ -1,0 +1,41 @@
+server:
+  port: 8080
+  tomcat:
+    threads:
+      max: 150
+  compression:
+    enabled: true
+    mime-types: application/json
+    min-response-size: 500
+
+spring:
+  profiles:
+    active: local
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+  task:
+    scheduling:
+      pool:
+        size: 10
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+jasypt:
+  encryptor:
+    bean: jasyptEncryptor
+    password: ${ENCRYPT_KEY}
+
+jwt:
+  secret: ENC(Tnm4CPIFdSiqmH67nWcDfRgaKmpSr4EvRJYZAYLiwOXazIY9aZnLBMlxQnKC2C0j10l6zkOEbRMKIa2W4u7DtIRjCC7QEzCSCdtm1NCEntKRybirDvUH8g==)
+  expiration-period: ENC(wtkJPr944E3bs6eMwjj4lQ==)
+
+management:
+  server:
+    port: 8089
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health
