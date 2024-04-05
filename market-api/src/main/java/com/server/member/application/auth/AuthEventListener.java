@@ -19,7 +19,7 @@ public class AuthEventListener {
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void publishMail(final RegisteredEvent event) {
-        RedisPublisher.raise(PUBLISH_CHANNEL, new RegisteredEvent(event.getMemberId(), event.getEmail(), event.getNickname()));
+        RedisPublisher.raise(PUBLISH_CHANNEL, event);
         log.info("Publisher :: " + PUBLISH_CHANNEL + "채널 " + event.getEmail() + "발행 성공!");
     }
 }
