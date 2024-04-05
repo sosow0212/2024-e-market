@@ -1,6 +1,6 @@
 package com.server.member.application.auth;
 
-import com.server.global.event.RedisPublisher;
+import com.server.global.event.Events;
 import com.server.member.application.auth.dto.LoginRequest;
 import com.server.member.application.auth.dto.SignupRequest;
 import com.server.member.domain.auth.TokenProvider;
@@ -20,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
 
-    private static final String PUBLISH_CHANNEL = "auth-mail";
-
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     private final NicknameGenerator nicknameGenerator;
@@ -33,9 +31,7 @@ public class AuthService {
         Member member = Member.createDefaultRole(request.email(), request.password(), nicknameGenerator);
         Member signupMember = memberRepository.save(member);
 
-        RedisPublisher.raise(PUBLISH_CHANNEL, new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
-        log.info("Publisher :: " + PUBLISH_CHANNEL + "채널 " + member.getEmail() + "발행 성공 !");
-
+        Events.raise(new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
         return tokenProvider.create(signupMember.getId());
     }
 
