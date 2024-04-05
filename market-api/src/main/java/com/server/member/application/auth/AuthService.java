@@ -11,9 +11,11 @@ import com.server.member.domain.member.NicknameGenerator;
 import com.server.member.exception.exceptions.member.MemberAlreadyExistedException;
 import com.server.member.exception.exceptions.member.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthService {
@@ -28,8 +30,8 @@ public class AuthService {
 
         Member member = Member.createDefaultRole(request.email(), request.password(), nicknameGenerator);
         Member signupMember = memberRepository.save(member);
-        Events.raise(new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
 
+        Events.raise(new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
         return tokenProvider.create(signupMember.getId());
     }
 

@@ -38,6 +38,7 @@ public class MailService {
     private void saveFailureSendMail(final MailStorage mailStorage, final Exception exception) {
         log.error("{} 번 유저 닉네임 : {} 메일 발송 실패! 사유 : {}", mailStorage.getReceiverId(), mailStorage.getReceiverNickname(), exception.getCause());
         mailStorage.updateStatusFail();
+        mailStorageRepository.save(mailStorage);
     }
 
     @Transactional

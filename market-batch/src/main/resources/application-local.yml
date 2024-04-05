@@ -4,7 +4,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  data:
+    redis:
+      host: localhost
+      port: 6379
   flyway:
     enabled: false
     baseline-on-migrate: false
