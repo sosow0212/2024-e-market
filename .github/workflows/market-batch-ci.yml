@@ -6,6 +6,7 @@ on:
       - develop
       - dev
       - prod
+      - refactor/module
 
 permissions:
   contents: read
