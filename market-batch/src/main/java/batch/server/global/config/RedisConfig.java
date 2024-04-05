@@ -44,6 +44,7 @@ public class RedisConfig {
     public RedisMessageListenerContainer redisContainer() {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(redisConnectionFactory());
+
         container.addMessageListener(authMailListener(), authMailTopic());
         return container;
     }

@@ -32,6 +32,7 @@ public class AuthService {
 
         Member member = Member.createDefaultRole(request.email(), request.password(), nicknameGenerator);
         Member signupMember = memberRepository.save(member);
+
         RedisPublisher.raise(PUBLISH_CHANNEL, new RegisteredEvent(member.getId(), member.getEmail(), member.getNickname()));
         log.info("Publisher :: " + PUBLISH_CHANNEL + "채널 " + member.getEmail() + "발행 성공 !");
 
