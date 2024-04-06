@@ -1,8 +1,8 @@
 package batch.server.alarm.application;
 
-import batch.server.alarm.domain.MailSender;
-import batch.server.alarm.domain.MailStorage;
-import batch.server.alarm.domain.MailStorageRepository;
+import batch.server.alarm.domain.mail.MailSender;
+import batch.server.alarm.domain.mail.MailStorage;
+import batch.server.alarm.domain.mail.MailStorageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

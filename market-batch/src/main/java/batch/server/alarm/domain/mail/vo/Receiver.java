@@ -1,4 +1,4 @@
-package batch.server.alarm.domain;
+package batch.server.alarm.domain.mail.vo;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -18,7 +18,7 @@ public class Receiver {
     private String email;
     private String nickname;
 
-    protected static Receiver createDefault(final Long memberId, final String email, final String nickname) {
+    public static Receiver createDefault(final Long memberId, final String email, final String nickname) {
         return Receiver.builder()
                 .memberId(memberId)
                 .email(email)

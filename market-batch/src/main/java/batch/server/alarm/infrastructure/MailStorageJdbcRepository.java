@@ -1,6 +1,6 @@
 package batch.server.alarm.infrastructure;
 
-import batch.server.alarm.domain.MailStatus;
+import batch.server.alarm.domain.mail.vo.MailStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

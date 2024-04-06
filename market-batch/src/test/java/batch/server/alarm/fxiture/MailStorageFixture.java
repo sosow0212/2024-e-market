@@ -1,7 +1,7 @@
 package batch.server.alarm.fxiture;
 
-import batch.server.alarm.domain.MailStatus;
-import batch.server.alarm.domain.MailStorage;
+import batch.server.alarm.domain.mail.vo.MailStatus;
+import batch.server.alarm.domain.mail.MailStorage;
 
 public class MailStorageFixture {
 

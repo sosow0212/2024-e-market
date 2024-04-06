@@ -1,4 +1,4 @@
-package batch.server.alarm.domain;
+package batch.server.alarm.domain.mail;
 
 import jakarta.mail.MessagingException;
 
