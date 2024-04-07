@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   test:
-    name: market-server-test
+    name: batch-server-test
     runs-on: ubuntu-latest
     environment: test
     defaults:
