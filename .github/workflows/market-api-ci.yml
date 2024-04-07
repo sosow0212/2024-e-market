@@ -20,7 +20,7 @@ jobs:
     environment: test
     defaults:
       run:
-        working-directory: ./market-api
+        working-directory: ./
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -40,4 +40,4 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Test with Gradle
-        run: ./gradlew test
+        run: ./gradlew :market-api:test
