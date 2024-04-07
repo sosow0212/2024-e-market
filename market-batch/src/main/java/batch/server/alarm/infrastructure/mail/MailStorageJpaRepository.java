@@ -1,4 +1,4 @@
-package batch.server.alarm.infrastructure;
+package batch.server.alarm.infrastructure.mail;
 
 import batch.server.alarm.domain.mail.vo.MailStatus;
 import batch.server.alarm.domain.mail.MailStorage;
