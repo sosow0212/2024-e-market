@@ -1,6 +1,6 @@
 package batch.server.global.config;
 
-import batch.server.alarm.application.AuthMailMessageListener;
+import batch.server.alarm.application.MailPublisherListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -50,7 +50,7 @@ public class RedisConfig {
     }
 
     @Bean
-    public AuthMailMessageListener authMailListener() {
-        return new AuthMailMessageListener(new ObjectMapper());
+    public MailPublisherListener authMailListener() {
+        return new MailPublisherListener(new ObjectMapper());
     }
 }
