@@ -1,5 +1,6 @@
 package batch.server.alarm.infrastructure;
 
+import batch.server.alarm.infrastructure.mail.EmailSender;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.BeforeEach;

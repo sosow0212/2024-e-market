@@ -2,6 +2,8 @@ package batch.server.alarm.infrastructure;
 
 import batch.server.alarm.domain.mail.vo.MailStatus;
 import batch.server.alarm.domain.mail.MailStorage;
+import batch.server.alarm.infrastructure.mail.MailStorageJdbcRepository;
+import batch.server.alarm.infrastructure.mail.MailStorageJpaRepository;
 import batch.server.helper.IntegrationHelper;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;

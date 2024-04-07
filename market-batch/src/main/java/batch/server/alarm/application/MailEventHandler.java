@@ -1,7 +1,7 @@
 package batch.server.alarm.application;
 
-import batch.server.alarm.domain.mail.MailStorage;
 import batch.server.alarm.domain.event.RegisteredEvent;
+import batch.server.alarm.domain.mail.MailStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
