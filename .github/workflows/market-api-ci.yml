@@ -6,7 +6,8 @@ on:
       - develop
       - dev
       - prod
-      - refactor/module
+    paths:
+      - market-api/**
 
 permissions:
   contents: read
