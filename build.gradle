@@ -2,14 +2,20 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id "org.asciidoctor.jvm.convert" version "4.0.2"
 }
 
-group = 'com'
-version = '0.0.1-SNAPSHOT'
+allprojects {
+    group = 'com'
+    version = '0.0.1-SNAPSHOT'
 
-java {
-    sourceCompatibility = '17'
+    java {
+        sourceCompatibility = '17'
+    }
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 configurations {
@@ -18,107 +24,52 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.asciidoctor.jvm.convert'
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        compileOnly 'org.projectlombok:lombok'
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-    asciidoctorExt
-}
+        // db
+        runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    compileOnly 'org.projectlombok:lombok'
+        // flyway
+        implementation 'org.flywaydb:flyway-core'
+        implementation 'org.flywaydb:flyway-mysql'
 
-    // db
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+        // lombok
+        annotationProcessor 'org.projectlombok:lombok'
 
-    // flyway
-    implementation 'org.flywaydb:flyway-core'
-    implementation 'org.flywaydb:flyway-mysql'
+        // test
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'io.rest-assured:rest-assured:5.3.0'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
-    // lombok
-    annotationProcessor 'org.projectlombok:lombok'
+        // jasypt
+        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
-    // test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'io.rest-assured:rest-assured:5.3.0'
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-
-    // jwt
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
-
-    // jasypt
-    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
-
-    // QueryDSL Implementation
-    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
-    // mail-sender
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
-
-    // actuator, prometheus
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-}
-
-def generated = 'src/main/generated'
-
-sourceSets {
-    main.java.srcDirs += [generated]
-}
-
-tasks.withType(JavaCompile) {
-    options.getGeneratedSourceOutputDirectory().set(file(generated))
-}
-
-clean.doLast {
-    file(generated).deleteDir()
-}
-
-tasks.named('test') {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
-}
-
-asciidoctor {
-    dependsOn test
-    configurations 'asciidoctorExt'
-    baseDirFollowsSourceFile()
-}
-
-tasks.register('copyApiDocument', Copy) {
-    dependsOn asciidoctor
-    doFirst {
-        delete file("src/main/resources/static/docs")
+        // actuator, prometheus
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     }
 
-    from asciidoctor.outputDir
-    into file("src/main/resources/static/docs")
-}
+    tasks.named('bootJar') {
+        enabled = false
+    }
 
-bootJar {
-    dependsOn copyApiDocument
+    tasks.named('jar') {
+        enabled = true
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }

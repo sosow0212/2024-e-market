@@ -9,17 +9,35 @@
 
 ## 과정 (진행중)
 
-- [x] Github Actions를 이용한 CI 환경 생성 ([해당 과정 포스팅 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223314392944&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
-- [x] 테스트 격리 유틸 생성 및 REST Docs Helper 생성 ([해당 과정 포스팅 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223315262688&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
-- [x] 회원가입 및 로그인 ([해당 과정 포스팅 및 고민한 점 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223317675973&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
-- [x] 회원가입 이메일 전송 비동기 구현 및 미전송 메일 처리해주는 기능 구현 ([해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223322476947&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
-- [x] 회원 간 커뮤니티 기능 생성 및 동시성 처리 ([다양한 동시성 처리 방법 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223328710499&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
+### 인프라
+
+- [x] Github Actions를 이용한 CI 환경
+  생성 ([해당 과정 포스팅 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223314392944&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
+- [x] 인프라 환경 구축하기 1차
+    - [x] Jenkins를 이용한 CD 환경
+      구축 ([아키텍처 및 해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223369462311&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
+    - [x] Prometheus, Grafana 이용한 모니터링
+      구축 ([아키텍처 및 해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223369973401&categoryNo=161&parentCategoryNo=152&viewDate=&currentPage=1&postListTopCurrentPage=1&from=thumbnailList&userTopListOpen=true&userTopListCount=5&userTopListManageOpen=false&userTopListCurrentPage=1))
+    - [x] Docker 이미지로 서버를 작동하도록 변경 및 무중단배포
+      적용 ([새로운 아키텍처와 해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223371181808&categoryNo=161&parentCategoryNo=152&viewDate=&currentPage=1&postListTopCurrentPage=1&from=thumbnailList&userTopListOpen=true&userTopListCount=5&userTopListManageOpen=false&userTopListCurrentPage=1)))
+
+### 기능 개발
+
+- [x] 테스트 격리 유틸 생성 및 REST Docs Helper
+  생성 ([해당 과정 포스팅 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223315262688&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
+- [x] 회원가입 및
+  로그인 ([해당 과정 포스팅 및 고민한 점 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223317675973&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
+- [x] 회원가입 이메일 전송 비동기 구현 및 미전송 메일 처리해주는 기능
+  구현 ([해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223322476947&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
+- [x] 회원 간 커뮤니티 기능 생성 및 동시성
+  처리 ([다양한 동시성 처리 방법 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223328710499&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
 - [x] 쿠폰 기능 생성 및 금액 할인 도메인 서비스 구현
 - [x] 마켓에 물품을 올리고 구매할 수 있는 기능 구현
-- [x] 인프라 환경 구축하기 1차
-  - [x] Jenkins를 이용한 CD 환경 구축 ([아키텍처 및 해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223369462311&categoryNo=152&parentCategoryNo=152&from=thumbnailList))
-  - [x] Prometheus, Grafana 이용한 모니터링 구축 ([아키텍처 및 해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223369973401&categoryNo=161&parentCategoryNo=152&viewDate=&currentPage=1&postListTopCurrentPage=1&from=thumbnailList&userTopListOpen=true&userTopListCount=5&userTopListManageOpen=false&userTopListCurrentPage=1))
-  - [x] Docker 이미지로 서버를 작동하도록 변경 및 무중단배포 적용 ([새로운 아키텍처와 해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223371181808&categoryNo=161&parentCategoryNo=152&viewDate=&currentPage=1&postListTopCurrentPage=1&from=thumbnailList&userTopListOpen=true&userTopListCount=5&userTopListManageOpen=false&userTopListCurrentPage=1)))
+
+### 아키텍처
+
+- [x] 멀티모듈 분리 -> API, Batch 서버 ([멀티모듈로 분리한 이유](https://blog.naver.com/sosow0212/223401237314))
+    - [x] 기존 이벤트를 Redis pub/sub으로 변경
 
 ---
 
