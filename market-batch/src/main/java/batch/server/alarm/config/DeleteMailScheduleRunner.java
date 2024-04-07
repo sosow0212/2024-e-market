@@ -1,6 +1,6 @@
 package batch.server.alarm.config;
 
-import batch.server.alarm.application.MailScheduleService;
+import batch.server.alarm.application.ScheduleCreateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DeleteMailScheduleRunner implements ApplicationRunner {
 
-    private final MailScheduleService mailScheduleService;
+    private final ScheduleCreateService scheduleCreateService;
 
     @Override
     public void run(final ApplicationArguments args) {
-        mailScheduleService.deleteSendSuccessMails();
+        scheduleCreateService.deleteSendSuccessMails();
     }
 }

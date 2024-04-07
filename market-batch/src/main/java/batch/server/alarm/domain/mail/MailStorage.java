@@ -1,5 +1,7 @@
-package batch.server.alarm.domain;
+package batch.server.alarm.domain.mail;
 
+import batch.server.alarm.domain.mail.vo.MailStatus;
+import batch.server.alarm.domain.mail.vo.Receiver;
 import batch.server.global.domain.BaseEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

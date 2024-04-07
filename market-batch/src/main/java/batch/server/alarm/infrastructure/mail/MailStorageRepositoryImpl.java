@@ -1,8 +1,8 @@
-package batch.server.alarm.infrastructure;
+package batch.server.alarm.infrastructure.mail;
 
-import batch.server.alarm.domain.MailStatus;
-import batch.server.alarm.domain.MailStorage;
-import batch.server.alarm.domain.MailStorageRepository;
+import batch.server.alarm.domain.mail.vo.MailStatus;
+import batch.server.alarm.domain.mail.MailStorage;
+import batch.server.alarm.domain.mail.MailStorageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

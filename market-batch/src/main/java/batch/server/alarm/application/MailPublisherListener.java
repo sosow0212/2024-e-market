@@ -14,7 +14,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class AuthMailMessageListener implements MessageListener {
+public class MailPublisherListener implements MessageListener {
 
     private final ObjectMapper objectMapper;
 
@@ -22,8 +22,8 @@ public class AuthMailMessageListener implements MessageListener {
     public void onMessage(final Message message, final byte[] pattern) {
         try {
             RegisteredEvent registeredEvent = objectMapper.readValue(message.getBody(), RegisteredEvent.class);
-            log.info("Subscriber :: auth-mail 메시지 수신 성공, " + registeredEvent.email());
             Events.raise(registeredEvent);
+            log.info("Subscriber :: auth-mail 메시지 수신 성공, " + registeredEvent.email());
         } catch (IOException e) {
             log.error("Subscriber :: auth-mail 메시지 수신 실패, " + e.getMessage());
             throw new RuntimeException(e);

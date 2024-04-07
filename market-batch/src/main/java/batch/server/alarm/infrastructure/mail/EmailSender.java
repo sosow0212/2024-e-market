@@ -1,7 +1,7 @@
-package batch.server.alarm.infrastructure;
+package batch.server.alarm.infrastructure.mail;
 
 import batch.server.alarm.config.MailSource;
-import batch.server.alarm.domain.MailSender;
+import batch.server.alarm.domain.mail.MailSender;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
