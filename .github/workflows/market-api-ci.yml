@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   test:
-    name: test-when-pull-request
+    name: api-server-test
     runs-on: ubuntu-latest
     environment: test
     defaults:
