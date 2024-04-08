@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum CategoryName {
 
     A000("default"),
-    A001("electorinic"),
+    A001("electronic"),
     A002("fashion");
 
     private final String name;
