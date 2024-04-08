@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record BoardUpdateRequest(
-
         @NotBlank(message = "게시글 제목을 입력해주세요.")
         String title,
 
