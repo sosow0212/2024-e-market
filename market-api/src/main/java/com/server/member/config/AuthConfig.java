@@ -1,5 +1,6 @@
 package com.server.member.config;
 
+import com.server.global.querycounter.QueryCounterInterceptor;
 import com.server.member.ui.auth.interceptor.LoginValidCheckerInterceptor;
 import com.server.member.ui.auth.interceptor.ParseMemberIdFromTokenInterceptor;
 import com.server.member.ui.auth.interceptor.PathMatcherInterceptor;
@@ -27,11 +28,13 @@ public class AuthConfig implements WebMvcConfigurer {
     private final AuthArgumentResolver authArgumentResolver;
     private final ParseMemberIdFromTokenInterceptor parseMemberIdFromTokenInterceptor;
     private final LoginValidCheckerInterceptor loginValidCheckerInterceptor;
+    private final QueryCounterInterceptor queryCounterInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(parseMemberIdFromTokenInterceptor());
         registry.addInterceptor(loginValidCheckerInterceptor());
+        registry.addInterceptor(queryCounterInterceptor);
     }
 
     private HandlerInterceptor parseMemberIdFromTokenInterceptor() {
