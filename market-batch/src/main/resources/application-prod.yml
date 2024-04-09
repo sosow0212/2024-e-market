@@ -9,8 +9,8 @@ spring:
       host: localhost
       port: 6379
   flyway:
-    enabled: false
-    baseline-on-migrate: false
+    enabled: true
+    baseline-on-migrate: true
 
   jpa:
     hibernate:
