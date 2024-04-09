@@ -8,6 +8,7 @@ import com.server.community.application.comment.CommentService;
 import com.server.coupon.application.coupon.CouponService;
 import com.server.coupon.application.voucher.VoucherQueryService;
 import com.server.coupon.application.voucher.VoucherService;
+import com.server.global.querycounter.QueryCounter;
 import com.server.market.application.ProductQueryService;
 import com.server.market.application.ProductService;
 import com.server.market.ui.support.resolver.ProductCookieHelperImpl;
@@ -65,4 +66,7 @@ public class MockBeanInjection {
 
     @MockBean
     protected VoucherQueryService voucherQueryService;
+
+    @MockBean
+    protected QueryCounter queryCounter;
 }
