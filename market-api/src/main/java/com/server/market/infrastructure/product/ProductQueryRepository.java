@@ -1,19 +1,19 @@
 package com.server.market.infrastructure.product;
 
-import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
-import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.server.market.domain.product.dto.ProductSpecificResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.querydsl.core.types.Projections.constructor;
 import static com.server.market.domain.category.QCategory.category;
 import static com.server.market.domain.product.QProduct.product;
 import static com.server.member.domain.member.QMember.member;
-import static com.querydsl.core.types.Projections.constructor;
 
 @RequiredArgsConstructor
 @Repository
@@ -24,6 +24,7 @@ public class ProductQueryRepository {
     public List<ProductPagingSimpleResponse> findAllWithPagingByCategoryId(final Long productId, final Long categoryId, final int pageSize) {
         return jpaQueryFactory.select(constructor(ProductPagingSimpleResponse.class,
                         product.id,
+                        product.description.location,
                         product.description.title,
                         product.price.price,
                         product.statisticCount.visitedCount,
@@ -52,6 +53,7 @@ public class ProductQueryRepository {
     public Optional<ProductSpecificResponse> findSpecificProductById(final Long id) {
         return Optional.ofNullable(jpaQueryFactory.select(constructor(ProductSpecificResponse.class,
                         product.id,
+                        product.description.location,
                         product.description.title,
                         product.description.content,
                         product.price.price,

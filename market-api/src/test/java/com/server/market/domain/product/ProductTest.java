@@ -1,5 +1,6 @@
 package com.server.market.domain.product;
 
+import com.server.market.domain.product.vo.Location;
 import com.server.market.exception.exceptions.ProductAlreadySoldOutException;
 import com.server.market.exception.exceptions.ProductOwnerNotEqualsException;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -23,7 +24,7 @@ class ProductTest {
         Product product = 상품_생성();
 
         // when
-        product.updateDescription(newDescription, newDescription, 10, 1L, 1L);
+        product.updateDescription(newDescription, newDescription, Location.BUILDING_CENTER, 10, 1L, 1L);
 
         // then
         assertSoftly(softly -> {
@@ -40,7 +41,7 @@ class ProductTest {
         Product product = 상품_생성();
 
         // when & then
-        assertThatThrownBy(() -> product.updateDescription(newDescription, newDescription, 10, 1L, -1L))
+        assertThatThrownBy(() -> product.updateDescription(newDescription, newDescription, Location.BUILDING_CENTER, 10, 1L, -1L))
                 .isInstanceOf(ProductOwnerNotEqualsException.class);
     }
 

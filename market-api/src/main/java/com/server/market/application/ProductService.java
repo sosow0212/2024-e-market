@@ -22,7 +22,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public Long uploadProduct(final Long memberId, final Long categoryId, final ProductCreateRequest request) {
-        Product product = Product.of(request.title(), request.content(), request.price(), categoryId, memberId);
+        Product product = Product.of(request.title(), request.content(), request.location(),request.price(), categoryId, memberId);
         Product savedProduct = productRepository.save(product);
         return savedProduct.getId();
     }
@@ -35,7 +35,7 @@ public class ProductService {
 
     public void update(final Long productId, final Long memberId, final ProductUpdateRequest request) {
         Product product = findProduct(productId);
-        product.updateDescription(request.title(), request.content(), request.price(), request.categoryId(), memberId);
+        product.updateDescription(request.title(), request.content(), request.location(), request.price(), request.categoryId(), memberId);
     }
 
     public void delete(final Long productId, final Long memberId) {

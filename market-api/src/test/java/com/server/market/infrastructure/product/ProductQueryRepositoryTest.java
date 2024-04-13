@@ -7,6 +7,7 @@ import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.domain.product.vo.Description;
+import com.server.market.domain.product.vo.Location;
 import com.server.market.domain.product.vo.Price;
 import com.server.market.domain.product.vo.ProductStatus;
 import com.server.market.domain.product.vo.StatisticCount;
@@ -55,7 +56,7 @@ class ProductQueryRepositoryTest extends IntegrationHelper {
                     .id(i)
                     .categoryId(1L)
                     .memberId(1L)
-                    .description(new Description("title", "content"))
+                    .description(new Description("title", "content", Location.BUILDING_CENTER))
                     .statisticCount(StatisticCount.createDefault())
                     .price(new Price(10000))
                     .productStatus(ProductStatus.WAITING)
@@ -82,7 +83,7 @@ class ProductQueryRepositoryTest extends IntegrationHelper {
                     .id(i)
                     .categoryId(1L)
                     .memberId(1L)
-                    .description(new Description("title", "content"))
+                    .description(new Description("title", "content", Location.BUILDING_CENTER))
                     .statisticCount(StatisticCount.createDefault())
                     .price(new Price(10000))
                     .productStatus(ProductStatus.WAITING)

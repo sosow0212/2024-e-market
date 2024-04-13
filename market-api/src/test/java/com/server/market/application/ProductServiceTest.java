@@ -6,6 +6,7 @@ import com.server.market.application.dto.UsingCouponRequest;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
+import com.server.market.domain.product.vo.Location;
 import com.server.market.exception.exceptions.ProductNotFoundException;
 import com.server.market.exception.exceptions.ProductOwnerNotEqualsException;
 import com.server.market.infrastructure.product.ProductFakeRepository;
@@ -56,7 +57,7 @@ class ProductServiceTest {
     @Test
     void 상품을_등록한다() {
         // given
-        ProductCreateRequest request = new ProductCreateRequest("new", "new", 10);
+        ProductCreateRequest request = new ProductCreateRequest("new", "new", 10, Location.BUILDING_CENTER);
 
         // when
         Long id = productService.uploadProduct(1L, 1L, request);
@@ -93,7 +94,7 @@ class ProductServiceTest {
     void 상품을_업데이트한다() {
         // given
         Product savedProduct = productRepository.save(상품_생성());
-        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L);
+        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER);
 
         // when
         productService.update(savedProduct.getId(), savedProduct.getMemberId(), request);
@@ -111,7 +112,7 @@ class ProductServiceTest {
     void 상품_업데이트시에_상품이_없다면_예외를_발생시킨다() {
         // given
         Product savedProduct = productRepository.save(상품_생성());
-        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L);
+        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER);
 
         // when & then
         assertThatThrownBy(() -> productService.update(savedProduct.getId(), -1L, request))
@@ -121,7 +122,7 @@ class ProductServiceTest {
     @Test
     void 상품_업데이트시에_상품의_주인과_다를시_예외를_발생시킨다() {
         // given
-        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L);
+        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER);
 
         // when & then
         assertThatThrownBy(() -> productService.update(-1L, -1L, request))

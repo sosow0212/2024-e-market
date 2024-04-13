@@ -9,6 +9,7 @@ import com.server.market.domain.category.CategoryRepository;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
+import com.server.market.domain.product.vo.Location;
 import com.server.member.domain.auth.TokenProvider;
 import com.server.member.domain.member.MemberRepository;
 import io.restassured.RestAssured;
@@ -55,7 +56,7 @@ public class ProductControllerAcceptanceFixture extends IntegrationHelper {
     }
 
     protected ProductCreateRequest 상품_생성서_요청() {
-        return new ProductCreateRequest("title", "content", 1000);
+        return new ProductCreateRequest("title", "content", 1000, Location.BUILDING_CENTER);
     }
 
     protected ExtractableResponse<Response> 상품_생성_요청(final String url, final String token, final ProductCreateRequest request) {
@@ -103,7 +104,7 @@ public class ProductControllerAcceptanceFixture extends IntegrationHelper {
     }
 
     protected ProductUpdateRequest 상품_수정서를_요청한다() {
-        return new ProductUpdateRequest("newTitle", "newContent", 10, 1L);
+        return new ProductUpdateRequest("newTitle", "newContent", 10, 1L, Location.BUILDING_CENTER);
     }
 
     protected ExtractableResponse<Response> 상품을_수정한다(final String url, final String token, final ProductUpdateRequest request) {
