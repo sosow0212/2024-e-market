@@ -6,6 +6,7 @@ import com.server.market.application.dto.ProductCreateRequest;
 import com.server.market.application.dto.ProductUpdateRequest;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
+import com.server.market.domain.product.vo.Location;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -85,6 +86,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                         ),
                         responseFields(
                                 fieldWithPath("[].id").description("상품 id"),
+                                fieldWithPath("[].location").description("거래 장소 (3공학관, 5공학관 등등..)"),
                                 fieldWithPath("[].title").description("상품 제목"),
                                 fieldWithPath("[].price").description("상품 가격"),
                                 fieldWithPath("[].visitedCount").description("상품 조회수"),
@@ -100,7 +102,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
     void 상품을_등록한다() throws Exception {
         // given
         Long categoryId = 1L;
-        ProductCreateRequest request = new ProductCreateRequest("title", "content", 1000);
+        ProductCreateRequest request = new ProductCreateRequest("title", "content", 1000, Location.BUILDING_CENTER);
 
         // when & then
         mockMvc.perform(post("/api/categories/{categoryId}/products", categoryId)
@@ -116,6 +118,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 parameterWithName("categoryId").description("카테고리 id")
                         ),
                         requestFields(
+                                fieldWithPath("location").description("거래 장소(BUILDING_THREE, BUILDING_FIVE, BUILDING_LIBRARY, BUILDING_CENTER, NEAR_MJU)"),
                                 fieldWithPath("title").description("상품 제목"),
                                 fieldWithPath("content").description("상품 설명"),
                                 fieldWithPath("price").description("상품 가격")
@@ -152,6 +155,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                         ),
                         responseFields(
                                 fieldWithPath("id").description("상품 id"),
+                                fieldWithPath("location").description("거래 장소 (3공학관, 5공학관 등등..)"),
                                 fieldWithPath("title").description("상품 제목"),
                                 fieldWithPath("content").description("상품 내용"),
                                 fieldWithPath("price").description("상품 가격"),
@@ -171,7 +175,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         // given
         Long categoryId = 1L;
         Long productId = 1L;
-        ProductUpdateRequest request = new ProductUpdateRequest("newTitle", "newContent", 1000, 2L);
+        ProductUpdateRequest request = new ProductUpdateRequest("newTitle", "newContent", 1000, 2L, Location.BUILDING_CENTER);
         doNothing().when(productService).update(anyLong(), anyLong(), eq(request));
 
         // when & then
@@ -189,6 +193,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 parameterWithName("productId").description("조회하는 상품 id")
                         ),
                         requestFields(
+                                fieldWithPath("location").description("거래 장소(BUILDING_THREE, BUILDING_FIVE, BUILDING_LIBRARY, BUILDING_CENTER, NEAR_MJU)"),
                                 fieldWithPath("title").description("업데이트할 상품명"),
                                 fieldWithPath("content").description("업데이트할 상품 설명"),
                                 fieldWithPath("price").description("업데이트할 가격"),

@@ -5,6 +5,7 @@ import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
+import com.server.market.domain.product.vo.Location;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -56,7 +57,7 @@ public class ProductFakeRepository implements ProductRepository {
     public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId) {
         if (map.containsKey(id)) {
             Product product = map.get(id);
-            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, "owner", LocalDateTime.now()));
+            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getLocation(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, "owner", LocalDateTime.now()));
         }
 
         return Optional.empty();
@@ -89,6 +90,7 @@ public class ProductFakeRepository implements ProductRepository {
     private static ProductPagingSimpleResponse parse(final Product product) {
         return new ProductPagingSimpleResponse(
                 product.getId(),
+                Location.BUILDING_CENTER,
                 product.getDescription().getTitle(),
                 product.getPrice().getPrice(),
                 product.getStatisticCount().getVisitedCount(),

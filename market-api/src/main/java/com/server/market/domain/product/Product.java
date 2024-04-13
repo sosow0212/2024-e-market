@@ -2,6 +2,7 @@ package com.server.market.domain.product;
 
 import com.server.global.domain.BaseEntity;
 import com.server.market.domain.product.vo.Description;
+import com.server.market.domain.product.vo.Location;
 import com.server.market.domain.product.vo.Price;
 import com.server.market.domain.product.vo.ProductStatus;
 import com.server.market.domain.product.vo.StatisticCount;
@@ -53,9 +54,9 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private Long memberId;
 
-    public static Product of(final String title, final String content, final Integer price, final Long categoryId, final Long memberId) {
+    public static Product of(final String title, final String content, final Location location, final Integer price, final Long categoryId, final Long memberId) {
         return Product.builder()
-                .description(new Description(title, content))
+                .description(new Description(title, content, location))
                 .price(new Price(price))
                 .statisticCount(StatisticCount.createDefault())
                 .categoryId(categoryId)
@@ -64,9 +65,9 @@ public class Product extends BaseEntity {
                 .build();
     }
 
-    public void updateDescription(final String title, final String content, final Integer price, final Long categoryId, final Long memberId) {
+    public void updateDescription(final String title, final String content, final Location location, final Integer price, final Long categoryId, final Long memberId) {
         validateOwner(memberId);
-        this.description.update(title, content);
+        this.description.update(title, content, location);
         this.price = new Price(price);
         this.categoryId = categoryId;
     }

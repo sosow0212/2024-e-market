@@ -1,5 +1,6 @@
 package com.server.market.application.dto;
 
+import com.server.market.domain.product.vo.Location;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,6 +12,9 @@ public record ProductCreateRequest(
         String content,
 
         @NotNull(message = "상품 가격을 입력해주세요")
-        Integer price
+        Integer price,
+
+        @NotNull(message = "거래 장소를 입력해주세요")
+        Location location
 ) {
 }

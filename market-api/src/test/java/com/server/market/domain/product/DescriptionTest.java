@@ -1,6 +1,7 @@
 package com.server.market.domain.product;
 
 import com.server.market.domain.product.vo.Description;
+import com.server.market.domain.product.vo.Location;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,10 @@ class DescriptionTest {
     void 제품_설명을_변경한다() {
         // given
         String newDescription = "new";
-        Description description = new Description("title", "content");
+        Description description = new Description("title", "content", Location.BUILDING_CENTER);
 
         // when
-        description.update(newDescription, newDescription);
+        description.update(newDescription, newDescription, Location.BUILDING_CENTER);
 
         // then
         assertSoftly(softly -> {
