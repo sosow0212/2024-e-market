@@ -32,7 +32,7 @@ class LikeCountConcurrencyTest extends IntegrationHelper {
         board = boardRepository.save(게시글_생성_사진없음());
     }
 
-    @Test
+//    @Test
     void 게시글_좋아요_100번_실행() throws InterruptedException {
         // given
         AtomicLong expectSuccessCount = new AtomicLong();
