@@ -5,8 +5,8 @@
 1. [프로젝트 소개](#프로젝트-소개)
 2. [개발 내용](#개발-내용)
     - [기능 개발](#기능-개발)
-    - [인프라](#인프라)
-3. [아키텍처](#아키텍처)
+    - [아키텍처](#아키텍처)
+3.  [인프라](#인프라)
 4. [프로젝트 설문](#프로젝트-설문)
 
 ---    
@@ -42,6 +42,16 @@
     - [x] 기존 이벤트를 Redis pub/sub으로 변경 ([Redis Pub/Sub로 이벤트 수신하기](https://blog.naver.com/sosow0212/223408645604))
     - [x] batch-server의 스케일아웃 환경에서 스케줄링 작업이 중복되는 문제 해결 ([스케줄링 중복 문제 해결](https://blog.naver.com/sosow0212/223408645604))
 
+---
+
+## 아키텍처
+
+- **24.04.16 기준 서버 아키텍처**
+    - 현재 SPOF 지점 : MySQL, Redis (개선 예정)
+    - <img width="1532" alt="image" src="https://github.com/sosow0212/2024-mju-market/assets/63213487/23a96925-4dbb-40ca-a41b-910a4bc7ac8a">
+
+---
+
 ### 인프라
 
 - [x] Github Actions를 이용한 CI 환경
@@ -54,13 +64,7 @@
     - [x] Docker 이미지로 서버를 작동하도록 변경 및 무중단배포
       적용 ([새로운 아키텍처와 해당 과정 보러가기](https://blog.naver.com/PostView.naver?blogId=sosow0212&logNo=223371181808&categoryNo=161&parentCategoryNo=152&viewDate=&currentPage=1&postListTopCurrentPage=1&from=thumbnailList&userTopListOpen=true&userTopListCount=5&userTopListManageOpen=false&userTopListCurrentPage=1)))
 
----
-
-## 아키텍처
-
-- **24.04.07 기준 서버 아키텍처**
-    - 현재 SPOF 지점 : MySQL, Redis
-    - ![Electronic-market](https://github.com/sosow0212/2024-mju-market/assets/63213487/b8c50687-5b3f-4a07-ab67-80e752ab5f80)
+<img width="1758" alt="image" src="https://github.com/sosow0212/2024-mju-market/assets/63213487/b2507a61-b6ca-45d1-bf08-704b66807069">
 
 ---
 
