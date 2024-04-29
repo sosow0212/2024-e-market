@@ -18,10 +18,11 @@ public record ProductSpecificResponse(
         Long categoryId,
         CategoryName categoryName,
         String ownerNickname,
+        Boolean isMyProduct,
         LocalDateTime createDate
 ) {
 
-    public ProductSpecificResponse(final Long id, final Location location, final String title, final String content, final Integer price, final ProductStatus productStatus, final Integer visitedCount, final Integer contactCount, final Long categoryId, final CategoryName categoryName, final String ownerNickname, final LocalDateTime createDate) {
-        this(id, location.getContent(), title, content, price, productStatus, visitedCount, contactCount, categoryId, categoryName, ownerNickname, createDate);
+    public ProductSpecificResponse(final Long id, final Location location, final String title, final String content, final Integer price, final ProductStatus productStatus, final Integer visitedCount, final Integer contactCount, final Long categoryId, final CategoryName categoryName, final String ownerNickname, final Boolean isMyProduct, final LocalDateTime createDate) {
+        this(id, location.getContent(), title, content, price, productStatus, visitedCount, contactCount, categoryId, categoryName, ownerNickname, isMyProduct, createDate);
     }
 }

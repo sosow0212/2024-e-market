@@ -65,7 +65,7 @@ class ProductQueryServiceTest extends IntegrationHelper {
     @Test
     void 상품_상세_조회() {
         // when
-        ProductSpecificResponse result = productQueryService.findById(product.getId());
+        ProductSpecificResponse result = productQueryService.findById(product.getId(), 1L);
 
         // then
         assertThat(result.id()).isEqualTo(product.getId());

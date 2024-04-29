@@ -135,7 +135,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         Long categoryId = 1L;
         Long productId = 1L;
         ProductSpecificResponse response = 상품_상세정보_생성();
-        when(productQueryService.findById(any())).thenReturn(response);
+        when(productQueryService.findById(any(), any())).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
@@ -165,6 +165,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 fieldWithPath("categoryId").description("카테고리 id"),
                                 fieldWithPath("categoryName").description("카테고리 이름"),
                                 fieldWithPath("ownerNickname").description("판매자 닉네임"),
+                                fieldWithPath("isMyProduct").description("자신이 등록한 상품인지 (Boolean)"),
                                 fieldWithPath("createDate").description("상품 등록일")
                         )
                 ));

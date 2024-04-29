@@ -21,8 +21,8 @@ public class ProductQueryService {
         return productRepository.findAllProductsInCategoryWithPaging(productId, categoryId, pageSize);
     }
 
-    public ProductSpecificResponse findById(final Long productId) {
-        return productRepository.findSpecificProductById(productId)
+    public ProductSpecificResponse findById(final Long productId, final Long memberId) {
+        return productRepository.findSpecificProductById(productId, memberId)
                 .orElseThrow(ProductNotFoundException::new);
     }
 }

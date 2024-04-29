@@ -109,7 +109,7 @@ class ProductQueryRepositoryTest extends IntegrationHelper {
         Product product = productRepository.save(상품_생성());
 
         // when
-        Optional<ProductSpecificResponse> result = productQueryRepository.findSpecificProductById(product.getId());
+        Optional<ProductSpecificResponse> result = productQueryRepository.findSpecificProductById(product.getId(), member.getId());
 
         // then
         assertSoftly(softly -> {

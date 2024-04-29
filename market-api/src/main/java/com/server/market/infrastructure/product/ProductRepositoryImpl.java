@@ -33,8 +33,8 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId) {
-        return productQueryRepository.findSpecificProductById(productId);
+    public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId, final Long memberId) {
+        return productQueryRepository.findSpecificProductById(productId, memberId);
     }
 
     @Override
