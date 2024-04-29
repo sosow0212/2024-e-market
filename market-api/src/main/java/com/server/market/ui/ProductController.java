@@ -52,9 +52,10 @@ public class ProductController {
     @GetMapping("/{categoryId}/products/{productId}")
     public ResponseEntity<ProductSpecificResponse> findProductById(@PathVariable("productId") final Long productId,
                                                                    @PathVariable("categoryId") final Long categoryId,
+                                                                   @AuthMember final Long memberId,
                                                                    @ViewCountChecker final Boolean canAddViewCount) {
         productService.addViewCount(productId, canAddViewCount);
-        return ResponseEntity.ok(productQueryService.findById(productId));
+        return ResponseEntity.ok(productQueryService.findById(productId, memberId));
     }
 
     @PatchMapping("/{categoryId}/products/{productId}")

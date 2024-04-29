@@ -14,7 +14,7 @@ public interface ProductRepository {
 
     Optional<Product> findByIdWithPessimisticLock(Long productId);
 
-    Optional<ProductSpecificResponse> findSpecificProductById(Long productId);
+    Optional<ProductSpecificResponse> findSpecificProductById(Long productId, Long memberId);
 
     void deleteProductById(Long productId);
 

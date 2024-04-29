@@ -50,7 +50,7 @@ public class ProductQueryRepository {
         return product.id.lt(productId);
     }
 
-    public Optional<ProductSpecificResponse> findSpecificProductById(final Long id) {
+    public Optional<ProductSpecificResponse> findSpecificProductById(final Long id, final Long memberId) {
         return Optional.ofNullable(jpaQueryFactory.select(constructor(ProductSpecificResponse.class,
                         product.id,
                         product.description.location,
@@ -63,6 +63,7 @@ public class ProductQueryRepository {
                         product.categoryId,
                         category.name,
                         member.nickname,
+                        member.id.eq(memberId),
                         product.createdAt
                 )).from(product)
                 .where(product.id.eq(id))
