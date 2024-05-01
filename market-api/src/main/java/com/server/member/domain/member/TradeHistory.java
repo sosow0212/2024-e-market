@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,10 @@ import static java.util.stream.Collectors.joining;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "trade_history")
+@Table(name = "trade_history", indexes = {
+        @Index(name = "idx_trade_history_finding_seller", columnList = "seller_id"),
+        @Index(name = "idx_trade_history_finding_buyer", columnList = "buyer_id")
+})
 public class TradeHistory extends BaseEntity {
 
     private static final String JOINING_DELIMITER = ",";
