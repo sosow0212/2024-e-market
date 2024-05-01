@@ -1,2 +1,0 @@
-ALTER TABLE market.product
-    ADD COLUMN location enum ('BUILDING_THREE', 'BUILDING_FIVE', 'BUILDING_LIBRARY', 'BUILDING_CENTER', 'NEAR_MJU') not null;
