@@ -6,6 +6,7 @@ public record CommentSimpleResponse(
         Long id,
         String content,
         Long writerId,
+        Boolean isMine,
         String writerNickname,
         LocalDateTime createDate
 ) {

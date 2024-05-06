@@ -16,7 +16,7 @@ public class CommentQueryService {
     private final CommentRepository commentRepository;
 
     @Transactional(readOnly = true)
-    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long commentId, final int pageSize) {
-        return commentRepository.findAllCommentsByBoardId(boardId, commentId, pageSize);
+    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long memberId, final Long commentId, final int pageSize) {
+        return commentRepository.findAllCommentsByBoardId(boardId, memberId, commentId, pageSize);
     }
 }

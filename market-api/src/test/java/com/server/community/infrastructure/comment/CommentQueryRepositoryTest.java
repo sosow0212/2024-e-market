@@ -59,7 +59,7 @@ class CommentQueryRepositoryTest extends IntegrationHelper {
         }
 
         // when
-        List<CommentSimpleResponse> result = commentQueryRepository.findAllWithPaging(1L, null, 10);
+        List<CommentSimpleResponse> result = commentQueryRepository.findAllWithPaging(1L, member.getId(), null, 10);
 
         // then
         assertSoftly(softly -> {
@@ -83,7 +83,7 @@ class CommentQueryRepositoryTest extends IntegrationHelper {
         }
 
         // when
-        List<CommentSimpleResponse> result = commentQueryRepository.findAllWithPaging(1L, 11L, 10);
+        List<CommentSimpleResponse> result = commentQueryRepository.findAllWithPaging(1L, member.getId(), 11L, 10);
 
         // then
         assertSoftly(softly -> {

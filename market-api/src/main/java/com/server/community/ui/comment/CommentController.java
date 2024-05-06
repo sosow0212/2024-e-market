@@ -42,8 +42,9 @@ public class CommentController {
     @GetMapping("/{boardId}/comments")
     public ResponseEntity<List<CommentSimpleResponse>> findAllCommentsByBoardId(@PathVariable("boardId") final Long boardId,
                                                                                 @RequestParam(name = "commentId", required = false) final Long commentId,
+                                                                                @AuthMember final Long memberId,
                                                                                 @RequestParam(name = "pageSize") final Integer pageSize) {
-        List<CommentSimpleResponse> comments = commentQueryService.findAllCommentsByBoardId(boardId, commentId, pageSize);
+        List<CommentSimpleResponse> comments = commentQueryService.findAllCommentsByBoardId(boardId, memberId, commentId, pageSize);
         return ResponseEntity.ok(comments);
     }
 

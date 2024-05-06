@@ -27,8 +27,8 @@ public class CommentRepositoryImpl implements CommentRepository {
         return commentJpaRepository.findById(id);
     }
 
-    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long commentId, final int pageSize) {
-        return commentQueryRepository.findAllWithPaging(boardId, commentId, pageSize);
+    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long memberId, final Long commentId, final int pageSize) {
+        return commentQueryRepository.findAllWithPaging(boardId, memberId, commentId, pageSize);
     }
 
     @Override
