@@ -52,7 +52,7 @@ class CommentServiceTest {
         Long boardId = saved.getBoardId();
 
         // when
-        List<CommentSimpleResponse> result = commentQueryService.findAllCommentsByBoardId(boardId, null, 10);
+        List<CommentSimpleResponse> result = commentQueryService.findAllCommentsByBoardId(boardId, 1L, null, 10);
 
         // then
         assertSoftly(softly -> {
@@ -133,7 +133,7 @@ class CommentServiceTest {
         assertDoesNotThrow(() -> commentService.deleteAllCommentsByBoardId(saved.getBoardId()));
 
         // then
-        List<CommentSimpleResponse> result = commentQueryService.findAllCommentsByBoardId(saved.getBoardId(), null, 10);
+        List<CommentSimpleResponse> result = commentQueryService.findAllCommentsByBoardId(saved.getBoardId(), 1L, null, 10);
         assertThat(result).isEmpty();
     }
 }

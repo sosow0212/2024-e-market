@@ -40,7 +40,7 @@ public class CommentFakeRepository implements CommentRepository {
     }
 
     @Override
-    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long commentId, final int pageSize) {
+    public List<CommentSimpleResponse> findAllCommentsByBoardId(final Long boardId, final Long memberId, final Long commentId, final int pageSize) {
         if (commentId == null) {
             return map.values().stream()
                     .sorted(Comparator.comparing(Comment::getId).reversed())
@@ -81,6 +81,7 @@ public class CommentFakeRepository implements CommentRepository {
                 comment.getId(),
                 comment.getContent(),
                 comment.getWriterId(),
+                true,
                 "writer",
                 LocalDateTime.now()
         );

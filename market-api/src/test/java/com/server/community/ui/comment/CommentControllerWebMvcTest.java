@@ -20,6 +20,8 @@ import java.util.List;
 
 import static com.server.helper.RestDocsHelper.customDocument;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -80,8 +82,8 @@ class CommentControllerWebMvcTest extends MockBeanInjection {
     void 게시글의_댓글을_모두_조회한다() throws Exception {
         // given
         Long boardId = 1L;
-        CommentSimpleResponse response = new CommentSimpleResponse(1L, "댓글 내용", 1L, "꿈꾸는돼지_123", LocalDateTime.now());
-        when(commentQueryService.findAllCommentsByBoardId(1L, 2L, 10)).thenReturn(List.of(response));
+        CommentSimpleResponse response = new CommentSimpleResponse(1L, "댓글 내용", 1L, true, "꿈꾸는돼지_123", LocalDateTime.now());
+        when(commentQueryService.findAllCommentsByBoardId(anyLong(), anyLong(), anyLong(), anyInt())).thenReturn(List.of(response));
 
         // when & then
         mockMvc.perform(get("/api/boards/{boardId}/comments", boardId)
@@ -105,6 +107,7 @@ class CommentControllerWebMvcTest extends MockBeanInjection {
                                 fieldWithPath("[].id").description("댓글 id"),
                                 fieldWithPath("[].content").description("댓글 내용"),
                                 fieldWithPath("[].writerId").description("작성자 id"),
+                                fieldWithPath("[].isMine").description("자신이 작성한 댓글인지"),
                                 fieldWithPath("[].writerNickname").description("작성자 닉네임"),
                                 fieldWithPath("[].createDate").description("댓글 생성일자")
                         )

@@ -11,7 +11,7 @@ public interface CommentRepository {
 
     Optional<Comment> findById(Long id);
 
-    List<CommentSimpleResponse> findAllCommentsByBoardId(Long boardId, Long commentId, int pageSize);
+    List<CommentSimpleResponse> findAllCommentsByBoardId(Long boardId, Long memberId, Long commentId, int pageSize);
 
     void deleteById(Long id);
 
