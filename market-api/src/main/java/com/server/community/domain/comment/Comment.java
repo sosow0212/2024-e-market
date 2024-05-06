@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "comment", indexes = {@Index(name = "idx_comment_paging", columnList = "board_id")})
+@Table(name = "comment", indexes = {@Index(name = "idx_comment_paging", columnList = "board_id, writer_id")})
 public class Comment extends BaseEntity {
 
     @Id
