@@ -1,0 +1,20 @@
+package com.server.market.application.product.dto;
+
+import com.server.market.domain.product.vo.Location;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record ProductCreateRequest(
+        @NotBlank(message = "상품명을 입력해주세요")
+        String title,
+
+        @NotBlank(message = "상품 설명을 입력해주세요")
+        String content,
+
+        @NotNull(message = "상품 가격을 입력해주세요")
+        Integer price,
+
+        @NotNull(message = "거래 장소를 입력해주세요")
+        Location location
+) {
+}

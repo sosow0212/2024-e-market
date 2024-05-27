@@ -9,15 +9,18 @@ import com.server.coupon.application.coupon.CouponService;
 import com.server.coupon.application.voucher.VoucherQueryService;
 import com.server.coupon.application.voucher.VoucherService;
 import com.server.global.querycounter.QueryCounter;
-import com.server.market.application.ProductQueryService;
-import com.server.market.application.ProductService;
-import com.server.market.ui.support.resolver.ProductCookieHelperImpl;
+import com.server.market.application.chat.ChatRoomQueryService;
+import com.server.market.application.chat.ChatRoomService;
+import com.server.market.application.product.ProductQueryService;
+import com.server.market.application.product.ProductService;
+import com.server.market.ui.product.support.resolver.ProductCookieHelperImpl;
 import com.server.member.application.auth.AuthService;
 import com.server.member.application.member.MemberService;
 import com.server.member.domain.auth.TokenProvider;
 import com.server.member.ui.auth.support.AuthenticationContext;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @MockBean(JpaMetamodelMappingContext.class)
 public class MockBeanInjection {
@@ -69,4 +72,13 @@ public class MockBeanInjection {
 
     @MockBean
     protected QueryCounter queryCounter;
+
+    @MockBean
+    protected ChatRoomQueryService chatRoomQueryService;
+
+    @MockBean
+    protected ChatRoomService chatRoomService;
+
+    @MockBean
+    protected SimpMessagingTemplate simpMessagingTemplate;
 }

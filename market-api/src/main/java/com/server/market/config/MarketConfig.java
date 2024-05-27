@@ -1,6 +1,6 @@
 package com.server.market.config;
 
-import com.server.market.ui.support.resolver.ViewCountArgumentResolver;
+import com.server.market.ui.product.support.resolver.ViewCountArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

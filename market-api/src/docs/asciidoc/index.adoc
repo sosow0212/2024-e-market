@@ -20,3 +20,5 @@ include::member.adoc[]
 include::product.adoc[]
 
 include::voucher.adoc[]
+
+include::chat.adoc[]
