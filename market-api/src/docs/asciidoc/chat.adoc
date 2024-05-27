@@ -1,0 +1,53 @@
+= Chat API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+
+== 사용자의 채팅 내역을 모두 반환한다. (GET /api/chats)
+
+=== Request
+
+include::{snippets}/chat-room-controller-test/find_all_my_chatting_rooms/request-headers.adoc[]
+include::{snippets}/chat-room-controller-test/find_all_my_chatting_rooms/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/chat-room-controller-test/find_all_my_chatting_rooms/response-fields.adoc[]
+include::{snippets}/chat-room-controller-test/find_all_my_chatting_rooms/http-response.adoc[]
+
+== 구매자가 채팅을 신청해서 채팅방을 생성한다. (POST /api/products/{productId}/chats)
+
+=== Request
+
+include::{snippets}/chat-room-controller-test/create_new_chatting_room/request-headers.adoc[]
+include::{snippets}/chat-room-controller-test/create_new_chatting_room/path-parameters.adoc[]
+include::{snippets}/chat-room-controller-test/create_new_chatting_room/request-fields.adoc[]
+include::{snippets}/chat-room-controller-test/create_new_chatting_room/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/chat-room-controller-test/create_new_chatting_room/response-headers.adoc[]
+include::{snippets}/chat-room-controller-test/create_new_chatting_room/http-response.adoc[]
+
+== 채팅방 내역을 반환한다 (GET /api/products/{productId}/chats/{chattingRoomId}?chatId=:&pageSize=:)
+
+=== Request
+
+include::{snippets}/chat-room-controller-test/find_chatting_history/request-headers.adoc[]
+include::{snippets}/chat-room-controller-test/find_chatting_history/path-parameters.adoc[]
+include::{snippets}/chat-room-controller-test/find_chatting_history/query-parameters.adoc[]
+include::{snippets}/chat-room-controller-test/find_chatting_history/request-body.adoc[]
+include::{snippets}/chat-room-controller-test/find_chatting_history/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/chat-room-controller-test/find_chatting_history/response-fields.adoc[]
+include::{snippets}/chat-room-controller-test/find_chatting_history/http-response.adoc[]
+
+== 채팅 방법
+
+- endpoint : `ws://localhost:8080/ws-stomp`
+- subscribe url : `ws://localhost:8080/ws-stomp/sub/chats/{chattingRoomId}`
+- publish url : `ws://localhost:8080/ws-stomp/pub/chats/{chattingRoomId}/messages`

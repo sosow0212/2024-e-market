@@ -1,4 +1,4 @@
-package com.server.market.ui;
+package com.server.market.ui.product;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;

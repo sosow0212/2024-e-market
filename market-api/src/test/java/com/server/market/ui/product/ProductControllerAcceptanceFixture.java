@@ -1,4 +1,4 @@
-package com.server.market.ui;
+package com.server.market.ui.product;
 
 import com.server.helper.IntegrationHelper;
 import com.server.market.application.product.ProductService;

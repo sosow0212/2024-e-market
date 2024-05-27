@@ -40,7 +40,6 @@ public class AuthConfig implements WebMvcConfigurer {
     private HandlerInterceptor parseMemberIdFromTokenInterceptor() {
         return new PathMatcherInterceptor(parseMemberIdFromTokenInterceptor)
                 .excludePathPattern("/**", OPTIONS)
-//                .excludePathPattern("chattings", ANY)
                 .addPathPatterns("/admin/**", ANY);
     }
 
@@ -57,7 +56,9 @@ public class AuthConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/categories/**/products/**", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/coupons/**", GET, POST, PATCH, DELETE)
                 .addPathPatterns("/api/members/**", GET, POST, PATCH, DELETE)
-                .addPathPatterns("/api/vouchers/**", GET, POST, DELETE);
+                .addPathPatterns("/api/vouchers/**", GET, POST, DELETE)
+                .addPathPatterns("/api/products/**", GET, POST, DELETE)
+                .addPathPatterns("/api/chats/**", GET, POST, DELETE);
     }
 
     @Override
