@@ -1,4 +1,4 @@
-package com.server.market.ui.dto;
+package com.server.market.ui.product.dto;
 
 import com.server.market.domain.product.Product;
 

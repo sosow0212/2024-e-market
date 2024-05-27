@@ -1,13 +1,13 @@
-package com.server.market.ui;
+package com.server.market.ui.product;
 
-import com.server.market.application.ProductQueryService;
-import com.server.market.application.ProductService;
-import com.server.market.application.dto.ProductCreateRequest;
-import com.server.market.application.dto.ProductUpdateRequest;
-import com.server.market.application.dto.UsingCouponRequest;
+import com.server.market.application.product.ProductQueryService;
+import com.server.market.application.product.ProductService;
+import com.server.market.application.product.dto.ProductCreateRequest;
+import com.server.market.application.product.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
-import com.server.market.ui.support.ViewCountChecker;
+import com.server.market.ui.product.support.ViewCountChecker;
 import com.server.member.ui.auth.support.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

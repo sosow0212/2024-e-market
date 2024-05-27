@@ -1,4 +1,4 @@
-package com.server.market.application.dto;
+package com.server.market.application.product.dto;
 
 import com.server.market.domain.product.vo.Location;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.server.market.application;
+package com.server.market.application.product;
 
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;

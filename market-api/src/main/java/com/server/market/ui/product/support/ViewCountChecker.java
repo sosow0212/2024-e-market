@@ -1,4 +1,4 @@
-package com.server.market.ui.support;
+package com.server.market.ui.product.support;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

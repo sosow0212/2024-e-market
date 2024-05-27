@@ -1,4 +1,4 @@
-package com.server.market.ui.support.resolver;
+package com.server.market.ui.product.support.resolver;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

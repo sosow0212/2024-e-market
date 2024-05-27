@@ -2,11 +2,12 @@ package com.server.market.ui;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.helper.MockBeanInjection;
-import com.server.market.application.dto.ProductCreateRequest;
-import com.server.market.application.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.ProductCreateRequest;
+import com.server.market.application.product.dto.ProductUpdateRequest;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.domain.product.vo.Location;
+import com.server.market.ui.product.ProductController;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;

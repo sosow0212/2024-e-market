@@ -1,10 +1,10 @@
 package com.server.market.ui;
 
 import com.server.helper.IntegrationHelper;
-import com.server.market.application.ProductService;
-import com.server.market.application.dto.ProductCreateRequest;
-import com.server.market.application.dto.ProductUpdateRequest;
-import com.server.market.application.dto.UsingCouponRequest;
+import com.server.market.application.product.ProductService;
+import com.server.market.application.product.dto.ProductCreateRequest;
+import com.server.market.application.product.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.category.CategoryRepository;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductRepository;

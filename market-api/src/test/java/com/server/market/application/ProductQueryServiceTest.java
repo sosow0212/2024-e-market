@@ -1,6 +1,7 @@
 package com.server.market.application;
 
 import com.server.helper.IntegrationHelper;
+import com.server.market.application.product.ProductQueryService;
 import com.server.market.domain.category.Category;
 import com.server.market.domain.category.CategoryRepository;
 import com.server.market.domain.product.Product;

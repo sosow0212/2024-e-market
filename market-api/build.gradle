@@ -41,6 +41,10 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // websocket
+    implementation group: 'org.springframework', name: 'spring-websocket', version: '6.1.6'
+    implementation group: 'org.springframework', name: 'spring-messaging', version: '6.1.6'
 }
 
 def generated = 'src/main/generated'

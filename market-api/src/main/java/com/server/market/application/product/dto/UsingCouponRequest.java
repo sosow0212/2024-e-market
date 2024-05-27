@@ -1,4 +1,4 @@
-package com.server.market.application.dto;
+package com.server.market.application.product.dto;
 
 import jakarta.validation.constraints.NotNull;
 

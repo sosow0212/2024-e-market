@@ -1,6 +1,6 @@
-package com.server.market.ui.support.resolver;
+package com.server.market.ui.product.support.resolver;
 
-import com.server.market.ui.support.ViewCountChecker;
+import com.server.market.ui.product.support.ViewCountChecker;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

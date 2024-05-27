@@ -1,9 +1,9 @@
-package com.server.market.application;
+package com.server.market.application.product;
 
 import com.server.global.event.Events;
-import com.server.market.application.dto.ProductCreateRequest;
-import com.server.market.application.dto.ProductUpdateRequest;
-import com.server.market.application.dto.UsingCouponRequest;
+import com.server.market.application.product.dto.ProductCreateRequest;
+import com.server.market.application.product.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.event.CouponExistValidatedEvent;
