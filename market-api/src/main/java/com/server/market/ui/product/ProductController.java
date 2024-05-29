@@ -34,10 +34,12 @@ public class ProductController {
     private final ProductQueryService productQueryService;
 
     @GetMapping("/{categoryId}/products")
-    public ResponseEntity<List<ProductPagingSimpleResponse>> findAllProductsInCategory(@PathVariable("categoryId") final Long categoryId,
-                                                                                       @RequestParam(name = "productId", required = false) final Long productId,
-                                                                                       @RequestParam(name = "pageSize") final Integer pageSize) {
-        return ResponseEntity.ok(productQueryService.findAllProductsInCategory(productId, categoryId, pageSize));
+    public ResponseEntity<List<ProductPagingSimpleResponse>> findAllProductsInCategory(
+            @AuthMember final Long memberId,
+            @PathVariable("categoryId") final Long categoryId,
+            @RequestParam(name = "productId", required = false) final Long productId,
+            @RequestParam(name = "pageSize") final Integer pageSize) {
+        return ResponseEntity.ok(productQueryService.findAllProductsInCategory(memberId, productId, categoryId, pageSize));
     }
 
     @PostMapping("/{categoryId}/products")

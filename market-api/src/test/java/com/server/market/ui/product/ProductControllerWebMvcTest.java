@@ -65,7 +65,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         Long categoryId = 1L;
         List<ProductPagingSimpleResponse> response = List.of(상품_페이징_생성());
 
-        when(productQueryService.findAllProductsInCategory(anyLong(), anyLong(), anyInt())).thenReturn(response);
+        when(productQueryService.findAllProductsInCategory(anyLong(), anyLong(), anyLong(), anyInt())).thenReturn(response);
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products", categoryId)
@@ -93,6 +93,8 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 fieldWithPath("[].contactCount").description("구매자가 판매자에게 건 채팅 수"),
                                 fieldWithPath("[].productStatus").description("상품 상태 (WAITING, RESERVED, COMPLETED)"),
                                 fieldWithPath("[].ownerName").description("판매자 닉네임"),
+                                fieldWithPath("[].productLikesCount").description("상품의 전체 좋아요 수"),
+                                fieldWithPath("[].isAlreadyLikedByMe").description("이미 좋아요를 눌렀는지 여부"),
                                 fieldWithPath("[].createDate").description("상품 판매 등록일")
                         )
                 ));

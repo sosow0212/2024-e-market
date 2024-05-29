@@ -44,8 +44,8 @@ public class ProductRepositoryImpl implements ProductRepository {
         productJpaRepository.deleteById(productId);
     }
 
-    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize) {
-        return productQueryRepository.findAllWithPagingByCategoryId(productId, categoryId, pageSize);
+    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
+        return productQueryRepository.findAllWithPagingByCategoryId(memberId, productId, categoryId, pageSize);
     }
 
     @Override

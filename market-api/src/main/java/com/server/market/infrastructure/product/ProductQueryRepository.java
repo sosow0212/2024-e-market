@@ -1,6 +1,7 @@
 package com.server.market.infrastructure.product;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import static com.querydsl.core.types.Projections.constructor;
 import static com.server.market.domain.category.QCategory.category;
 import static com.server.market.domain.product.QProduct.product;
+import static com.server.market.domain.product.QProductLike.productLike;
 import static com.server.member.domain.member.QMember.member;
 
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class ProductQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<ProductPagingSimpleResponse> findAllWithPagingByCategoryId(final Long productId, final Long categoryId, final int pageSize) {
+    public List<ProductPagingSimpleResponse> findAllWithPagingByCategoryId(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
         return jpaQueryFactory.select(constructor(ProductPagingSimpleResponse.class,
                         product.id,
                         product.description.location,
@@ -31,6 +33,8 @@ public class ProductQueryRepository {
                         product.statisticCount.contactCount,
                         product.productStatus,
                         member.nickname,
+                        product.statisticCount.likedCount,
+                        isLikedAlreadyByMe(memberId),
                         product.createdAt
                 )).from(product)
                 .where(
@@ -38,8 +42,15 @@ public class ProductQueryRepository {
                         product.categoryId.eq(categoryId)
                 ).orderBy(product.id.desc())
                 .leftJoin(member).on(product.memberId.eq(member.id))
+                .leftJoin(productLike).on(productLike.productId.eq(product.id).and(productLike.memberId.eq(memberId)))
                 .limit(pageSize)
                 .fetch();
+    }
+
+    private BooleanExpression isLikedAlreadyByMe(final Long memberId) {
+        return new CaseBuilder()
+                .when(productLike.memberId.eq(memberId)).then(true)
+                .otherwise(false);
     }
 
     private BooleanExpression ltProductId(final Long productId) {

@@ -18,7 +18,7 @@ public interface ProductRepository {
 
     void deleteProductById(Long productId);
 
-    List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(Long productId, Long categoryId, int pageSize);
+    List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(Long memberId, Long productId, Long categoryId, int pageSize);
 
     boolean existsByProductIdAndMemberId(Long productId, Long memberId);
 

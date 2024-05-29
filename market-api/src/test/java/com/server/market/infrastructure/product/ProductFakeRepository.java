@@ -72,7 +72,7 @@ public class ProductFakeRepository implements ProductRepository {
     }
 
     @Override
-    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize) {
+    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
         if (productId == null) {
             return map.values().stream()
                     .sorted(Comparator.comparing(Product::getId).reversed())
@@ -120,6 +120,8 @@ public class ProductFakeRepository implements ProductRepository {
                 product.getStatisticCount().getContactCount(),
                 product.getProductStatus(),
                 "owner",
+                10,
+                true,
                 LocalDateTime.now()
         );
     }
