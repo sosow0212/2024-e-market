@@ -34,10 +34,12 @@ public class ProductController {
     private final ProductQueryService productQueryService;
 
     @GetMapping("/{categoryId}/products")
-    public ResponseEntity<List<ProductPagingSimpleResponse>> findAllProductsInCategory(@PathVariable("categoryId") final Long categoryId,
-                                                                                       @RequestParam(name = "productId", required = false) final Long productId,
-                                                                                       @RequestParam(name = "pageSize") final Integer pageSize) {
-        return ResponseEntity.ok(productQueryService.findAllProductsInCategory(productId, categoryId, pageSize));
+    public ResponseEntity<List<ProductPagingSimpleResponse>> findAllProductsInCategory(
+            @AuthMember final Long memberId,
+            @PathVariable("categoryId") final Long categoryId,
+            @RequestParam(name = "productId", required = false) final Long productId,
+            @RequestParam(name = "pageSize") final Integer pageSize) {
+        return ResponseEntity.ok(productQueryService.findAllProductsInCategory(memberId, productId, categoryId, pageSize));
     }
 
     @PostMapping("/{categoryId}/products")
@@ -66,6 +68,24 @@ public class ProductController {
         productService.update(productId, memberId, request);
         return ResponseEntity.ok()
                 .build();
+    }
+
+    @GetMapping("/{categoryId}/products/likes")
+    public ResponseEntity<List<ProductPagingSimpleResponse>> findLikesProduct(
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId
+    ) {
+        return ResponseEntity.ok(productQueryService.findLikesProducts(memberId));
+    }
+
+    @PatchMapping("/{categoryId}/products/{productId}/likes")
+    public ResponseEntity<Boolean> likesProduct(
+            @PathVariable("productId") final Long productId,
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId
+    ) {
+        boolean likes = productService.likes(productId, memberId);
+        return ResponseEntity.ok(likes);
     }
 
     @DeleteMapping("/{categoryId}/products/{productId}")

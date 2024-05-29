@@ -54,7 +54,7 @@ class ProductQueryServiceTest extends IntegrationHelper {
     @Test
     void 상품을_페이징_조회한다() {
         // when
-        List<ProductPagingSimpleResponse> result = productQueryService.findAllProductsInCategory(null, category.getId(), 10);
+        List<ProductPagingSimpleResponse> result = productQueryService.findAllProductsInCategory(1L, null, category.getId(), 10);
 
         // then
         assertSoftly(softly -> {

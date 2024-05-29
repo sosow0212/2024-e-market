@@ -40,12 +40,18 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<BoardsSimpleResponse> findAllBoardWithPaging(@PageableDefault(sort = "id", direction = DESC) Pageable pageable) {
-        return ResponseEntity.ok(boardQueryService.findAllBoards(pageable));
+    public ResponseEntity<BoardsSimpleResponse> findAllBoardWithPaging(
+            @PageableDefault(sort = "id", direction = DESC) final Pageable pageable,
+            @AuthMember final Long memberId
+    ) {
+        return ResponseEntity.ok(boardQueryService.findAllBoards(pageable, memberId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BoardFoundResponse> findBoardById(@AuthMember final Long memberId, @PathVariable("id") final Long boardId) {
+    public ResponseEntity<BoardFoundResponse> findBoardById(
+            @AuthMember final Long memberId,
+            @PathVariable("id") final Long boardId
+    ) {
         return ResponseEntity.ok(boardQueryService.findBoardById(boardId, memberId));
     }
 

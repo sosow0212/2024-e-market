@@ -34,8 +34,8 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable) {
-        return boardQueryRepository.findAllBoard(pageable);
+    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable, final Long memberId) {
+        return boardQueryRepository.findAllBoard(pageable, memberId);
     }
 
     @Override

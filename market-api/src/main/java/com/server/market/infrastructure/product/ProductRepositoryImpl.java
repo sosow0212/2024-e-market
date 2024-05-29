@@ -1,6 +1,7 @@
 package com.server.market.infrastructure.product;
 
 import com.server.market.domain.product.Product;
+import com.server.market.domain.product.ProductLike;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
@@ -16,6 +17,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductJpaRepository productJpaRepository;
     private final ProductQueryRepository productQueryRepository;
+    private final ProductLikeJpaRepository productLikeJpaRepository;
 
     @Override
     public Product save(final Product product) {
@@ -42,7 +44,27 @@ public class ProductRepositoryImpl implements ProductRepository {
         productJpaRepository.deleteById(productId);
     }
 
-    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize) {
-        return productQueryRepository.findAllWithPagingByCategoryId(productId, categoryId, pageSize);
+    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
+        return productQueryRepository.findAllWithPagingByCategoryId(memberId, productId, categoryId, pageSize);
+    }
+
+    @Override
+    public boolean existsByProductIdAndMemberId(final Long productId, final Long memberId) {
+        return productLikeJpaRepository.existsByProductIdAndMemberId(productId, memberId);
+    }
+
+    @Override
+    public void deleteByProductIdAndMemberId(final Long productId, final Long memberId) {
+        productLikeJpaRepository.deleteByProductIdAndMemberId(productId, memberId);
+    }
+
+    @Override
+    public ProductLike saveProductLike(final ProductLike productLike) {
+        return productLikeJpaRepository.save(productLike);
+    }
+
+    @Override
+    public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {
+        return productQueryRepository.findLikesProducts(memberId);
     }
 }

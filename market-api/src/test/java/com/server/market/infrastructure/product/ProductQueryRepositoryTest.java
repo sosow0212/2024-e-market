@@ -65,7 +65,7 @@ class ProductQueryRepositoryTest extends IntegrationHelper {
         }
 
         // when
-        List<ProductPagingSimpleResponse> result = productQueryRepository.findAllWithPagingByCategoryId(null, 1L, 10);
+        List<ProductPagingSimpleResponse> result = productQueryRepository.findAllWithPagingByCategoryId(1L, null, 1L, 10);
 
         // then
         assertSoftly(softly -> {
@@ -92,7 +92,7 @@ class ProductQueryRepositoryTest extends IntegrationHelper {
         }
 
         // when
-        List<ProductPagingSimpleResponse> result = productQueryRepository.findAllWithPagingByCategoryId(11L, 1L, 10);
+        List<ProductPagingSimpleResponse> result = productQueryRepository.findAllWithPagingByCategoryId(1L, 11L, 1L, 10);
 
         // then
         assertSoftly(softly -> {
@@ -116,5 +116,5 @@ class ProductQueryRepositoryTest extends IntegrationHelper {
             softly.assertThat(result).isPresent();
             softly.assertThat(result.get().id()).isEqualTo(product.getId());
         });
-     }
+    }
 }

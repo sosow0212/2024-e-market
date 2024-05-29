@@ -5,6 +5,8 @@ import com.server.market.application.product.dto.ProductCreateRequest;
 import com.server.market.application.product.dto.ProductUpdateRequest;
 import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.product.Product;
+import com.server.market.domain.product.ProductLike;
+import com.server.market.infrastructure.product.ProductLikeJpaRepository;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.event.CouponExistValidatedEvent;
 import com.server.market.domain.product.event.ProductSoldEvent;
@@ -63,5 +65,22 @@ public class ProductService {
     private Product findBoardWithPessimisticLock(final Long productId) {
         return productRepository.findByIdWithPessimisticLock(productId)
                 .orElseThrow(ProductNotFoundException::new);
+    }
+
+    public boolean likes(final Long productId, final Long memberId) {
+        Product product = findBoardWithPessimisticLock(productId);
+        boolean isNeedToIncrease = doesNeedToIncreaseLikeCount(productId, memberId);
+        product.likes(isNeedToIncrease);
+        return isNeedToIncrease;
+    }
+
+    private boolean doesNeedToIncreaseLikeCount(final Long productId, final Long memberId) {
+        if (productRepository.existsByProductIdAndMemberId(productId, memberId)) {
+            productRepository.deleteByProductIdAndMemberId(productId, memberId);
+            return false;
+        }
+
+        productRepository.saveProductLike(new ProductLike(productId, memberId));
+        return true;
     }
 }

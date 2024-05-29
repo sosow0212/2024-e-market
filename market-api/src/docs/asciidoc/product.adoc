@@ -71,3 +71,27 @@ include::{snippets}/product-controller-web-mvc-test/delete_product_by_id/http-re
 ==== Response
 
 include::{snippets}/product-controller-web-mvc-test/delete_product_by_id/http-response.adoc[]
+
+=== 상품 좋아요 처리 (PATCH /api/categories/{categoryId}/products/{productId}/likes) {좋아요 처리시 true, 좋아요 취소시 false}
+
+==== Request
+
+include::{snippets}/product-controller-web-mvc-test/likes_product_by_id/request-headers.adoc[]
+include::{snippets}/product-controller-web-mvc-test/likes_product_by_id/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/product-controller-web-mvc-test/likes_product_by_id/http-response.adoc[]
+
+=== 좋아요 한 상품 조회 (GET /api/categories/{categoryId}/products/{productId}/likes)
+
+==== Request
+
+include::{snippets}/product-controller-web-mvc-test/find_likes_products/request-headers.adoc[]
+include::{snippets}/product-controller-web-mvc-test/find_likes_products/path-parameters.adoc[]
+include::{snippets}/product-controller-web-mvc-test/find_likes_products/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/product-controller-web-mvc-test/find_likes_products/response-fields.adoc[]
+include::{snippets}/product-controller-web-mvc-test/find_likes_products/http-response.adoc[]

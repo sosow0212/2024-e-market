@@ -47,7 +47,7 @@ class ProductServiceTest {
         Product savedProduct = productRepository.save(상품_생성());
 
         // when
-        List<ProductPagingSimpleResponse> result = productQueryService.findAllProductsInCategory(null, 1L, 10);
+        List<ProductPagingSimpleResponse> result = productQueryService.findAllProductsInCategory(1L, null, 1L, 10);
 
         // then
         assertSoftly(softly -> {

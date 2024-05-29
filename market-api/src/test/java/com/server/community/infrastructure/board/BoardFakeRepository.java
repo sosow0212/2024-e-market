@@ -51,18 +51,18 @@ public class BoardFakeRepository implements BoardRepository {
 
         if (board.isPresent()) {
             Board found = board.get();
-            return Optional.of(new BoardFoundResponse(found.getId(), "nickname", found.getPost().getTitle(), found.getPost().getContent(), found.getLikeCount().getLikeCount(), found.getWriterId().equals(memberId), found.getCreatedAt()));
+            return Optional.of(new BoardFoundResponse(found.getId(), "nickname", found.getPost().getTitle(), found.getPost().getContent(), found.getLikeCount().getLikeCount(), found.getWriterId().equals(memberId), true, found.getCreatedAt()));
         }
 
         return Optional.empty();
     }
 
     @Override
-    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable) {
+    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable, final Long memberId) {
         List<BoardSimpleResponse> expected = map.values().stream()
                 .sorted(Comparator.comparing(Board::getId).reversed())
                 .limit(10)
-                .map(it -> new BoardSimpleResponse(it.getId(), "nickname", it.getPost().getTitle(), it.getCreatedAt()))
+                .map(it -> new BoardSimpleResponse(it.getId(), "nickname", it.getPost().getTitle(), it.getCreatedAt(), 0L, 0L, false))
                 .toList();
 
         return new PageImpl<>(expected);

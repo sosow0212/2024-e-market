@@ -14,10 +14,23 @@ public record ProductPagingSimpleResponse(
         Integer contactCount,
         ProductStatus productStatus,
         String ownerName,
+        Integer productLikesCount,
+        Boolean isAlreadyLikedByMe,
         LocalDateTime createDate
 ) {
-
-    public ProductPagingSimpleResponse(final Long id, final Location location, final String title, final Integer price, final Integer visitedCount, final Integer contactCount, final ProductStatus productStatus, final String ownerName, final LocalDateTime createDate) {
-        this(id, location.getContent(), title, price, visitedCount, contactCount, productStatus, ownerName, createDate);
+    public ProductPagingSimpleResponse(
+            final Long id,
+            final Location location,
+            final String title,
+            final Integer price,
+            final Integer visitedCount,
+            final Integer contactCount,
+            final ProductStatus productStatus,
+            final String ownerName,
+            final Integer productLikesCount,
+            final Boolean isAlreadyLikedByMe,
+            final LocalDateTime createDate
+    ) {
+        this(id, location.getContent(), title, price, visitedCount, contactCount, productStatus, ownerName, productLikesCount, isAlreadyLikedByMe, createDate);
     }
 }

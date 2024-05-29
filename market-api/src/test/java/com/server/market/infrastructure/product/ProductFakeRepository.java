@@ -2,6 +2,7 @@ package com.server.market.infrastructure.product;
 
 import com.server.market.domain.category.CategoryName;
 import com.server.market.domain.product.Product;
+import com.server.market.domain.product.ProductLike;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
@@ -16,8 +17,10 @@ import java.util.Optional;
 
 public class ProductFakeRepository implements ProductRepository {
 
+    private final Map<Long, ProductLike> productLikeMap = new HashMap<>();
     private final Map<Long, Product> map = new HashMap<>();
     private Long id = 0L;
+    private Long productId = 0L;
 
     @Override
     public Product save(final Product product) {
@@ -57,7 +60,7 @@ public class ProductFakeRepository implements ProductRepository {
     public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId, final Long memberId) {
         if (map.containsKey(id)) {
             Product product = map.get(id);
-            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getLocation(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, "owner", true, LocalDateTime.now()));
+            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getLocation(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, "owner", true, 1, true, LocalDateTime.now()));
         }
 
         return Optional.empty();
@@ -69,7 +72,7 @@ public class ProductFakeRepository implements ProductRepository {
     }
 
     @Override
-    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long productId, final Long categoryId, final int pageSize) {
+    public List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
         if (productId == null) {
             return map.values().stream()
                     .sorted(Comparator.comparing(Product::getId).reversed())
@@ -87,6 +90,31 @@ public class ProductFakeRepository implements ProductRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsByProductIdAndMemberId(final Long productId, final Long memberId) {
+        return false;
+    }
+
+    @Override
+    public void deleteByProductIdAndMemberId(final Long productId, final Long memberId) {
+    }
+
+    @Override
+    public ProductLike saveProductLike(final ProductLike productLike) {
+        productId++;
+        ProductLike savedProductLike = ProductLike.builder()
+                .id(productId)
+                .build();
+
+        this.productLikeMap.put(productId, savedProductLike);
+        return savedProductLike;
+    }
+
+    @Override
+    public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {
+        return List.of();
+    }
+
     private static ProductPagingSimpleResponse parse(final Product product) {
         return new ProductPagingSimpleResponse(
                 product.getId(),
@@ -97,6 +125,8 @@ public class ProductFakeRepository implements ProductRepository {
                 product.getStatisticCount().getContactCount(),
                 product.getProductStatus(),
                 "owner",
+                10,
+                true,
                 LocalDateTime.now()
         );
     }
