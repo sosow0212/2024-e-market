@@ -60,7 +60,7 @@ public class ProductFakeRepository implements ProductRepository {
     public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId, final Long memberId) {
         if (map.containsKey(id)) {
             Product product = map.get(id);
-            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getLocation(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, "owner", true, 1, true, LocalDateTime.now()));
+            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getLocation(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, product.getMemberId(), "owner", true, 1, true, LocalDateTime.now()));
         }
 
         return Optional.empty();
@@ -124,6 +124,7 @@ public class ProductFakeRepository implements ProductRepository {
                 product.getStatisticCount().getVisitedCount(),
                 product.getStatisticCount().getContactCount(),
                 product.getProductStatus(),
+                product.getMemberId(),
                 "owner",
                 10,
                 true,
