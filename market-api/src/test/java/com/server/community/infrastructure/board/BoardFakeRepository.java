@@ -51,7 +51,7 @@ public class BoardFakeRepository implements BoardRepository {
 
         if (board.isPresent()) {
             Board found = board.get();
-            return Optional.of(new BoardFoundResponse(found.getId(), "nickname", found.getPost().getTitle(), found.getPost().getContent(), found.getLikeCount().getLikeCount(), found.getWriterId().equals(memberId), found.getCreatedAt()));
+            return Optional.of(new BoardFoundResponse(found.getId(), "nickname", found.getPost().getTitle(), found.getPost().getContent(), found.getLikeCount().getLikeCount(), found.getWriterId().equals(memberId), true, found.getCreatedAt()));
         }
 
         return Optional.empty();

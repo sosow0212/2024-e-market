@@ -1,6 +1,5 @@
 package com.server.community.ui.board;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.community.application.board.dto.BoardCreateRequest;
 import com.server.community.application.board.dto.BoardFoundResponse;
 import com.server.community.application.board.dto.BoardSimpleResponse;
@@ -55,9 +54,6 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     void 게시글을_저장한다() throws Exception {
@@ -134,7 +130,7 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
     void 게시글을_단건_조회한다() throws Exception {
         // given
         Board board = 게시글_생성_사진없음_id있음();
-        BoardFoundResponse response = new BoardFoundResponse(board.getId(), "nickname", board.getPost().getTitle(), board.getPost().getContent(), 10L, true, board.getCreatedAt());
+        BoardFoundResponse response = new BoardFoundResponse(board.getId(), "nickname", board.getPost().getTitle(), board.getPost().getContent(), 10L, true, true, board.getCreatedAt());
         when(boardQueryService.findBoardById(anyLong(), anyLong())).thenReturn(response);
 
         // when & then
@@ -155,6 +151,7 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
                                 fieldWithPath("content").description("게시글 내용"),
                                 fieldWithPath("likeCount").description("게시글 좋아요 수"),
                                 fieldWithPath("isMyPost").description("현재 요청을 보낸 유저가 작성한 글인지 여부"),
+                                fieldWithPath("isLikedAlreadyByMe").description("유저가 게시글을 눌렀는지 여부"),
                                 fieldWithPath("createdDate").description("게시글 작성 날짜")
                         )
                 ));

@@ -9,6 +9,7 @@ public record BoardFoundResponse(
         String content,
         Long likeCount,
         Boolean isMyPost,
+        Boolean isLikedAlreadyByMe,
         LocalDateTime createdDate
 ) {
 }

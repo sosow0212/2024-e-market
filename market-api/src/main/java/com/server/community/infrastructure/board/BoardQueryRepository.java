@@ -60,11 +60,13 @@ public class BoardQueryRepository {
                                         board.post.content,
                                         board.likeCount.likeCount,
                                         isMyPost(memberId),
+                                        isLikedAlreadyByMe(memberId),
                                         board.createdAt
                                 )
                         ).from(board)
-                        .where(board.id.eq(boardId))
                         .leftJoin(member).on(board.writerId.eq(member.id))
+                        .leftJoin(likeStorage).on(likeStorage.boardId.eq(board.id).and(likeStorage.memberId.eq(memberId)))
+                        .where(board.id.eq(boardId))
                         .fetchOne()
         );
     }
