@@ -2,6 +2,7 @@ package com.server.market.infrastructure.product;
 
 import com.server.market.domain.category.CategoryName;
 import com.server.market.domain.product.Product;
+import com.server.market.domain.product.ProductLike;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
@@ -16,8 +17,10 @@ import java.util.Optional;
 
 public class ProductFakeRepository implements ProductRepository {
 
+    private final Map<Long, ProductLike> productLikeMap = new HashMap<>();
     private final Map<Long, Product> map = new HashMap<>();
     private Long id = 0L;
+    private Long productId = 0L;
 
     @Override
     public Product save(final Product product) {
@@ -85,6 +88,26 @@ public class ProductFakeRepository implements ProductRepository {
                 .limit(pageSize)
                 .map(ProductFakeRepository::parse)
                 .toList();
+    }
+
+    @Override
+    public boolean existsByProductIdAndMemberId(final Long productId, final Long memberId) {
+        return false;
+    }
+
+    @Override
+    public void deleteByProductIdAndMemberId(final Long productId, final Long memberId) {
+    }
+
+    @Override
+    public ProductLike saveProductLike(final ProductLike productLike) {
+        productId++;
+        ProductLike savedProductLike = ProductLike.builder()
+                .id(productId)
+                .build();
+
+        this.productLikeMap.put(productId, savedProductLike);
+        return savedProductLike;
     }
 
     private static ProductPagingSimpleResponse parse(final Product product) {

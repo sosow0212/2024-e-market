@@ -224,4 +224,26 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                         )
                 ));
     }
+
+    @Test
+    void 상품을_좋아요_처리한다() throws Exception {
+        // given
+        Long categoryId = 1L;
+        Long productId = 1L;
+        when(productService.likes(anyLong(), anyLong())).thenReturn(true);
+
+        // when & then
+        mockMvc.perform(patch("/api/categories/{categoryId}/products/{productId}/likes", categoryId, productId)
+                        .header(AUTHORIZATION, "Bearer tokenInfo~")
+                ).andExpect(status().isOk())
+                .andDo(customDocument("likes_product_by_id",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("categoryId").description("카테고리 id"),
+                                parameterWithName("productId").description("조회하는 상품 id")
+                        )
+                ));
+    }
 }

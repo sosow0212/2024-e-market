@@ -40,11 +40,13 @@ public class StatisticCount {
         this.contactCount++;
     }
 
-    public void liked() {
-        this.likedCount++;
-    }
+    public void likes(final boolean isNeedToIncrease) {
+        if (isNeedToIncrease) {
+            this.likedCount++;
+        }
 
-    public void unlike() {
-        this.likedCount--;
+        if (!isNeedToIncrease) {
+            this.likedCount--;
+        }
     }
 }

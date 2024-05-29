@@ -68,6 +68,16 @@ public class ProductController {
                 .build();
     }
 
+    @PatchMapping("/{categoryId}/products/{productId}/likes")
+    public ResponseEntity<Boolean> likesProduct(
+            @PathVariable("productId") final Long productId,
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId
+    ) {
+        boolean likes = productService.likes(productId, memberId);
+        return ResponseEntity.ok(likes);
+    }
+
     @DeleteMapping("/{categoryId}/products/{productId}")
     public ResponseEntity<Long> deleteProduct(@PathVariable("productId") final Long productId,
                                               @PathVariable("categoryId") final Long categoryId,

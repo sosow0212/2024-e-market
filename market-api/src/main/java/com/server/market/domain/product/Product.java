@@ -95,4 +95,8 @@ public class Product extends BaseEntity {
 
         this.productStatus = ProductStatus.COMPLETED;
     }
+
+    public void likes(final boolean isNeedToIncrease) {
+        this.statisticCount.likes(isNeedToIncrease);
+    }
 }

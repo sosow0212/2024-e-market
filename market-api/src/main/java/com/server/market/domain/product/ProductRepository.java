@@ -19,4 +19,10 @@ public interface ProductRepository {
     void deleteProductById(Long productId);
 
     List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(Long productId, Long categoryId, int pageSize);
+
+    boolean existsByProductIdAndMemberId(Long productId, Long memberId);
+
+    void deleteByProductIdAndMemberId(Long productId, Long memberId);
+
+    ProductLike saveProductLike(ProductLike productLike);
 }

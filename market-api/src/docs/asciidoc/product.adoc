@@ -71,3 +71,14 @@ include::{snippets}/product-controller-web-mvc-test/delete_product_by_id/http-re
 ==== Response
 
 include::{snippets}/product-controller-web-mvc-test/delete_product_by_id/http-response.adoc[]
+
+=== 상품 좋아요 처리 (PATCH /api/categories/{categoryId}/products/{productId}/likes) {좋아요 처리시 true, 좋아요 취소시 false}
+
+==== Request
+
+include::{snippets}/product-controller-web-mvc-test/likes_product_by_id/request-headers.adoc[]
+include::{snippets}/product-controller-web-mvc-test/likes_product_by_id/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/product-controller-web-mvc-test/likes_product_by_id/http-response.adoc[]
