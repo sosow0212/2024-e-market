@@ -62,4 +62,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     public ProductLike saveProductLike(final ProductLike productLike) {
         return productLikeJpaRepository.save(productLike);
     }
+
+    @Override
+    public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {
+        return productQueryRepository.findLikesProducts(memberId);
+    }
 }

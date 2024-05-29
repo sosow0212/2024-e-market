@@ -42,7 +42,7 @@ public class ProductQueryRepository {
                         product.categoryId.eq(categoryId)
                 ).orderBy(product.id.desc())
                 .leftJoin(member).on(product.memberId.eq(member.id))
-                .leftJoin(productLike).on(productLike.productId.eq(product.id).and(productLike.memberId.eq(memberId)))
+                .leftJoin(productLike).on(productLike.productId.eq(product.id))
                 .limit(pageSize)
                 .fetch();
     }
@@ -84,5 +84,26 @@ public class ProductQueryRepository {
                 .leftJoin(productLike).on(productLike.productId.eq(product.id).and(productLike.memberId.eq(memberId)))
                 .leftJoin(category).on(category.id.eq(product.categoryId))
                 .fetchOne());
+    }
+
+    public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {
+        return jpaQueryFactory.select(constructor(ProductPagingSimpleResponse.class,
+                        product.id,
+                        product.description.location,
+                        product.description.title,
+                        product.price.price,
+                        product.statisticCount.visitedCount,
+                        product.statisticCount.contactCount,
+                        product.productStatus,
+                        member.nickname,
+                        product.statisticCount.likedCount,
+                        isLikedAlreadyByMe(memberId),
+                        product.createdAt
+                )).from(product)
+                .orderBy(product.id.desc())
+                .leftJoin(member).on(product.memberId.eq(member.id))
+                .leftJoin(productLike).on(productLike.productId.eq(product.id).and(productLike.memberId.eq(memberId)))
+                .where(productLike.memberId.eq(memberId))
+                .fetch();
     }
 }

@@ -25,4 +25,6 @@ public interface ProductRepository {
     void deleteByProductIdAndMemberId(Long productId, Long memberId);
 
     ProductLike saveProductLike(ProductLike productLike);
+
+    List<ProductPagingSimpleResponse> findLikesProducts(Long memberId);
 }

@@ -70,6 +70,14 @@ public class ProductController {
                 .build();
     }
 
+    @GetMapping("/{categoryId}/products/likes")
+    public ResponseEntity<List<ProductPagingSimpleResponse>> findLikesProduct(
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId
+    ) {
+        return ResponseEntity.ok(productQueryService.findLikesProducts(memberId));
+    }
+
     @PatchMapping("/{categoryId}/products/{productId}/likes")
     public ResponseEntity<Boolean> likesProduct(
             @PathVariable("productId") final Long productId,

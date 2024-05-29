@@ -7,6 +7,7 @@ import com.server.market.application.product.dto.ProductUpdateRequest;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.domain.product.vo.Location;
+import com.server.market.domain.product.vo.ProductStatus;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.server.helper.RestDocsHelper.customDocument;
@@ -247,6 +249,52 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 id"),
                                 parameterWithName("productId").description("조회하는 상품 id")
+                        )
+                ));
+    }
+
+    @Test
+    void 좋아요_한_상품을_반환한다() throws Exception {
+        // given
+        Long categoryId = 1L;
+        List<ProductPagingSimpleResponse> response = List.of(new ProductPagingSimpleResponse(
+                1L,
+                "5공학관",
+                "상품제목",
+                1000,
+                10,
+                2,
+                ProductStatus.WAITING,
+                "상품주인닉네임",
+                10,
+                true,
+                LocalDateTime.now()
+        ));
+        when(productQueryService.findLikesProducts(anyLong())).thenReturn(response);
+
+        // when & then
+        mockMvc.perform(get("/api/categories/{categoryId}/products/likes", categoryId)
+                        .header(AUTHORIZATION, "Bearer tokenInfo~")
+                ).andExpect(status().isOk())
+                .andDo(customDocument("find_likes_products",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("categoryId").description("카테고리 id")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").description("상품 id"),
+                                fieldWithPath("[].location").description("거래 장소 (3공학관, 5공학관 등등..)"),
+                                fieldWithPath("[].title").description("상품 제목"),
+                                fieldWithPath("[].price").description("상품 가격"),
+                                fieldWithPath("[].productStatus").description("상품 상태 (WAITING, RESERVED, COMPLETED)"),
+                                fieldWithPath("[].visitedCount").description("상품 조회자 수"),
+                                fieldWithPath("[].contactCount").description("판매자에게 연락한 사람 수"),
+                                fieldWithPath("[].ownerName").description("판매자 닉네임"),
+                                fieldWithPath("[].productLikesCount").description("상품의 좋아요 개수"),
+                                fieldWithPath("[].isAlreadyLikedByMe").description("상품 좋아요를 눌렀는지 여부"),
+                                fieldWithPath("[].createDate").description("상품 등록일")
                         )
                 ));
     }

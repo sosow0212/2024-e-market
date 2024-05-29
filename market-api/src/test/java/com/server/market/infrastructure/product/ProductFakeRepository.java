@@ -110,6 +110,11 @@ public class ProductFakeRepository implements ProductRepository {
         return savedProductLike;
     }
 
+    @Override
+    public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {
+        return List.of();
+    }
+
     private static ProductPagingSimpleResponse parse(final Product product) {
         return new ProductPagingSimpleResponse(
                 product.getId(),
