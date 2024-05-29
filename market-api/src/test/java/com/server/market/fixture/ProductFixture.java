@@ -39,10 +39,10 @@ public class ProductFixture {
     }
 
     public static ProductPagingSimpleResponse 상품_페이징_생성() {
-        return new ProductPagingSimpleResponse(1L, Location.BUILDING_CENTER, "상품명", 10000, 10, 2, ProductStatus.WAITING, "귀여운_피그미123", 3, true, LocalDateTime.now());
+        return new ProductPagingSimpleResponse(1L, Location.BUILDING_CENTER, "상품명", 10000, 10, 2, ProductStatus.WAITING, 1L, "귀여운_피그미123", 3, true, LocalDateTime.now());
     }
 
     public static ProductSpecificResponse 상품_상세정보_생성() {
-        return new ProductSpecificResponse(1L, Location.BUILDING_CENTER, "상품명", "상품 참 좋아요~", 10000, ProductStatus.WAITING, 4, 1, 1L, CategoryName.A000, "귀여운_피그미123", true, 1, true, LocalDateTime.now());
+        return new ProductSpecificResponse(1L, Location.BUILDING_CENTER, "상품명", "상품 참 좋아요~", 10000, ProductStatus.WAITING, 4, 1, 1L, CategoryName.A000, 1L, "귀여운_피그미123", true, 1, true, LocalDateTime.now());
     }
 }
