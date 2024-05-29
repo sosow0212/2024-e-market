@@ -15,7 +15,7 @@ public interface BoardRepository {
 
     Optional<BoardFoundResponse> findByIdForRead(Long boardId, Long memberId);
 
-    Page<BoardSimpleResponse> findAllBoardsWithPaging(Pageable pageable);
+    Page<BoardSimpleResponse> findAllBoardsWithPaging(Pageable pageable, Long memberId);
 
     Optional<Board> findByIdUsingPessimistic(Long id);
 

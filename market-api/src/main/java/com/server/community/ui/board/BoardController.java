@@ -40,8 +40,11 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<BoardsSimpleResponse> findAllBoardWithPaging(@PageableDefault(sort = "id", direction = DESC) Pageable pageable) {
-        return ResponseEntity.ok(boardQueryService.findAllBoards(pageable));
+    public ResponseEntity<BoardsSimpleResponse> findAllBoardWithPaging(
+            @PageableDefault(sort = "id", direction = DESC) final Pageable pageable,
+            @AuthMember final Long memberId
+    ) {
+        return ResponseEntity.ok(boardQueryService.findAllBoards(pageable, memberId));
     }
 
     @GetMapping("/{id}")

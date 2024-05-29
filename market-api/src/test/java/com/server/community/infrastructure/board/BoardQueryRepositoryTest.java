@@ -55,13 +55,13 @@ class BoardQueryRepositoryTest extends IntegrationHelper {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         // when
-        Page<BoardSimpleResponse> found = boardQueryRepository.findAllBoard(pageRequest);
+        Page<BoardSimpleResponse> found = boardQueryRepository.findAllBoard(pageRequest, 1L);
 
         // then
         List<BoardSimpleResponse> expected = boards.stream()
                 .sorted(Comparator.comparing(Board::getId).reversed())
                 .limit(10)
-                .map(it -> new BoardSimpleResponse(it.getId(), member.getNickname(), it.getPost().getTitle(), it.getCreatedAt()))
+                .map(it -> new BoardSimpleResponse(it.getId(), member.getNickname(), it.getPost().getTitle(), it.getCreatedAt(), 0L, 0L, false))
                 .toList();
 
         assertSoftly(softly -> {

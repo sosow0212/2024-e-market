@@ -6,6 +6,9 @@ public record BoardSimpleResponse(
         Long id,
         String writerNickname,
         String title,
-        LocalDateTime createdDate
+        LocalDateTime createdDate,
+        Long likeCount,
+        Long commentCount,
+        Boolean isLikedAlreadyByMe
 ) {
 }

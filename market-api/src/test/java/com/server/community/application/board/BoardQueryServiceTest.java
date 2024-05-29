@@ -33,7 +33,7 @@ class BoardQueryServiceTest {
     @Test
     void 게시글을_모두_조회한다() {
         // when
-        BoardsSimpleResponse result = boardQueryService.findAllBoards(PageRequest.of(0, 10));
+        BoardsSimpleResponse result = boardQueryService.findAllBoards(PageRequest.of(0, 10), 1L);
 
         // then
         assertThat(result.nextPage()).isEqualTo(-1);

@@ -97,9 +97,9 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
     void 게시글을_페이징으로_조회한다() throws Exception {
         // given
         Board board = 게시글_생성_사진없음_id있음();
-        BoardSimpleResponse boardSimpleResponse = new BoardSimpleResponse(board.getId(), "nickname", board.getPost().getTitle(), LocalDateTime.now());
+        BoardSimpleResponse boardSimpleResponse = new BoardSimpleResponse(board.getId(), "nickname", board.getPost().getTitle(), LocalDateTime.now(), 10L, 20L, true);
         List<BoardSimpleResponse> response = List.of(boardSimpleResponse);
-        when(boardQueryService.findAllBoards(any(Pageable.class))).thenReturn(new BoardsSimpleResponse(response, 1));
+        when(boardQueryService.findAllBoards(any(Pageable.class), anyLong())).thenReturn(new BoardsSimpleResponse(response, 1, 1, 2));
 
         // when & then
         mockMvc.perform(get("/api/boards")
@@ -120,7 +120,12 @@ class BoardControllerWebMvcTest extends MockBeanInjection {
                                 fieldWithPath("boards[].writerNickname").description("게시글 작성자 닉네임"),
                                 fieldWithPath("boards[].title").description("게시글 제목"),
                                 fieldWithPath("boards[].createdDate").description("게시글 생성일"),
-                                fieldWithPath("nextPage").description("다음 페이지가 존재하면 1, 없다면 -1")
+                                fieldWithPath("boards[].likeCount").description("게시글의 좋아요 수"),
+                                fieldWithPath("boards[].commentCount").description("게시글의 댓글 수"),
+                                fieldWithPath("boards[].isLikedAlreadyByMe").description("유저가 게시글을 눌렀는지 여부"),
+                                fieldWithPath("nowPage").description("현재 페이지"),
+                                fieldWithPath("nextPage").description("다음 페이지가 존재하면 1, 없다면 -1"),
+                                fieldWithPath("totalPages").description("전체 페이지 수")
                         )
                 ));
     }

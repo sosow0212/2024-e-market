@@ -18,8 +18,8 @@ public class BoardQueryService {
 
     private final BoardRepository boardRepository;
 
-    public BoardsSimpleResponse findAllBoards(final Pageable pageable) {
-        Page<BoardSimpleResponse> response = boardRepository.findAllBoardsWithPaging(pageable);
+    public BoardsSimpleResponse findAllBoards(final Pageable pageable, final Long memberId) {
+        Page<BoardSimpleResponse> response = boardRepository.findAllBoardsWithPaging(pageable, memberId);
         return BoardsSimpleResponse.of(response, pageable);
     }
 

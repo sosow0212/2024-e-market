@@ -58,11 +58,11 @@ public class BoardFakeRepository implements BoardRepository {
     }
 
     @Override
-    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable) {
+    public Page<BoardSimpleResponse> findAllBoardsWithPaging(final Pageable pageable, final Long memberId) {
         List<BoardSimpleResponse> expected = map.values().stream()
                 .sorted(Comparator.comparing(Board::getId).reversed())
                 .limit(10)
-                .map(it -> new BoardSimpleResponse(it.getId(), "nickname", it.getPost().getTitle(), it.getCreatedAt()))
+                .map(it -> new BoardSimpleResponse(it.getId(), "nickname", it.getPost().getTitle(), it.getCreatedAt(), 0L, 0L, false))
                 .toList();
 
         return new PageImpl<>(expected);

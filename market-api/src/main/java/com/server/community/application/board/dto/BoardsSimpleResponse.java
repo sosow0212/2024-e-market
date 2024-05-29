@@ -7,21 +7,27 @@ import java.util.List;
 
 public record BoardsSimpleResponse(
         List<BoardSimpleResponse> boards,
-        int nextPage
+        int nowPage,
+        int nextPage,
+        int totalPages
 ) {
 
     private static final int NEXT_PAGE_INDEX = 1;
     private static final int NO_MORE_PAGE = -1;
 
     public static BoardsSimpleResponse of(final Page<BoardSimpleResponse> boards, final Pageable pageable) {
-        return new BoardsSimpleResponse(boards.getContent(), getNextPage(pageable.getPageNumber(), boards));
+        return new BoardsSimpleResponse(
+                boards.getContent(),
+                pageable.getPageNumber(),
+                getNextPage(pageable.getPageNumber(), boards),
+                boards.getTotalPages()
+        );
     }
 
     private static int getNextPage(int pageNumber, Page<BoardSimpleResponse> boards) {
         if (boards.hasNext()) {
             return pageNumber + NEXT_PAGE_INDEX;
         }
-
         return NO_MORE_PAGE;
     }
 }
