@@ -9,6 +9,7 @@ import com.server.market.domain.chat.ChattingRoom;
 import com.server.market.domain.chat.dto.ChatHistoryResponse;
 import com.server.market.domain.chat.dto.ChattingRoomSimpleResponse;
 import com.server.market.ui.chat.dto.ChatMessageResponse;
+import com.server.market.ui.chat.dto.ChattingRoomResponse;
 import com.server.member.ui.auth.support.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,14 +43,14 @@ public class ChatRoomController {
 
     // 소비자가 채팅 요청 (채팅방 생성)
     @PostMapping("/api/products/{productId}/chats")
-    public ResponseEntity<Void> createChattingRoomByBuyer(
+    public ResponseEntity<ChattingRoomResponse> createChattingRoomByBuyer(
             @PathVariable final Long productId,
             @AuthMember final Long authMember,
             @RequestBody @Valid final ChattingRoomCreateRequest request
     ) {
         ChattingRoom chattingRoom = chatRoomService.createChattingRoomByBuyer(authMember, request.sellerId(), productId);
         return ResponseEntity.created(URI.create("/api/products/" + productId + "/chats/" + chattingRoom.getId()))
-                .build();
+                .body(ChattingRoomResponse.from(chattingRoom));
     }
 
     // 채팅방 채팅 내역 반환
