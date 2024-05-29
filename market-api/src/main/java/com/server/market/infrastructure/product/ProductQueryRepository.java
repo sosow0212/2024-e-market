@@ -75,10 +75,13 @@ public class ProductQueryRepository {
                         category.name,
                         member.nickname,
                         member.id.eq(memberId),
+                        product.statisticCount.likedCount,
+                        isLikedAlreadyByMe(memberId),
                         product.createdAt
                 )).from(product)
                 .where(product.id.eq(id))
                 .leftJoin(member).on(member.id.eq(product.memberId))
+                .leftJoin(productLike).on(productLike.productId.eq(product.id).and(productLike.memberId.eq(memberId)))
                 .leftJoin(category).on(category.id.eq(product.categoryId))
                 .fetchOne());
     }

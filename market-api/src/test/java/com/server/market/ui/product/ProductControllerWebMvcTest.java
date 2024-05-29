@@ -168,6 +168,8 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 fieldWithPath("categoryName").description("카테고리 이름"),
                                 fieldWithPath("ownerNickname").description("판매자 닉네임"),
                                 fieldWithPath("isMyProduct").description("자신이 등록한 상품인지 (Boolean)"),
+                                fieldWithPath("likedCount").description("상품의 좋아요 개수"),
+                                fieldWithPath("isLikedAlreadyByMe").description("상품 좋아요를 눌렀는지 여부"),
                                 fieldWithPath("createDate").description("상품 등록일")
                         )
                 ));

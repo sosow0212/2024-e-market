@@ -43,6 +43,6 @@ public class ProductFixture {
     }
 
     public static ProductSpecificResponse 상품_상세정보_생성() {
-        return new ProductSpecificResponse(1L, Location.BUILDING_CENTER, "상품명", "상품 참 좋아요~", 10000, ProductStatus.WAITING, 4, 1, 1L, CategoryName.A000, "귀여운_피그미123", true, LocalDateTime.now());
+        return new ProductSpecificResponse(1L, Location.BUILDING_CENTER, "상품명", "상품 참 좋아요~", 10000, ProductStatus.WAITING, 4, 1, 1L, CategoryName.A000, "귀여운_피그미123", true, 1, true, LocalDateTime.now());
     }
 }
