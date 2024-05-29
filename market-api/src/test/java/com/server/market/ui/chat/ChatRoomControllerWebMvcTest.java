@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SuppressWarnings("NonAsciiCharacters")
 @AutoConfigureRestDocs
 @WebMvcTest(ChatRoomController.class)
-class ChatRoomControllerTest extends MockBeanInjection {
+class ChatRoomControllerWebMvcTest extends MockBeanInjection {
 
     @Autowired
     private MockMvc mockMvc;
@@ -101,6 +101,13 @@ class ChatRoomControllerTest extends MockBeanInjection {
                         ),
                         responseHeaders(
                                 headerWithName(HttpHeaders.LOCATION).description("리다이렉션 uri (새로운 채팅방으로 입장)")
+                        ),
+                        responseFields(
+                                fieldWithPath("chatRoomId").description("채팅방의 id"),
+                                fieldWithPath("productId").description("상품 id"),
+                                fieldWithPath("buyerId").description("구매자 id"),
+                                fieldWithPath("sellerId").description("판매자 id"),
+                                fieldWithPath("chattingStatus").description("채팅방 상태 (PROCESS / DONE) -> 거래가 완료되면 DONE으로 변경")
                         )
                 ));
     }
