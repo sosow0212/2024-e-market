@@ -18,7 +18,10 @@ public class LikeController {
     private final LikeService likeService;
 
     @PatchMapping("/{boardId}/likes")
-    public ResponseEntity<LikeResultResponse> patchLike(@AuthMember final Long memberId, @PathVariable("boardId") final Long boardId) {
+    public ResponseEntity<LikeResultResponse> patchLike(
+            @AuthMember final Long memberId,
+            @PathVariable("boardId") final Long boardId
+    ) {
         boolean likeStatus = likeService.patchLike(boardId, memberId);
         return ResponseEntity.ok(new LikeResultResponse(boardId, likeStatus));
     }

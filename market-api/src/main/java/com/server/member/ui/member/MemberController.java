@@ -21,9 +21,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{memberId}/histories")
-    public ResponseEntity<List<TradeHistoryResponse>> findTradeHistories(@PathVariable("memberId") final Long memberId,
-                                                                         @AuthMember final Long authId,
-                                                                         @RequestParam(value = "isSeller") final boolean isSeller) {
+    public ResponseEntity<List<TradeHistoryResponse>> findTradeHistories(
+            @PathVariable("memberId") final Long memberId,
+            @AuthMember final Long authId,
+            @RequestParam(value = "isSeller") final boolean isSeller
+    ) {
         List<TradeHistoryResponse> response = memberService.findTradeHistories(memberId, authId, isSeller);
         return ResponseEntity.ok(response);
     }

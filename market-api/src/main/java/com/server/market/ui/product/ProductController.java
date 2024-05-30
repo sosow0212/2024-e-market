@@ -43,28 +43,34 @@ public class ProductController {
     }
 
     @PostMapping("/{categoryId}/products")
-    public ResponseEntity<Long> uploadProduct(@PathVariable("categoryId") final Long categoryId,
-                                              @AuthMember final Long memberId,
-                                              @Valid @RequestBody final ProductCreateRequest request) {
+    public ResponseEntity<Long> uploadProduct(
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId,
+            @Valid @RequestBody final ProductCreateRequest request
+    ) {
         Long savedProductId = productService.uploadProduct(memberId, categoryId, request);
         return ResponseEntity.created(URI.create("/api/categories/" + categoryId + "/products/" + savedProductId))
                 .build();
     }
 
     @GetMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<ProductSpecificResponse> findProductById(@PathVariable("productId") final Long productId,
-                                                                   @PathVariable("categoryId") final Long categoryId,
-                                                                   @AuthMember final Long memberId,
-                                                                   @ViewCountChecker final Boolean canAddViewCount) {
+    public ResponseEntity<ProductSpecificResponse> findProductById(
+            @PathVariable("productId") final Long productId,
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId,
+            @ViewCountChecker final Boolean canAddViewCount
+    ) {
         productService.addViewCount(productId, canAddViewCount);
         return ResponseEntity.ok(productQueryService.findById(productId, memberId));
     }
 
     @PatchMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("productId") final Long productId,
-                                              @PathVariable("categoryId") final Long categoryId,
-                                              @AuthMember final Long memberId,
-                                              @Valid @RequestBody final ProductUpdateRequest request) {
+    public ResponseEntity<Void> updateProduct(
+            @PathVariable("productId") final Long productId,
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId,
+            @Valid @RequestBody final ProductUpdateRequest request
+    ) {
         productService.update(productId, memberId, request);
         return ResponseEntity.ok()
                 .build();
@@ -89,19 +95,23 @@ public class ProductController {
     }
 
     @DeleteMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<Long> deleteProduct(@PathVariable("productId") final Long productId,
-                                              @PathVariable("categoryId") final Long categoryId,
-                                              @AuthMember final Long memberId) {
+    public ResponseEntity<Long> deleteProduct(
+            @PathVariable("productId") final Long productId,
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId
+    ) {
         productService.delete(productId, memberId);
         return ResponseEntity.noContent()
                 .build();
     }
 
     @PostMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<Void> buyProducts(@PathVariable("productId") final Long productId,
-                                            @PathVariable("categoryId") final Long categoryId,
-                                            @AuthMember final Long memberId,
-                                            @RequestBody final UsingCouponRequest usingCouponRequest) {
+    public ResponseEntity<Void> buyProducts(
+            @PathVariable("productId") final Long productId,
+            @PathVariable("categoryId") final Long categoryId,
+            @AuthMember final Long memberId,
+            @RequestBody final UsingCouponRequest usingCouponRequest
+    ) {
         productService.buyProducts(productId, memberId, usingCouponRequest);
         return ResponseEntity.ok().build();
     }

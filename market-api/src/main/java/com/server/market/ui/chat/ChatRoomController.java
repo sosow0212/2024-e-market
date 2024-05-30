@@ -35,13 +35,11 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
     private final SimpMessagingTemplate messagingTemplate;
 
-    // 내가 채팅중인 모든 채팅방 반환
     @GetMapping("/api/chats")
-    public ResponseEntity<List<ChattingRoomSimpleResponse>> findAllMyChats(@AuthMember final Long authId) {
+    public ResponseEntity<List<ChattingRoomSimpleResponse>> findAllMyChattingRooms(@AuthMember final Long authId) {
         return ResponseEntity.ok(chatRoomQueryService.findAllMyChats(authId));
     }
 
-    // 소비자가 채팅 요청 (채팅방 생성)
     @PostMapping("/api/products/{productId}/chats")
     public ResponseEntity<ChattingRoomResponse> createChattingRoomByBuyer(
             @PathVariable final Long productId,
@@ -53,9 +51,8 @@ public class ChatRoomController {
                 .body(ChattingRoomResponse.from(chattingRoom));
     }
 
-    // 채팅방 채팅 내역 반환
     @GetMapping("/api/products/{productId}/chats/{chattingRoomId}")
-    public ResponseEntity<List<ChatHistoryResponse>> findChattingHistoryByChatId(
+    public ResponseEntity<List<ChatHistoryResponse>> findChatHistoryByChattingRoomId(
             @AuthMember final Long authId,
             @PathVariable final Long productId,
             @PathVariable final Long chattingRoomId,
@@ -65,9 +62,13 @@ public class ChatRoomController {
         return ResponseEntity.ok(chatRoomQueryService.findChattingHistoryByChatId(authId, chattingRoomId, chatId, pageSize));
     }
 
-    // linking url : ws://localhost:8080/ws-stomp
-    // subscribe url : ws://localhost:8080/ws-stomp/sub/chats/1
-    // publish url : ws://localhost:8080/ws-stomp/pub/chats/1/messages
+    /**
+     * Ver1. 단일 서버에서만 작동 가능한 웹 소켓 채팅
+     * Date 24.05.30
+     * linking url : ws://localhost:8080/ws-stomp
+     * subscribe url : ws://localhost:8080/ws-stomp/sub/chats/1
+     * publish url : ws://localhost:8080/ws-stomp/pub/chats/1/messages
+     */
     @MessageMapping("/chats/{chatRoomId}/messages")
     public ChatMessageResponse chat(
             @DestinationVariable final Long chatRoomId,
