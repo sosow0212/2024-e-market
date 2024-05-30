@@ -33,7 +33,10 @@ public class BoardController {
     private final BoardQueryService boardQueryService;
 
     @PostMapping
-    public ResponseEntity<Void> saveBoard(@AuthMember final Long memberId, @ModelAttribute final BoardCreateRequest request) {
+    public ResponseEntity<Void> saveBoard(
+            @AuthMember final Long memberId,
+            @ModelAttribute final BoardCreateRequest request
+    ) {
         Long boardId = boardService.saveBoard(memberId, request);
         return ResponseEntity.created(URI.create("/api/boards/" + boardId))
                 .build();
@@ -56,16 +59,21 @@ public class BoardController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> patchBoardById(@PathVariable("id") final Long boardId,
-                                               @AuthMember final Long memberId,
-                                               @ModelAttribute final BoardUpdateRequest request) {
+    public ResponseEntity<Void> patchBoardById(
+            @PathVariable("id") final Long boardId,
+            @AuthMember final Long memberId,
+            @ModelAttribute final BoardUpdateRequest request
+    ) {
         boardService.patchBoardById(boardId, memberId, request);
         return ResponseEntity.ok()
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBoardById(@AuthMember final Long memberId, @PathVariable("id") final Long boardId) {
+    public ResponseEntity<Void> deleteBoardById(
+            @AuthMember final Long memberId,
+            @PathVariable("id") final Long boardId
+    ) {
         boardService.deleteBoardById(boardId, memberId);
         return ResponseEntity.noContent()
                 .build();

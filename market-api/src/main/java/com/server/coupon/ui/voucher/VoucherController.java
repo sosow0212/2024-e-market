@@ -41,16 +41,18 @@ public class VoucherController {
     }
 
     @PostMapping("/vouchers/{voucherId}")
-    public ResponseEntity<Void> useVoucher(@AuthMember Long memberId,
-                                           @PathVariable final Long voucherId,
-                                           @RequestBody final VoucherNumberRequest request) {
+    public ResponseEntity<Void> useVoucher(
+            @AuthMember final Long memberId,
+            @PathVariable final Long voucherId,
+            @RequestBody final VoucherNumberRequest request
+    ) {
         voucherService.useVoucher(voucherId, request, memberId);
         return ResponseEntity.ok()
                 .build();
     }
 
     @GetMapping("/vouchers")
-    public ResponseEntity<VoucherPageResponse> findVoucherWithPaging(@PageableDefault(sort = "id", direction = DESC) Pageable pageable) {
+    public ResponseEntity<VoucherPageResponse> findVoucherWithPaging(@PageableDefault(sort = "id", direction = DESC) final Pageable pageable) {
         Page<VoucherSimpleResponse> result = voucherQueryService.findAllWithPaging(pageable);
         return ResponseEntity.ok(VoucherPageResponse.of(result, pageable));
     }

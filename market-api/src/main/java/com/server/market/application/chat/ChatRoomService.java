@@ -25,7 +25,7 @@ public class ChatRoomService {
 
     public ChattingRoom createChattingRoomByBuyer(final Long authMember, final Long productId, final Long sellerId) {
         return chattingRoomRepository.findBySellerIdAndBuyerIdAndProductId(sellerId, authMember, productId)
-                .orElse(chattingRoomRepository.save(ChattingRoom.createNewChattingRoom(productId, authMember, sellerId)));
+                .orElseGet(() -> chattingRoomRepository.save(ChattingRoom.createNewChattingRoom(productId, authMember, sellerId)));
     }
 
     public Chat chat(final Long chatRoomId, final ChatMessageRequest chattingRequest) {

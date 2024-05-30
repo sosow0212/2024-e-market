@@ -35,27 +35,29 @@ public class CouponController {
     }
 
     @GetMapping("/members/{memberId}/coupons")
-    public ResponseEntity<CouponsResponse> findAllMemberCoupons(@PathVariable("memberId") final Long memberId,
-                                                                @AuthMember final Long authId) {
+    public ResponseEntity<CouponsResponse> findAllMemberCoupons(
+            @PathVariable("memberId") final Long memberId,
+            @AuthMember final Long authId
+    ) {
         Coupons memberCoupons = couponService.findAllMemberCoupons(memberId, authId);
         return ResponseEntity.ok(CouponsResponse.from(memberId, memberCoupons));
     }
 
-    // TODO:
-    // Member에게 쿠폰을 주는 것 (API or Event) -> 관리자의 역할
-    // Member가 사용한 쿠폰을 제거하는 것 (API or Event)
-    // /members/{memberId}/coupons
     @PostMapping("/members/{memberId}/coupons")
-    public ResponseEntity<Void> saveMemberCoupon(@PathVariable("memberId") final Long memberId,
-                                                 @RequestBody final MemberCouponCreateRequest request) {
+    public ResponseEntity<Void> saveMemberCoupon(
+            @PathVariable("memberId") final Long memberId,
+            @RequestBody final MemberCouponCreateRequest request
+    ) {
         couponService.saveMemberCoupons(memberId, request);
         return ResponseEntity.ok()
                 .build();
     }
 
     @GetMapping("/coupons")
-    public ResponseEntity<ApplyCouponResponse> applyCoupons(@RequestParam(value = "couponIds") final List<Long> couponIds,
-                                                            @RequestParam(value = "price") final Integer price) {
+    public ResponseEntity<ApplyCouponResponse> applyCoupons(
+            @RequestParam(value = "couponIds") final List<Long> couponIds,
+            @RequestParam(value = "price") final Integer price
+    ) {
         int discountPrice = couponService.applyCoupons(price, couponIds);
         return ResponseEntity.ok(new ApplyCouponResponse(price, discountPrice, couponIds));
     }
