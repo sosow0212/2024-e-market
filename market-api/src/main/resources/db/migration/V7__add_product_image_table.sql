@@ -8,6 +8,6 @@ create table product_image
     origin_name varchar(255) not null,
     unique_name varchar(255) not null,
     constraint FK6oo0cvcdtb6qmwsga468uuukk
-        foreign key (product_id) references market.product (id)
+        foreign key (product_id) references product (id)
 );
 
