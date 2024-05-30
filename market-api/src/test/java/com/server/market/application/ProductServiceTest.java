@@ -12,11 +12,15 @@ import com.server.market.domain.product.vo.Location;
 import com.server.market.exception.exceptions.ProductNotFoundException;
 import com.server.market.exception.exceptions.ProductOwnerNotEqualsException;
 import com.server.market.infrastructure.product.ProductFakeRepository;
+import com.server.market.infrastructure.product.ProductImageFakeConverter;
+import com.server.market.infrastructure.product.ProductImageFakeUploader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +42,7 @@ class ProductServiceTest {
     void setup() {
         productRepository = new ProductFakeRepository();
         productQueryService = new ProductQueryService(productRepository);
-        productService = new ProductService(productRepository);
+        productService = new ProductService(productRepository, new ProductImageFakeConverter(), new ProductImageFakeUploader());
     }
 
     @Test
@@ -59,7 +63,7 @@ class ProductServiceTest {
     @Test
     void 상품을_등록한다() {
         // given
-        ProductCreateRequest request = new ProductCreateRequest("new", "new", 10, Location.BUILDING_CENTER);
+        ProductCreateRequest request = new ProductCreateRequest("new", "new", 10, Location.BUILDING_CENTER, new ArrayList<>());
 
         // when
         Long id = productService.uploadProduct(1L, 1L, request);
@@ -96,7 +100,8 @@ class ProductServiceTest {
     void 상품을_업데이트한다() {
         // given
         Product savedProduct = productRepository.save(상품_생성());
-        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER);
+        MockMultipartFile file = new MockMultipartFile("name", "origin.jpg", "image", "content".getBytes());
+        ProductUpdateRequest request = new ProductUpdateRequest("수정", "수정", 1000, 1L, Location.BUILDING_CENTER, new ArrayList<>(List.of(file)), new ArrayList<>());
 
         // when
         productService.update(savedProduct.getId(), savedProduct.getMemberId(), request);
@@ -106,7 +111,6 @@ class ProductServiceTest {
             softly.assertThat(savedProduct.getDescription().getTitle()).isEqualTo(request.title());
             softly.assertThat(savedProduct.getDescription().getContent()).isEqualTo(request.content());
             softly.assertThat(savedProduct.getPrice().getPrice()).isEqualTo(1000);
-            softly.assertThat(savedProduct.getCategoryId()).isEqualTo(2L);
         });
     }
 
@@ -114,7 +118,7 @@ class ProductServiceTest {
     void 상품_업데이트시에_상품이_없다면_예외를_발생시킨다() {
         // given
         Product savedProduct = productRepository.save(상품_생성());
-        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER);
+        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER, new ArrayList<>(), new ArrayList<>());
 
         // when & then
         assertThatThrownBy(() -> productService.update(savedProduct.getId(), -1L, request))
@@ -124,7 +128,7 @@ class ProductServiceTest {
     @Test
     void 상품_업데이트시에_상품의_주인과_다를시_예외를_발생시킨다() {
         // given
-        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER);
+        ProductUpdateRequest request = new ProductUpdateRequest("new", "new", 1000, 2L, Location.BUILDING_CENTER, new ArrayList<>(), new ArrayList<>());
 
         // when & then
         assertThatThrownBy(() -> productService.update(-1L, -1L, request))

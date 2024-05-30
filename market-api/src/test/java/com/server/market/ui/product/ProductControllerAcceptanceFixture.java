@@ -22,11 +22,14 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.server.market.fixture.CategoryFixture.카테고리_생성;
 import static com.server.market.fixture.ProductFixture.상품_생성;
+import static io.restassured.config.EncoderConfig.encoderConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -56,15 +59,18 @@ public class ProductControllerAcceptanceFixture extends IntegrationHelper {
     }
 
     protected ProductCreateRequest 상품_생성서_요청() {
-        return new ProductCreateRequest("title", "content", 1000, Location.BUILDING_CENTER);
+        return new ProductCreateRequest("title", "content", 1000, Location.BUILDING_CENTER, new ArrayList<MultipartFile>());
     }
 
     protected ExtractableResponse<Response> 상품_생성_요청(final String url, final String token, final ProductCreateRequest request) {
         return RestAssured.given().log().all()
-                .body(request)
-                .contentType(ContentType.JSON)
                 .header(AUTHORIZATION, "Bearer " + token)
+                .param("title", request.title())
+                .param("content", request.content())
+                .param("price", String.valueOf(request.price()))
+                .param("location", request.location())
                 .when()
+                .config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs("multipart/form-data", ContentType.MULTIPART)))
                 .post(url)
                 .then()
                 .extract();
@@ -104,15 +110,19 @@ public class ProductControllerAcceptanceFixture extends IntegrationHelper {
     }
 
     protected ProductUpdateRequest 상품_수정서를_요청한다() {
-        return new ProductUpdateRequest("newTitle", "newContent", 10, 1L, Location.BUILDING_CENTER);
+        return new ProductUpdateRequest("newTitle", "newContent", 10, 1L, Location.BUILDING_CENTER, new ArrayList<>(), new ArrayList<>());
     }
 
     protected ExtractableResponse<Response> 상품을_수정한다(final String url, final String token, final ProductUpdateRequest request) {
         return RestAssured.given().log().all()
                 .header(AUTHORIZATION, "Bearer " + token)
-                .body(request)
-                .contentType(ContentType.JSON)
+                .param("title", request.title())
+                .param("content", request.content())
+                .param("price", String.valueOf(request.price()))
+                .param("location", request.location())
+                .param("deletedImages", request.deletedImages())
                 .when()
+                .config(RestAssured.config().encoderConfig(encoderConfig().encodeContentTypeAs("multipart/form-data", ContentType.MULTIPART)))
                 .patch(url)
                 .then()
                 .extract();

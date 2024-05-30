@@ -11,6 +11,7 @@ import com.server.market.domain.product.vo.ProductStatus;
 import com.server.market.domain.product.vo.StatisticCount;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class ProductFixture {
 
@@ -23,6 +24,7 @@ public class ProductFixture {
                 .statisticCount(StatisticCount.createDefault())
                 .price(new Price(10000))
                 .productStatus(ProductStatus.WAITING)
+                .productImages(new ArrayList<>())
                 .build();
     }
 
@@ -35,6 +37,7 @@ public class ProductFixture {
                 .statisticCount(StatisticCount.createDefault())
                 .price(new Price(10000))
                 .productStatus(ProductStatus.COMPLETED)
+                .productImages(new ArrayList<>())
                 .build();
     }
 

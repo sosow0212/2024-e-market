@@ -1,11 +1,16 @@
 package com.server.market.domain.product;
 
+import com.server.market.application.product.dto.ProductUpdateResult;
 import com.server.market.domain.product.vo.Location;
 import com.server.market.exception.exceptions.ProductAlreadySoldOutException;
 import com.server.market.exception.exceptions.ProductOwnerNotEqualsException;
+import com.server.market.infrastructure.product.ProductImageConverterImpl;
+import com.server.market.infrastructure.product.ProductImageFakeConverter;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static com.server.market.fixture.ProductFixture.구매된_상품_생성;
 import static com.server.market.fixture.ProductFixture.상품_생성;
@@ -24,7 +29,7 @@ class ProductTest {
         Product product = 상품_생성();
 
         // when
-        product.updateDescription(newDescription, newDescription, Location.BUILDING_CENTER, 10, 1L, 1L);
+        ProductUpdateResult result = product.updateDescription(newDescription, newDescription, Location.BUILDING_CENTER, 10, 1L, 1L, new ArrayList<>(), new ArrayList<>(), new ProductImageConverterImpl());
 
         // then
         assertSoftly(softly -> {
@@ -41,7 +46,7 @@ class ProductTest {
         Product product = 상품_생성();
 
         // when & then
-        assertThatThrownBy(() -> product.updateDescription(newDescription, newDescription, Location.BUILDING_CENTER, 10, 1L, -1L))
+        assertThatThrownBy(() -> product.updateDescription(newDescription, newDescription, Location.BUILDING_CENTER, 10, 1L, -1L, new ArrayList<>(), new ArrayList<>(), new ProductImageFakeConverter()))
                 .isInstanceOf(ProductOwnerNotEqualsException.class);
     }
 

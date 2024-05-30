@@ -17,9 +17,13 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.server.helper.RestDocsHelper.customDocument;
@@ -39,14 +43,15 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -107,13 +112,27 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
     void 상품을_등록한다() throws Exception {
         // given
         Long categoryId = 1L;
-        ProductCreateRequest request = new ProductCreateRequest("title", "content", 1000, Location.BUILDING_CENTER);
+
+        MockMultipartFile image = new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes());
+        List<MultipartFile> imageFiles = List.of(image);
+
+        ProductCreateRequest request = new ProductCreateRequest("title", "content", 1000, Location.BUILDING_CENTER, imageFiles);
+        when(productService.uploadProduct(anyLong(), anyLong(), eq(request))).thenReturn(1L);
+
 
         // when & then
-        mockMvc.perform(post("/api/categories/{categoryId}/products", categoryId)
-                        .header(AUTHORIZATION, "Bearer tokenInfo~")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
+        mockMvc.perform(multipart("/api/categories/{categoryId}/products", categoryId)
+                        .file("images", imageFiles.get(0).getBytes())
+                        .param("title", request.title())
+                        .param("content", request.content())
+                        .param("price", String.valueOf(request.price()))
+                        .param("location", request.location().name())
+                        .with(requestPostProcessor -> {
+                            requestPostProcessor.setMethod("POST");
+                            return requestPostProcessor;
+                        }).header(AUTHORIZATION, "Bearer tokenInfo~")
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isCreated())
                 .andDo(customDocument("upload_product",
                         requestHeaders(
@@ -122,11 +141,12 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 id")
                         ),
-                        requestFields(
-                                fieldWithPath("location").description("거래 장소(BUILDING_THREE, BUILDING_FIVE, BUILDING_LIBRARY, BUILDING_CENTER, NEAR_MJU)"),
-                                fieldWithPath("title").description("상품 제목"),
-                                fieldWithPath("content").description("상품 설명"),
-                                fieldWithPath("price").description("상품 가격")
+                        requestParts(
+                                partWithName("location").description("거래 장소(BUILDING_THREE, BUILDING_FIVE, BUILDING_LIBRARY, BUILDING_CENTER, NEAR_MJU)").optional(),
+                                partWithName("title").description("상품 제목").optional(),
+                                partWithName("content").description("상품 설명").optional(),
+                                partWithName("price").description("상품 가격").optional(),
+                                partWithName("images").description("이미지 파일").optional()
                         ),
                         responseHeaders(
                                 headerWithName("LOCATION").description("리다이렉션 url")
@@ -184,14 +204,26 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         // given
         Long categoryId = 1L;
         Long productId = 1L;
-        ProductUpdateRequest request = new ProductUpdateRequest("newTitle", "newContent", 1000, 2L, Location.BUILDING_CENTER);
-        doNothing().when(productService).update(anyLong(), anyLong(), eq(request));
+        MockMultipartFile image = new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes());
+        ProductUpdateRequest request = new ProductUpdateRequest("수정 제목", "수정 내용", 1000, categoryId, Location.BUILDING_CENTER, new ArrayList<>(List.of(image)), new ArrayList<>(List.of(1L, 2L)));
+        doNothing().when(productService).update(anyLong(), anyLong(), any(ProductUpdateRequest.class));
+
 
         // when & then
-        mockMvc.perform(patch("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
-                        .header(AUTHORIZATION, "Bearer tokenInfo~")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
+        mockMvc.perform(multipart("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
+                        .file("addedImages", request.addedImages().get(0).getBytes())
+                        .param("title", request.title())
+                        .param("content", request.content())
+                        .param("price", String.valueOf(request.price()))
+                        .param("categoryId", String.valueOf(request.categoryId()))
+                        .param("location", request.location().name())
+                        .param("deletedImages", StringUtils.collectionToCommaDelimitedString(request.deletedImages()))
+                        .with(requestPostProcessor -> {
+                            requestPostProcessor.setMethod("PATCH");
+                            return requestPostProcessor;
+                        }).header(AUTHORIZATION, "Bearer tokenInfo~")
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andDo(customDocument("patch_product_by_id",
                         requestHeaders(
@@ -201,12 +233,14 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 parameterWithName("categoryId").description("카테고리 id"),
                                 parameterWithName("productId").description("조회하는 상품 id")
                         ),
-                        requestFields(
-                                fieldWithPath("location").description("거래 장소(BUILDING_THREE, BUILDING_FIVE, BUILDING_LIBRARY, BUILDING_CENTER, NEAR_MJU)"),
-                                fieldWithPath("title").description("업데이트할 상품명"),
-                                fieldWithPath("content").description("업데이트할 상품 설명"),
-                                fieldWithPath("price").description("업데이트할 가격"),
-                                fieldWithPath("categoryId").description("업데이트할 카테고리 id")
+                        requestParts(
+                                partWithName("location").description("거래 장소(BUILDING_THREE, BUILDING_FIVE, BUILDING_LIBRARY, BUILDING_CENTER, NEAR_MJU)").optional(),
+                                partWithName("title").description("업데이트할 상품명").optional(),
+                                partWithName("content").description("업데이트할 상품 설명").optional(),
+                                partWithName("price").description("업데이트할 가격").optional(),
+                                partWithName("categoryId").description("업데이트할 카테고리 id").optional(),
+                                partWithName("addedImages").description("새로 추가한 이미지 파일").optional(),
+                                partWithName("deletedImages").description("삭제할 이미지 ID 목록").optional()
                         )
                 ));
     }
