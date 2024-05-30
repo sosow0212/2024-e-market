@@ -3,10 +3,11 @@ package com.server.market.application.product;
 import com.server.global.event.Events;
 import com.server.market.application.product.dto.ProductCreateRequest;
 import com.server.market.application.product.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.ProductUpdateResult;
 import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.product.Product;
+import com.server.market.domain.product.ProductImageConverter;
 import com.server.market.domain.product.ProductLike;
-import com.server.market.infrastructure.product.ProductLikeJpaRepository;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.event.CouponExistValidatedEvent;
 import com.server.market.domain.product.event.ProductSoldEvent;
@@ -22,9 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductImageConverter productImageConverter;
+    private final ProductImageUploader productImageUploader;
 
     public Long uploadProduct(final Long memberId, final Long categoryId, final ProductCreateRequest request) {
-        Product product = Product.of(request.title(), request.content(), request.location(),request.price(), categoryId, memberId);
+        Product product = Product.of(request.title(), request.content(), request.location(), request.price(), categoryId, memberId, request.images(), productImageConverter);
         Product savedProduct = productRepository.save(product);
         return savedProduct.getId();
     }
@@ -37,7 +40,10 @@ public class ProductService {
 
     public void update(final Long productId, final Long memberId, final ProductUpdateRequest request) {
         Product product = findProduct(productId);
-        product.updateDescription(request.title(), request.content(), request.location(), request.price(), request.categoryId(), memberId);
+        ProductUpdateResult result = product.updateDescription(request.title(), request.content(), request.location(), request.price(), request.categoryId(), memberId, request.addedImages(), request.deletedImages(), productImageConverter);
+
+        productImageUploader.upload(result.addedImages(), request.addedImages());
+        productImageUploader.delete(result.deletedImages());
     }
 
     public void delete(final Long productId, final Long memberId) {

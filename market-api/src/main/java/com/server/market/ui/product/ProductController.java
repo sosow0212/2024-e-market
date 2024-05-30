@@ -9,11 +9,11 @@ import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.ui.product.support.ViewCountChecker;
 import com.server.member.ui.auth.support.AuthMember;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +46,7 @@ public class ProductController {
     public ResponseEntity<Long> uploadProduct(
             @PathVariable("categoryId") final Long categoryId,
             @AuthMember final Long memberId,
-            @Valid @RequestBody final ProductCreateRequest request
+            @ModelAttribute final ProductCreateRequest request
     ) {
         Long savedProductId = productService.uploadProduct(memberId, categoryId, request);
         return ResponseEntity.created(URI.create("/api/categories/" + categoryId + "/products/" + savedProductId))
@@ -69,7 +69,7 @@ public class ProductController {
             @PathVariable("productId") final Long productId,
             @PathVariable("categoryId") final Long categoryId,
             @AuthMember final Long memberId,
-            @Valid @RequestBody final ProductUpdateRequest request
+            @ModelAttribute final ProductUpdateRequest request
     ) {
         productService.update(productId, memberId, request);
         return ResponseEntity.ok()

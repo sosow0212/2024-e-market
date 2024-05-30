@@ -25,7 +25,7 @@ include::{snippets}/product-controller-web-mvc-test/find_all_products_in_categor
 
 include::{snippets}/product-controller-web-mvc-test/upload_product/request-headers.adoc[]
 include::{snippets}/product-controller-web-mvc-test/upload_product/path-parameters.adoc[]
-include::{snippets}/product-controller-web-mvc-test/upload_product/request-fields.adoc[]
+include::{snippets}/product-controller-web-mvc-test/upload_product/request-parts.adoc[]
 include::{snippets}/product-controller-web-mvc-test/upload_product/http-request.adoc[]
 
 === Response
@@ -53,7 +53,7 @@ include::{snippets}/product-controller-web-mvc-test/find_product_by_id/http-resp
 
 include::{snippets}/product-controller-web-mvc-test/patch_product_by_id/request-headers.adoc[]
 include::{snippets}/product-controller-web-mvc-test/patch_product_by_id/path-parameters.adoc[]
-include::{snippets}/product-controller-web-mvc-test/patch_product_by_id/request-fields.adoc[]
+include::{snippets}/product-controller-web-mvc-test/patch_product_by_id/request-parts.adoc[]
 include::{snippets}/product-controller-web-mvc-test/patch_product_by_id/http-request.adoc[]
 
 ==== Response
