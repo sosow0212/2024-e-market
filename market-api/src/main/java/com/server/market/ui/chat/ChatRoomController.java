@@ -46,7 +46,7 @@ public class ChatRoomController {
             @AuthMember final Long authMember,
             @RequestBody @Valid final ChattingRoomCreateRequest request
     ) {
-        ChattingRoom chattingRoom = chatRoomService.createChattingRoomByBuyer(authMember, request.sellerId(), productId);
+        ChattingRoom chattingRoom = chatRoomService.createChattingRoomByBuyer(authMember, productId, request.sellerId());
         return ResponseEntity.created(URI.create("/api/products/" + productId + "/chats/" + chattingRoom.getId()))
                 .body(ChattingRoomResponse.from(chattingRoom));
     }
