@@ -1,4 +1,4 @@
-create table market.product_image
+create table product_image
 (
     created_at  datetime(6)  not null,
     id          bigint auto_increment
