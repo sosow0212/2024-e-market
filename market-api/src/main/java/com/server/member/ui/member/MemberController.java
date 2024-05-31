@@ -3,6 +3,7 @@ package com.server.member.ui.member;
 import com.server.member.application.member.MemberService;
 import com.server.member.domain.member.dto.TradeHistoryResponse;
 import com.server.member.ui.auth.support.AuthMember;
+import com.server.member.ui.member.dto.MemberIdResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,5 +29,10 @@ public class MemberController {
     ) {
         List<TradeHistoryResponse> response = memberService.findTradeHistories(memberId, authId, isSeller);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<MemberIdResponse> getMyId(@AuthMember final Long authId) {
+        return ResponseEntity.ok(new MemberIdResponse(authId));
     }
 }

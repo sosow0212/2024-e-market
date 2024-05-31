@@ -18,3 +18,15 @@ include::{snippets}/member-controller-test/find_trade_histories/http-request.ado
 include::{snippets}/member-controller-test/find_trade_histories/response-fields.adoc[]
 include::{snippets}/member-controller-test/find_trade_histories/http-response.adoc[]
 
+== 나의 id 반환 (GET /api/members)
+
+=== Request
+
+include::{snippets}/member-controller-test/find_my_id/request-headers.adoc[]
+include::{snippets}/member-controller-test/find_my_id/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/member-controller-test/find_my_id/response-fields.adoc[]
+include::{snippets}/member-controller-test/find_my_id/http-response.adoc[]
+

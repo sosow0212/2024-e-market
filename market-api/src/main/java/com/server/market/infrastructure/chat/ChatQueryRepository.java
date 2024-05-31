@@ -41,9 +41,9 @@ public class ChatQueryRepository {
                         chat.chatRoomId,
                         chat.id,
                         chat.senderId,
-                        member.nickname, // join
+                        member.nickname,
                         chat.message,
-                        chat.senderId.eq(authId), // 보낸 사람이 인증된 사용자인지 여부
+                        chat.senderId.eq(authId),
                         chat.createdAt
                 )).from(chat)
                 .leftJoin(member).on(member.id.eq(chat.senderId)) // 이 부분이 잘못됨
