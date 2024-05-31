@@ -71,4 +71,19 @@ class MemberControllerTest extends MockBeanInjection {
                 ));
     }
 
+    @Test
+    void 나의_id를_반환한다() throws Exception {
+        // when & then
+        mockMvc.perform(get("/api/members")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer tokenInfo~")
+                ).andExpect(status().isOk())
+                .andDo(customDocument("find_my_id",
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("유저 토큰 정보")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("로그인 한 유저의 id")
+                        )
+                ));
+    }
 }
