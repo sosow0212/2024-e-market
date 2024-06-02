@@ -35,3 +35,15 @@ jwt:
 file:
   upload:
     location: "/home/images"
+
+cloud:
+  aws:
+    s3:
+      bucket: 123
+    credentials:
+      accessKey: 123
+      secretKey: 123
+    region:
+      static: 123-33-2
+    stack:
+      auto: false

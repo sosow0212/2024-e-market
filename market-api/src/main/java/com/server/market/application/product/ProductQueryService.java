@@ -1,11 +1,12 @@
 package com.server.market.application.product;
 
+import com.server.market.application.product.dto.ProductWithImageResponse;
 import com.server.market.domain.product.ProductRepository;
+import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.exception.exceptions.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +23,11 @@ public class ProductQueryService {
         return productRepository.findAllProductsInCategoryWithPaging(memberId, productId, categoryId, pageSize);
     }
 
-    public ProductSpecificResponse findById(final Long productId, final Long memberId) {
-        return productRepository.findSpecificProductById(productId, memberId)
+    public ProductWithImageResponse findById(final Long productId, final Long memberId) {
+        List<ProductImageResponse> images = productRepository.findImages(productId);
+        ProductSpecificResponse product = productRepository.findSpecificProductById(productId, memberId)
                 .orElseThrow(ProductNotFoundException::new);
+        return new ProductWithImageResponse(product, images);
     }
 
     public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {

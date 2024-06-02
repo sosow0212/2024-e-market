@@ -4,6 +4,7 @@ import com.server.helper.IntegrationHelper;
 import com.server.market.application.product.ProductService;
 import com.server.market.application.product.dto.ProductCreateRequest;
 import com.server.market.application.product.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.ProductWithImageResponse;
 import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.category.CategoryRepository;
 import com.server.market.domain.product.Product;
@@ -101,11 +102,11 @@ public class ProductControllerAcceptanceFixture extends IntegrationHelper {
     }
 
     protected void 상품_단건_조회를_검증한다(final ExtractableResponse<Response> actual, final List<Product> fixture) {
-        ProductSpecificResponse result = actual.as(ProductSpecificResponse.class);
+        ProductWithImageResponse result = actual.as(ProductWithImageResponse.class);
 
         assertSoftly(softly -> {
             softly.assertThat(actual.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat(result.id()).isEqualTo(fixture.get(0).getId());
+            softly.assertThat(result.product().id()).isEqualTo(fixture.get(0).getId());
         });
     }
 

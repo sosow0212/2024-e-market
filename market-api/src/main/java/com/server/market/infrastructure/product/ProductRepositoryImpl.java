@@ -3,6 +3,7 @@ package com.server.market.infrastructure.product;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductLike;
 import com.server.market.domain.product.ProductRepository;
+import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import lombok.RequiredArgsConstructor;
@@ -66,5 +67,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {
         return productQueryRepository.findLikesProducts(memberId);
+    }
+
+    @Override
+    public List<ProductImageResponse> findImages(final Long productId) {
+        return productQueryRepository.findImages(productId);
     }
 }

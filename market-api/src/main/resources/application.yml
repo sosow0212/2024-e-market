@@ -39,3 +39,15 @@ management:
     web:
       exposure:
         include: prometheus, health
+
+cloud:
+  aws:
+    s3:
+      bucket: ENC(q7eqmr5927y5506Ji1XYs8TP3Fpa7no1)
+    credentials:
+      accessKey: ENC(x4W4LmxWa8tz4sljssDXcUHwoXQk3GP87YBp4L9xwP8=)
+      secretKey: ENC(a5J/o6OvGuzlZGMCBRd+COmGf4CjpW82dnuRLqyb9hFI9xYQ9JpneX32Z6WtLMG/pEW4woZ5PDE=)
+    region:
+      static: ENC(McnMDfKSm1wW5BYf92XaaaITx9NvayOO)
+    stack:
+      auto: false
