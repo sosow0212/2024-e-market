@@ -6,6 +6,7 @@ import com.server.market.domain.product.ProductImage;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,7 @@ import java.util.stream.IntStream;
 
 @Slf4j
 @Service
+@Profile("local")
 public class ProductImageUploaderImpl implements ProductImageUploader {
 
     @Value("${file.upload.location}")

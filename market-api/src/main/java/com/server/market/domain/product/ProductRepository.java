@@ -1,5 +1,6 @@
 package com.server.market.domain.product;
 
+import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 
@@ -27,4 +28,6 @@ public interface ProductRepository {
     ProductLike saveProductLike(ProductLike productLike);
 
     List<ProductPagingSimpleResponse> findLikesProducts(Long memberId);
+
+    List<ProductImageResponse> findImages(Long productId);
 }

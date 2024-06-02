@@ -3,6 +3,7 @@ package com.server.market.infrastructure.product;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import static com.querydsl.core.types.Projections.constructor;
 import static com.server.market.domain.category.QCategory.category;
 import static com.server.market.domain.product.QProduct.product;
+import static com.server.market.domain.product.QProductImage.productImage;
 import static com.server.market.domain.product.QProductLike.productLike;
 import static com.server.member.domain.member.QMember.member;
 
@@ -61,6 +63,18 @@ public class ProductQueryRepository {
 
         return product.id.lt(productId);
     }
+
+    public List<ProductImageResponse> findImages(final Long productId) {
+        return jpaQueryFactory.select(
+                        constructor(ProductImageResponse.class,
+                                productImage.id,
+                                productImage.uniqueName
+                        )
+                ).from(productImage)
+                .where(productImage.product.id.eq(productId))
+                .fetch();
+    }
+
 
     public Optional<ProductSpecificResponse> findSpecificProductById(final Long id, final Long memberId) {
         return Optional.ofNullable(jpaQueryFactory.select(constructor(ProductSpecificResponse.class,

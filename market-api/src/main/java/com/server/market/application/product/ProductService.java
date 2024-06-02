@@ -29,6 +29,7 @@ public class ProductService {
     public Long uploadProduct(final Long memberId, final Long categoryId, final ProductCreateRequest request) {
         Product product = Product.of(request.title(), request.content(), request.location(), request.price(), categoryId, memberId, request.images(), productImageConverter);
         Product savedProduct = productRepository.save(product);
+        productImageUploader.upload(product.getProductImages(), request.images());
         return savedProduct.getId();
     }
 

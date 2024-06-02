@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.helper.MockBeanInjection;
 import com.server.market.application.product.dto.ProductCreateRequest;
 import com.server.market.application.product.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.ProductWithImageResponse;
+import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.domain.product.vo.Location;
@@ -160,7 +162,7 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         Long categoryId = 1L;
         Long productId = 1L;
         ProductSpecificResponse response = 상품_상세정보_생성();
-        when(productQueryService.findById(any(), any())).thenReturn(response);
+        when(productQueryService.findById(any(), any())).thenReturn(new ProductWithImageResponse(response, List.of(new ProductImageResponse(1L, "https://s3/image"))));
 
         // when & then
         mockMvc.perform(get("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
@@ -179,22 +181,24 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                                 parameterWithName("productId").description("조회하는 상품 id")
                         ),
                         responseFields(
-                                fieldWithPath("id").description("상품 id"),
-                                fieldWithPath("location").description("거래 장소 (3공학관, 5공학관 등등..)"),
-                                fieldWithPath("title").description("상품 제목"),
-                                fieldWithPath("content").description("상품 내용"),
-                                fieldWithPath("price").description("상품 가격"),
-                                fieldWithPath("productStatus").description("상품 상태 (WAITING, RESERVED, COMPLETED)"),
-                                fieldWithPath("visitedCount").description("상품 조회자 수"),
-                                fieldWithPath("contactCount").description("판매자에게 연락한 사람 수"),
-                                fieldWithPath("categoryId").description("카테고리 id"),
-                                fieldWithPath("categoryName").description("카테고리 이름"),
-                                fieldWithPath("ownerId").description("판매자 id"),
-                                fieldWithPath("ownerNickname").description("판매자 닉네임"),
-                                fieldWithPath("isMyProduct").description("자신이 등록한 상품인지 (Boolean)"),
-                                fieldWithPath("likedCount").description("상품의 좋아요 개수"),
-                                fieldWithPath("isLikedAlreadyByMe").description("상품 좋아요를 눌렀는지 여부"),
-                                fieldWithPath("createDate").description("상품 등록일")
+                                fieldWithPath("product.id").description("상품 id"),
+                                fieldWithPath("product.location").description("거래 장소 (3공학관, 5공학관 등등..)"),
+                                fieldWithPath("product.title").description("상품 제목"),
+                                fieldWithPath("product.content").description("상품 내용"),
+                                fieldWithPath("product.price").description("상품 가격"),
+                                fieldWithPath("product.productStatus").description("상품 상태 (WAITING, RESERVED, COMPLETED)"),
+                                fieldWithPath("product.visitedCount").description("상품 조회자 수"),
+                                fieldWithPath("product.contactCount").description("판매자에게 연락한 사람 수"),
+                                fieldWithPath("product.categoryId").description("카테고리 id"),
+                                fieldWithPath("product.categoryName").description("카테고리 이름"),
+                                fieldWithPath("product.ownerId").description("판매자 id"),
+                                fieldWithPath("product.ownerNickname").description("판매자 닉네임"),
+                                fieldWithPath("product.isMyProduct").description("자신이 등록한 상품인지 (Boolean)"),
+                                fieldWithPath("product.likedCount").description("상품의 좋아요 개수"),
+                                fieldWithPath("product.isLikedAlreadyByMe").description("상품 좋아요를 눌렀는지 여부"),
+                                fieldWithPath("product.createDate").description("상품 등록일"),
+                                fieldWithPath("images[].id").description("이미지 id"),
+                                fieldWithPath("images[].url").description("이미지 url")
                         )
                 ));
     }

@@ -32,7 +32,7 @@ public class ChatQueryRepository {
                 )).from(chattingRoom)
                 .join(product).on(chattingRoom.productId.eq(product.id))
                 .join(member).on(chattingRoom.sellerId.eq(member.id))
-                .where(chattingRoom.buyerId.eq(authId))
+                .where(chattingRoom.buyerId.eq(authId).or(chattingRoom.sellerId.eq(authId)))
                 .fetch();
     }
 

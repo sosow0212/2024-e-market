@@ -4,9 +4,9 @@ import com.server.market.application.product.ProductQueryService;
 import com.server.market.application.product.ProductService;
 import com.server.market.application.product.dto.ProductCreateRequest;
 import com.server.market.application.product.dto.ProductUpdateRequest;
+import com.server.market.application.product.dto.ProductWithImageResponse;
 import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
-import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.ui.product.support.ViewCountChecker;
 import com.server.member.ui.auth.support.AuthMember;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<ProductSpecificResponse> findProductById(
+    public ResponseEntity<ProductWithImageResponse> findProductById(
             @PathVariable("productId") final Long productId,
             @PathVariable("categoryId") final Long categoryId,
             @AuthMember final Long memberId,

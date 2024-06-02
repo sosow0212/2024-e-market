@@ -4,6 +4,7 @@ import com.server.market.domain.category.CategoryName;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductLike;
 import com.server.market.domain.product.ProductRepository;
+import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.market.domain.product.vo.Location;
@@ -113,6 +114,11 @@ public class ProductFakeRepository implements ProductRepository {
 
     @Override
     public List<ProductPagingSimpleResponse> findLikesProducts(final Long memberId) {
+        return List.of();
+    }
+
+    @Override
+    public List<ProductImageResponse> findImages(final Long productId) {
         return List.of();
     }
 

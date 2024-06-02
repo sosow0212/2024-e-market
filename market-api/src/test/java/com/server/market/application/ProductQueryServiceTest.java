@@ -2,12 +2,12 @@ package com.server.market.application;
 
 import com.server.helper.IntegrationHelper;
 import com.server.market.application.product.ProductQueryService;
+import com.server.market.application.product.dto.ProductWithImageResponse;
 import com.server.market.domain.category.Category;
 import com.server.market.domain.category.CategoryRepository;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductRepository;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
-import com.server.market.domain.product.dto.ProductSpecificResponse;
 import com.server.member.domain.member.Member;
 import com.server.member.domain.member.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,9 +66,9 @@ class ProductQueryServiceTest extends IntegrationHelper {
     @Test
     void 상품_상세_조회() {
         // when
-        ProductSpecificResponse result = productQueryService.findById(product.getId(), 1L);
+        ProductWithImageResponse result = productQueryService.findById(product.getId(), 1L);
 
         // then
-        assertThat(result.id()).isEqualTo(product.getId());
+        assertThat(result.product().id()).isEqualTo(product.getId());
     }
 }
