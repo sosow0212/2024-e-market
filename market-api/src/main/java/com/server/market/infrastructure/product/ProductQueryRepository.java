@@ -45,7 +45,7 @@ public class ProductQueryRepository {
                         product.categoryId.eq(categoryId)
                 ).orderBy(product.id.desc())
                 .leftJoin(member).on(product.memberId.eq(member.id))
-                .leftJoin(productLike).on(productLike.productId.eq(product.id))
+                .leftJoin(productLike).on(productLike.productId.eq(product.id).and(productLike.memberId.eq(memberId)))
                 .limit(pageSize)
                 .fetch();
     }
@@ -87,7 +87,6 @@ public class ProductQueryRepository {
                         product.statisticCount.visitedCount,
                         product.statisticCount.contactCount,
                         product.categoryId,
-                        category.name,
                         member.id,
                         member.nickname,
                         member.id.eq(memberId),

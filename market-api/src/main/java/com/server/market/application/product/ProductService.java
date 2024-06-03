@@ -76,14 +76,14 @@ public class ProductService {
 
     public boolean likes(final Long productId, final Long memberId) {
         Product product = findBoardWithPessimisticLock(productId);
-        boolean isNeedToIncrease = doesNeedToIncreaseLikeCount(productId, memberId);
+        boolean isNeedToIncrease = isNeedToIncreaseLikeCount(productId, memberId);
         product.likes(isNeedToIncrease);
         return isNeedToIncrease;
     }
 
-    private boolean doesNeedToIncreaseLikeCount(final Long productId, final Long memberId) {
-        if (productRepository.existsByProductIdAndMemberId(productId, memberId)) {
-            productRepository.deleteByProductIdAndMemberId(productId, memberId);
+    private boolean isNeedToIncreaseLikeCount(final Long productId, final Long memberId) {
+        if (productRepository.existsProductLikeByProductIdAndMemberId(productId, memberId)) {
+            productRepository.deleteProductLikeByProductIdAndMemberId(productId, memberId);
             return false;
         }
 

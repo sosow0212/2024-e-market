@@ -62,7 +62,7 @@ public class ProductFakeRepository implements ProductRepository {
     public Optional<ProductSpecificResponse> findSpecificProductById(final Long productId, final Long memberId) {
         if (map.containsKey(id)) {
             Product product = map.get(id);
-            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getLocation(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), CategoryName.A000, product.getMemberId(), "owner", true, 1, true, LocalDateTime.now()));
+            return Optional.of(new ProductSpecificResponse(product.getId(), product.getDescription().getLocation(), product.getDescription().getTitle(), product.getDescription().getContent(), product.getPrice().getPrice(), product.getProductStatus(), product.getStatisticCount().getVisitedCount(), product.getStatisticCount().getContactCount(), product.getCategoryId(), product.getMemberId(), "owner", true, 1, true, LocalDateTime.now()));
         }
 
         return Optional.empty();
@@ -93,12 +93,12 @@ public class ProductFakeRepository implements ProductRepository {
     }
 
     @Override
-    public boolean existsByProductIdAndMemberId(final Long productId, final Long memberId) {
+    public boolean existsProductLikeByProductIdAndMemberId(final Long productId, final Long memberId) {
         return false;
     }
 
     @Override
-    public void deleteByProductIdAndMemberId(final Long productId, final Long memberId) {
+    public void deleteProductLikeByProductIdAndMemberId(final Long productId, final Long memberId) {
     }
 
     @Override
