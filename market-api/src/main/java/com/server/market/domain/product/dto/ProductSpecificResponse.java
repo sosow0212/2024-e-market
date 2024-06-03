@@ -16,7 +16,7 @@ public record ProductSpecificResponse(
         Integer visitedCount,
         Integer contactCount,
         Long categoryId,
-        CategoryName categoryName,
+        String categoryName,
         Long ownerId,
         String ownerNickname,
         Boolean isMyProduct,
@@ -25,7 +25,12 @@ public record ProductSpecificResponse(
         LocalDateTime createDate
 ) {
 
-    public ProductSpecificResponse(final Long id, final Location location, final String title, final String content, final Integer price, final ProductStatus productStatus, final Integer visitedCount, final Integer contactCount, final Long categoryId, final CategoryName categoryName, final Long ownerId, final String ownerNickname, final Boolean isMyProduct, final Integer likedCount, final Boolean isLikedAlreadyByMe, final LocalDateTime createDate) {
-        this(id, location.getContent(), title, content, price, productStatus, visitedCount, contactCount, categoryId, categoryName, ownerId, ownerNickname, isMyProduct, likedCount, isLikedAlreadyByMe, createDate);
+    public ProductSpecificResponse(final Long id, final Location location, final String title, final String content, final Integer price, final ProductStatus productStatus, final Integer visitedCount, final Integer contactCount, final Long categoryId, final Long ownerId, final String ownerNickname, final Boolean isMyProduct, final Integer likedCount, final Boolean isLikedAlreadyByMe, final LocalDateTime createDate) {
+        this(id, location.getContent(), title, content, price, productStatus, visitedCount, contactCount, categoryId, from(categoryId), ownerId, ownerNickname, isMyProduct, likedCount, isLikedAlreadyByMe, createDate);
+    }
+
+    public static String from(final Long categoryId) {
+        return CategoryName.from(categoryId)
+                .getName();
     }
 }

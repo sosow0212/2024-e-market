@@ -87,7 +87,6 @@ public class ProductQueryRepository {
                         product.statisticCount.visitedCount,
                         product.statisticCount.contactCount,
                         product.categoryId,
-                        category.name,
                         member.id,
                         member.nickname,
                         member.id.eq(memberId),
