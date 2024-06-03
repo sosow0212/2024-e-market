@@ -50,12 +50,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public boolean existsByProductIdAndMemberId(final Long productId, final Long memberId) {
+    public boolean existsProductLikeByProductIdAndMemberId(final Long productId, final Long memberId) {
         return productLikeJpaRepository.existsByProductIdAndMemberId(productId, memberId);
     }
 
     @Override
-    public void deleteByProductIdAndMemberId(final Long productId, final Long memberId) {
+    public void deleteProductLikeByProductIdAndMemberId(final Long productId, final Long memberId) {
         productLikeJpaRepository.deleteByProductIdAndMemberId(productId, memberId);
     }
 

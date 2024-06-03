@@ -93,12 +93,12 @@ public class ProductFakeRepository implements ProductRepository {
     }
 
     @Override
-    public boolean existsByProductIdAndMemberId(final Long productId, final Long memberId) {
+    public boolean existsProductLikeByProductIdAndMemberId(final Long productId, final Long memberId) {
         return false;
     }
 
     @Override
-    public void deleteByProductIdAndMemberId(final Long productId, final Long memberId) {
+    public void deleteProductLikeByProductIdAndMemberId(final Long productId, final Long memberId) {
     }
 
     @Override

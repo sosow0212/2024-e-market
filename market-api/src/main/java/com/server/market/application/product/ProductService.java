@@ -82,8 +82,8 @@ public class ProductService {
     }
 
     private boolean isNeedToIncreaseLikeCount(final Long productId, final Long memberId) {
-        if (productRepository.existsByProductIdAndMemberId(productId, memberId)) {
-            productRepository.deleteByProductIdAndMemberId(productId, memberId);
+        if (productRepository.existsProductLikeByProductIdAndMemberId(productId, memberId)) {
+            productRepository.deleteProductLikeByProductIdAndMemberId(productId, memberId);
             return false;
         }
 

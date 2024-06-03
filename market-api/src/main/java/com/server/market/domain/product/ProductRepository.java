@@ -21,9 +21,9 @@ public interface ProductRepository {
 
     List<ProductPagingSimpleResponse> findAllProductsInCategoryWithPaging(Long memberId, Long productId, Long categoryId, int pageSize);
 
-    boolean existsByProductIdAndMemberId(Long productId, Long memberId);
+    boolean existsProductLikeByProductIdAndMemberId(Long productId, Long memberId);
 
-    void deleteByProductIdAndMemberId(Long productId, Long memberId);
+    void deleteProductLikeByProductIdAndMemberId(Long productId, Long memberId);
 
     ProductLike saveProductLike(ProductLike productLike);
 
