@@ -2,8 +2,10 @@ package com.server.member.infrastructure.member;
 
 import com.server.member.domain.member.Member;
 import com.server.member.domain.member.MemberRepository;
+import com.server.member.domain.member.dto.ProductByMemberResponse;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,5 +54,10 @@ public class MemberFakeRepository implements MemberRepository {
     public boolean existsByEmail(final String email) {
         return map.values().stream()
                 .anyMatch(member -> member.getEmail().equals(email));
+    }
+
+    @Override
+    public List<ProductByMemberResponse> findProductsByMemberId(final Long memberId) {
+        return List.of();
     }
 }

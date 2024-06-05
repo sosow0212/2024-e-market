@@ -2,6 +2,9 @@ package com.server.member.ui.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.helper.MockBeanInjection;
+import com.server.market.domain.product.vo.Location;
+import com.server.market.domain.product.vo.ProductStatus;
+import com.server.member.domain.member.dto.ProductByMemberResponse;
 import com.server.member.domain.member.dto.TradeHistoryResponse;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -12,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.server.helper.RestDocsHelper.customDocument;
@@ -67,6 +71,32 @@ class MemberControllerTest extends MockBeanInjection {
                                 fieldWithPath("[0].productDiscountPrice").description("상품 할인해서 구매한 가격"),
                                 fieldWithPath("[0].usingCouponIds").description("사용한 쿠폰 ids, String 타입으로 ',' 이용해서 묶음")
 
+                        )
+                ));
+    }
+
+    @Test
+    void 상품_판매_내역을_조회한다() throws Exception {
+        // given
+        when(memberService.findProductHistories(anyLong(), anyLong()))
+                .thenReturn(List.of(new ProductByMemberResponse(1L, 1L, "상품명", 10000, Location.BUILDING_CENTER, ProductStatus.WAITING, LocalDateTime.now())));
+
+        // when & then
+        mockMvc.perform(get("/api/members/{memberId}/products", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer tokenInfo~")
+                ).andExpect(status().isOk())
+                .andDo(customDocument("find_member_products",
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("유저 토큰 정보")
+                        ),
+                        responseFields(
+                                fieldWithPath("[0].productId").description("상품 id"),
+                                fieldWithPath("[0].sellerId").description("판매자 id"),
+                                fieldWithPath("[0].title").description("상품 제목"),
+                                fieldWithPath("[0].price").description("상품 가격"),
+                                fieldWithPath("[0].location").description("상품 거래 장소"),
+                                fieldWithPath("[0].productStatus").description("상품 거래 상태"),
+                                fieldWithPath("[0].createTime").description("상품 업로드 날짜")
                         )
                 ));
     }

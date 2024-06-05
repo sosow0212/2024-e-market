@@ -5,6 +5,7 @@ import com.server.member.domain.member.Member;
 import com.server.member.domain.member.MemberRepository;
 import com.server.member.domain.member.TradeHistory;
 import com.server.member.domain.member.TradeHistoryRepository;
+import com.server.member.domain.member.dto.ProductByMemberResponse;
 import com.server.member.domain.member.dto.TradeHistoryResponse;
 import com.server.member.exception.exceptions.member.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final TradeHistoryRepository tradeHistoryRepository;
 
-    @Transactional(readOnly = true)
     public List<TradeHistoryResponse> findTradeHistories(final Long memberId, final Long authId, final boolean isSeller) {
         Member member = findMember(authId);
         member.validateAuth(memberId);
@@ -45,5 +46,12 @@ public class MemberService {
 
         TradeHistory savedTradeHistory = tradeHistoryRepository.save(tradeHistory);
         return savedTradeHistory.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductByMemberResponse> findProductHistories(final Long memberId, final Long authId) {
+        Member member = findMember(memberId);
+        member.validateAuth(memberId);
+        return memberRepository.findProductsByMemberId(memberId);
     }
 }
