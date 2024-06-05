@@ -1,16 +1,21 @@
 package com.server.member.domain.member;
 
+import com.server.member.domain.member.dto.ProductByMemberResponse;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository {
 
-    Optional<Member> findById(final Long id);
+    Optional<Member> findById(Long id);
 
-    Optional<Member> findByNickname(final String nickname);
+    Optional<Member> findByNickname(String nickname);
 
-    Optional<Member> findByEmail(final String email);
+    Optional<Member> findByEmail(String email);
 
-    Member save(final Member member);
+    Member save(Member member);
 
-    boolean existsByEmail(final String email);
+    boolean existsByEmail(String email);
+
+    List<ProductByMemberResponse> findProductsByMemberId(Long memberId);
 }

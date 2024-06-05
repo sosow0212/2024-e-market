@@ -1,6 +1,7 @@
 package com.server.member.ui.member;
 
 import com.server.member.application.member.MemberService;
+import com.server.member.domain.member.dto.ProductByMemberResponse;
 import com.server.member.domain.member.dto.TradeHistoryResponse;
 import com.server.member.ui.auth.support.AuthMember;
 import com.server.member.ui.member.dto.MemberIdResponse;
@@ -29,6 +30,14 @@ public class MemberController {
     ) {
         List<TradeHistoryResponse> response = memberService.findTradeHistories(memberId, authId, isSeller);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{memberId}/products")
+    public ResponseEntity<List<ProductByMemberResponse>> findProductHistories(
+            @PathVariable("memberId") final Long memberId,
+            @AuthMember final Long authId
+    ) {
+        return ResponseEntity.ok(memberService.findProductHistories(memberId, authId));
     }
 
     @GetMapping

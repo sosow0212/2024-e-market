@@ -18,6 +18,18 @@ include::{snippets}/member-controller-test/find_trade_histories/http-request.ado
 include::{snippets}/member-controller-test/find_trade_histories/response-fields.adoc[]
 include::{snippets}/member-controller-test/find_trade_histories/http-response.adoc[]
 
+== 판매 내역 조회 (GET /api/members/{memberId}/products)
+
+=== Request
+
+include::{snippets}/member-controller-test/find_member_products/request-headers.adoc[]
+include::{snippets}/member-controller-test/find_member_products/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/member-controller-test/find_member_products/response-fields.adoc[]
+include::{snippets}/member-controller-test/find_member_products/http-response.adoc[]
+
 == 나의 id 반환 (GET /api/members)
 
 === Request
