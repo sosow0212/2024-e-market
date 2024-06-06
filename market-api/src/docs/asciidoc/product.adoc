@@ -47,6 +47,19 @@ include::{snippets}/product-controller-web-mvc-test/find_product_by_id/http-requ
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/response-fields.adoc[]
 include::{snippets}/product-controller-web-mvc-test/find_product_by_id/http-response.adoc[]
 
+=== 상품을 구매한다 (POST /api/categories/{categoryId}/products/{productId})
+
+==== Request
+
+include::{snippets}/product-controller-web-mvc-test/buy_product/request-headers.adoc[]
+include::{snippets}/product-controller-web-mvc-test/buy_product/path-parameters.adoc[]
+include::{snippets}/product-controller-web-mvc-test/buy_product/request-fields.adoc[]
+include::{snippets}/product-controller-web-mvc-test/buy_product/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/product-controller-web-mvc-test/buy_product/http-response.adoc[]
+
 === 상품을 수정한다 (PATCH /api/categories/{categoryId}/products/{productId})
 
 ==== Request

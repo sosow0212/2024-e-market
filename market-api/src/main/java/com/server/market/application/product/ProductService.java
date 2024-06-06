@@ -75,7 +75,7 @@ public class ProductService {
     }
 
     public boolean likes(final Long productId, final Long memberId) {
-        Product product = findBoardWithPessimisticLock(productId);
+        Product product = findProduct(productId);
         boolean isNeedToIncrease = isNeedToIncreaseLikeCount(productId, memberId);
         product.likes(isNeedToIncrease);
         return isNeedToIncrease;
