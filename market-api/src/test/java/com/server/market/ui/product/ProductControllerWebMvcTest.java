@@ -5,6 +5,7 @@ import com.server.helper.MockBeanInjection;
 import com.server.market.application.product.dto.ProductCreateRequest;
 import com.server.market.application.product.dto.ProductUpdateRequest;
 import com.server.market.application.product.dto.ProductWithImageResponse;
+import com.server.market.application.product.dto.UsingCouponRequest;
 import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
@@ -47,7 +48,9 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
@@ -263,6 +266,36 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                 .andDo(customDocument("delete_product_by_id",
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("categoryId").description("카테고리 id"),
+                                parameterWithName("productId").description("조회하는 상품 id")
+                        )
+                ));
+    }
+
+    @Test
+    void 상품을_구매한다() throws Exception {
+        // given
+        Long categoryId = 1L;
+        Long productId = 1L;
+        UsingCouponRequest request = new UsingCouponRequest(List.of(1L), 10000, 1000);
+        doNothing().when(productService).delete(anyLong(), anyLong());
+
+        // when & then
+        mockMvc.perform(post("/api/categories/{categoryId}/products/{productId}", categoryId, productId)
+                        .header(AUTHORIZATION, "Bearer tokenInfo~")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                ).andExpect(status().isOk())
+                .andDo(customDocument("buy_product",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("인증 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("usingCouponIds[0]").description("적용할 쿠폰 id (없어도 됨)"),
+                                fieldWithPath("productOriginalPrice").description("상품의 원래 가격 (필수)"),
+                                fieldWithPath("productDiscountPrice").description("쿠폰 적용 후 반영된 전체 가격 (필수 -> 쿠폰이 없다면 원래 가격 그대로 입력)")
                         ),
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 id"),
