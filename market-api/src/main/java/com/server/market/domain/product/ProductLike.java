@@ -34,8 +34,10 @@ public class ProductLike extends BaseEntity {
     @Column(nullable = false)
     private Long productId;
 
-    public ProductLike(final Long memberId, final Long productId) {
-        this.memberId = memberId;
-        this.productId = productId;
+    public static ProductLike from(final Long memberId, final Long productId) {
+        return ProductLike.builder()
+                .memberId(memberId)
+                .productId(productId)
+                .build();
     }
 }

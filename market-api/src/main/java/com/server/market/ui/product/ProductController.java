@@ -86,10 +86,11 @@ public class ProductController {
 
     @PatchMapping("/{categoryId}/products/{productId}/likes")
     public ResponseEntity<Boolean> likesProduct(
-            @PathVariable("productId") final Long productId,
             @PathVariable("categoryId") final Long categoryId,
+            @PathVariable("productId") final Long productId,
             @AuthMember final Long memberId
     ) {
+        System.out.println("gogo " + memberId + " " + productId);
         boolean likes = productService.likes(productId, memberId);
         return ResponseEntity.ok(likes);
     }

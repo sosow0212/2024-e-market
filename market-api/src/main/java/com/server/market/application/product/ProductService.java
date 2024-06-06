@@ -34,7 +34,7 @@ public class ProductService {
     }
 
     public Product addViewCount(final Long productId, final Boolean canAddViewCount) {
-        Product product = findBoardWithPessimisticLock(productId);
+        Product product = findProductWithPessimisticLock(productId);
         product.view(canAddViewCount);
         return product;
     }
@@ -69,25 +69,25 @@ public class ProductService {
                 .orElseThrow(ProductNotFoundException::new);
     }
 
-    private Product findBoardWithPessimisticLock(final Long productId) {
+    private Product findProductWithPessimisticLock(final Long productId) {
         return productRepository.findByIdWithPessimisticLock(productId)
                 .orElseThrow(ProductNotFoundException::new);
     }
 
     public boolean likes(final Long productId, final Long memberId) {
-        Product product = findProduct(productId);
-        boolean isNeedToIncrease = isNeedToIncreaseLikeCount(productId, memberId);
-        product.likes(isNeedToIncrease);
-        return isNeedToIncrease;
+        Product product = findProductWithPessimisticLock(productId);
+        boolean shouldIncreaseLikeCount = shouldIncreaseLikeCount(productId, memberId);
+        product.likes(shouldIncreaseLikeCount);
+        return shouldIncreaseLikeCount;
     }
 
-    private boolean isNeedToIncreaseLikeCount(final Long productId, final Long memberId) {
+    private boolean shouldIncreaseLikeCount(final Long productId, final Long memberId) {
         if (productRepository.existsProductLikeByProductIdAndMemberId(productId, memberId)) {
             productRepository.deleteProductLikeByProductIdAndMemberId(productId, memberId);
             return false;
         }
 
-        productRepository.saveProductLike(new ProductLike(productId, memberId));
+        productRepository.saveProductLike(ProductLike.from(memberId, productId));
         return true;
     }
 }
