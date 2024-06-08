@@ -57,6 +57,7 @@ public class TradeHistoryFakeRepository implements TradeHistoryRepository {
                         it.getId(),
                         "buyer",
                         "seller",
+                        1L,
                         "title",
                         it.getProductOriginPrice(),
                         it.getProductDiscountPrice(),

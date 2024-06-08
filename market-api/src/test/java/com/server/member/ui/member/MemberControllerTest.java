@@ -1,6 +1,5 @@
 package com.server.member.ui.member;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.helper.MockBeanInjection;
 import com.server.market.domain.product.vo.Location;
 import com.server.market.domain.product.vo.ProductStatus;
@@ -41,14 +40,11 @@ class MemberControllerTest extends MockBeanInjection {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     void 거래_내역을_조회한다() throws Exception {
         // given
         when(memberService.findTradeHistories(anyLong(), anyLong(), anyBoolean()))
-                .thenReturn(List.of(new TradeHistoryResponse(1L, "buyerNickname", "sellerNickname", "productTitle", 10000, 10, "1,2,3")));
+                .thenReturn(List.of(new TradeHistoryResponse(1L, "buyerNickname", "sellerNickname", 1L, "productTitle", 10000, 10, "1,2,3")));
 
         // when & then
         mockMvc.perform(get("/api/members/{memberId}/histories", 1L)
@@ -66,11 +62,11 @@ class MemberControllerTest extends MockBeanInjection {
                                 fieldWithPath("[0].tradeHistoryId").description("거래 내역 id"),
                                 fieldWithPath("[0].buyerName").description("구매자 닉네임"),
                                 fieldWithPath("[0].sellerName").description("판매자 닉네임"),
+                                fieldWithPath("[0].productId").description("상품 id"),
                                 fieldWithPath("[0].productTitle").description("상품 제목"),
                                 fieldWithPath("[0].productOriginPrice").description("상품 정상가"),
                                 fieldWithPath("[0].productDiscountPrice").description("상품 할인해서 구매한 가격"),
                                 fieldWithPath("[0].usingCouponIds").description("사용한 쿠폰 ids, String 타입으로 ',' 이용해서 묶음")
-
                         )
                 ));
     }
