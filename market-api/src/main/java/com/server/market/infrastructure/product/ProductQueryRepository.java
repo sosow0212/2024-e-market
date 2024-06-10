@@ -1,11 +1,16 @@
 package com.server.market.infrastructure.product;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.server.market.domain.product.QProduct;
+import com.server.market.domain.product.QProductImage;
+import com.server.market.domain.product.QProductLike;
 import com.server.market.domain.product.dto.ProductImageResponse;
 import com.server.market.domain.product.dto.ProductPagingSimpleResponse;
 import com.server.market.domain.product.dto.ProductSpecificResponse;
+import com.server.member.domain.member.QMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.querydsl.core.types.Projections.constructor;
+import static com.querydsl.core.types.dsl.Expressions.stringTemplate;
 import static com.server.market.domain.category.QCategory.category;
 import static com.server.market.domain.product.QProduct.product;
 import static com.server.market.domain.product.QProductImage.productImage;
@@ -26,8 +32,23 @@ public class ProductQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public List<ProductPagingSimpleResponse> findAllWithPagingByCategoryId(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
-        return jpaQueryFactory.select(constructor(ProductPagingSimpleResponse.class,
+        QProduct product = QProduct.product;
+        QProductImage productImage = QProductImage.productImage;
+        QMember member = QMember.member;
+        QProductLike productLike = QProductLike.productLike;
+
+        return jpaQueryFactory.select(Projections.constructor(ProductPagingSimpleResponse.class,
                         product.id,
+                        new CaseBuilder()
+                                .when(productImage.id.isNull())
+                                .then(-1L)
+                                .otherwise(productImage.id).as("imageId"),
+                        new CaseBuilder()
+                                .when(productImage.uniqueName.isNull())
+                                .then("null")
+                                .otherwise(
+                                        stringTemplate("CONCAT('https://atwozimage.s3.ap-northeast-2.amazonaws.com/', {0})", productImage.uniqueName)
+                                ).as("uniqueName"),
                         product.description.location,
                         product.description.title,
                         product.price.price,
@@ -39,13 +60,16 @@ public class ProductQueryRepository {
                         product.statisticCount.likedCount,
                         isLikedAlreadyByMe(memberId),
                         product.createdAt
-                )).from(product)
-                .where(
-                        ltProductId(productId),
-                        product.categoryId.eq(categoryId)
-                ).orderBy(product.id.desc())
+                ))
+                .from(product)
                 .leftJoin(member).on(product.memberId.eq(member.id))
                 .leftJoin(productLike).on(productLike.productId.eq(product.id).and(productLike.memberId.eq(memberId)))
+                .leftJoin(productImage).on(productImage.product.id.eq(product.id))
+                .where(
+                        ltProductId(productId),
+                        categoryId != null ? product.categoryId.eq(categoryId) : product.categoryId.isNull()
+                )
+                .orderBy(product.id.desc())
                 .limit(pageSize)
                 .fetch();
     }

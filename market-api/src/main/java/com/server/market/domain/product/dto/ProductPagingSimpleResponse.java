@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 public record ProductPagingSimpleResponse(
         Long id,
+        Long thumbnailId,
+        String thumbnailUrl,
         String location,
         String title,
         Integer price,
@@ -21,6 +23,8 @@ public record ProductPagingSimpleResponse(
 ) {
     public ProductPagingSimpleResponse(
             final Long id,
+            final Long thumbnailId,
+            final String thumbnailUrl,
             final Location location,
             final String title,
             final Integer price,
@@ -33,6 +37,6 @@ public record ProductPagingSimpleResponse(
             final Boolean isAlreadyLikedByMe,
             final LocalDateTime createDate
     ) {
-        this(id, location.getContent(), title, price, visitedCount, contactCount, productStatus, ownerId, ownerName, productLikesCount, isAlreadyLikedByMe, createDate);
+        this(id, thumbnailId, thumbnailUrl, location.getContent(), title, price, visitedCount, contactCount, productStatus, ownerId, ownerName, productLikesCount, isAlreadyLikedByMe, createDate);
     }
 }
