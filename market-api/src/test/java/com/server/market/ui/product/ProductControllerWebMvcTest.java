@@ -98,6 +98,8 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                         ),
                         responseFields(
                                 fieldWithPath("[].id").description("상품 id"),
+                                fieldWithPath("[].thumbnailId").description("상품 id"),
+                                fieldWithPath("[].thumbnailUrl").description("상품 id"),
                                 fieldWithPath("[].location").description("거래 장소 (3공학관, 5공학관 등등..)"),
                                 fieldWithPath("[].title").description("상품 제목"),
                                 fieldWithPath("[].price").description("상품 가격"),
@@ -332,6 +334,8 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
         Long categoryId = 1L;
         List<ProductPagingSimpleResponse> response = List.of(new ProductPagingSimpleResponse(
                 1L,
+                1L,
+                "url",
                 "5공학관",
                 "상품제목",
                 1000,
@@ -359,6 +363,8 @@ class ProductControllerWebMvcTest extends MockBeanInjection {
                         ),
                         responseFields(
                                 fieldWithPath("[].id").description("상품 id"),
+                                fieldWithPath("[].thumbnailId").description("상품 id"),
+                                fieldWithPath("[].thumbnailUrl").description("상품 id"),
                                 fieldWithPath("[].location").description("거래 장소 (3공학관, 5공학관 등등..)"),
                                 fieldWithPath("[].title").description("상품 제목"),
                                 fieldWithPath("[].price").description("상품 가격"),

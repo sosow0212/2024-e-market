@@ -1,6 +1,5 @@
 package com.server.market.infrastructure.product;
 
-import com.server.market.domain.category.CategoryName;
 import com.server.market.domain.product.Product;
 import com.server.market.domain.product.ProductLike;
 import com.server.market.domain.product.ProductRepository;
@@ -125,6 +124,8 @@ public class ProductFakeRepository implements ProductRepository {
     private static ProductPagingSimpleResponse parse(final Product product) {
         return new ProductPagingSimpleResponse(
                 product.getId(),
+                1L,
+                "url",
                 Location.BUILDING_CENTER,
                 product.getDescription().getTitle(),
                 product.getPrice().getPrice(),
