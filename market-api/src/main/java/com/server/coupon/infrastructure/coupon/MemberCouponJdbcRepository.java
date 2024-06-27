@@ -23,7 +23,7 @@ public class MemberCouponJdbcRepository {
         namedParameterJdbcTemplate.batchUpdate(sql, chargeStationSqlParameterSource(memberCoupons));
     }
 
-    private MapSqlParameterSource[] chargeStationSqlParameterSource(Collection<MemberCoupon> memberCoupons) {
+    private MapSqlParameterSource[] chargeStationSqlParameterSource(final Collection<MemberCoupon> memberCoupons) {
         return memberCoupons.stream()
                 .map(this::changeToSqlParameterSource)
                 .toArray(MapSqlParameterSource[]::new);

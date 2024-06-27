@@ -22,7 +22,12 @@ public class ChatRoomQueryService {
         return chattingRoomRepository.findMyChattingRooms(authId);
     }
 
-    public List<ChatHistoryResponse> findChattingHistoryByChatId(final Long authId, final Long chattingRoomId, final Long chatId, final Integer pageSize) {
+    public List<ChatHistoryResponse> findChattingHistoryByChatId(
+            final Long authId,
+            final Long chattingRoomId,
+            final Long chatId,
+            final Integer pageSize
+    ) {
         return chatRepository.findChattingHistoryByChatId(authId, chattingRoomId, chatId, pageSize);
     }
 }

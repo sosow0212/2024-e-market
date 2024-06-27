@@ -35,9 +35,11 @@ public class BoardService {
                 .orElseThrow(BoardNotFoundException::new);
     }
 
-    public void patchBoardById(final Long boardId,
-                               final Long memberId,
-                               final BoardUpdateRequest request) {
+    public void patchBoardById(
+            final Long boardId,
+            final Long memberId,
+            final BoardUpdateRequest request
+    ) {
         Board board = findBoardWithImages(boardId);
         board.validateWriter(memberId);
         BoardUpdateResult result = board.update(request.title(), request.content(), request.addedImages(), request.deletedImages(), imageConverter);

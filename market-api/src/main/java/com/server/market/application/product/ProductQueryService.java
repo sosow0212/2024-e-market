@@ -19,7 +19,12 @@ public class ProductQueryService {
 
     private final ProductRepository productRepository;
 
-    public List<ProductPagingSimpleResponse> findAllProductsInCategory(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
+    public List<ProductPagingSimpleResponse> findAllProductsInCategory(
+            final Long memberId,
+            final Long productId,
+            final Long categoryId,
+            final int pageSize
+    ) {
         return productRepository.findAllProductsInCategoryWithPaging(memberId, productId, categoryId, pageSize);
     }
 

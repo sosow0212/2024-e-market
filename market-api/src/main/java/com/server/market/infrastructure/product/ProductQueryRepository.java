@@ -29,9 +29,16 @@ import static com.server.member.domain.member.QMember.member;
 @Repository
 public class ProductQueryRepository {
 
+    private static final long NOT_FOUND_IMAGE_NUMBER = -1L;
+
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<ProductPagingSimpleResponse> findAllWithPagingByCategoryId(final Long memberId, final Long productId, final Long categoryId, final int pageSize) {
+    public List<ProductPagingSimpleResponse> findAllWithPagingByCategoryId(
+            final Long memberId,
+            final Long productId,
+            final Long categoryId,
+            final int pageSize
+    ) {
         QProduct product = QProduct.product;
         QProductImage productImage = QProductImage.productImage;
         QMember member = QMember.member;
@@ -41,7 +48,7 @@ public class ProductQueryRepository {
                         product.id,
                         new CaseBuilder()
                                 .when(productImage.id.isNull())
-                                .then(-1L)
+                                .then(NOT_FOUND_IMAGE_NUMBER)
                                 .otherwise(productImage.id).as("imageId"),
                         new CaseBuilder()
                                 .when(productImage.uniqueName.isNull())

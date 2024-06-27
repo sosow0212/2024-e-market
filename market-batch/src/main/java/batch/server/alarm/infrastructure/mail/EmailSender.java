@@ -32,17 +32,21 @@ public class EmailSender implements MailSender {
     private final JavaMailSender javaMailSender;
 
     @Override
-    public void pushMail(final String receiver,
-                         final Long id,
-                         final String nickname) throws MessagingException, UnsupportedEncodingException {
+    public void pushMail(
+            final String receiver,
+            final Long id,
+            final String nickname
+    ) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = createMessage(receiver, id, nickname);
         javaMailSender.send(message);
     }
 
 
-    private MimeMessage createMessage(final String receiver,
-                                      final Long id,
-                                      final String nickname) throws MessagingException, UnsupportedEncodingException {
+    private MimeMessage createMessage(
+            final String receiver,
+            final Long id,
+            final String nickname
+    ) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         message.addRecipients(TO, receiver);

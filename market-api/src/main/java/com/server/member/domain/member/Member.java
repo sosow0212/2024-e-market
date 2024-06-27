@@ -49,9 +49,11 @@ public class Member extends BaseEntity {
         return this.memberRole.isAdministrator();
     }
 
-    public static Member createDefaultRole(final String email,
-                                           final String password,
-                                           final NicknameGenerator nicknameGenerator) {
+    public static Member createDefaultRole(
+            final String email,
+            final String password,
+            final NicknameGenerator nicknameGenerator
+    ) {
         return Member.builder()
                 .email(email)
                 .password(password)

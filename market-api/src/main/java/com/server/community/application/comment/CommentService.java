@@ -16,7 +16,11 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public void createComment(final Long memberId, final Long boardId, final CommentCreateRequest request) {
+    public void createComment(
+            final Long memberId,
+            final Long boardId,
+            final CommentCreateRequest request
+    ) {
         Comment comment = Comment.builder()
                 .boardId(boardId)
                 .writerId(memberId)
@@ -26,7 +30,11 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public void patchCommentById(final Long memberId, final Long commentId, final CommentPatchRequest request) {
+    public void patchCommentById(
+            final Long memberId,
+            final Long commentId,
+            final CommentPatchRequest request
+    ) {
         Comment comment = findComment(commentId);
         comment.update(request.comment(), memberId);
     }

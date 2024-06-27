@@ -55,14 +55,26 @@ public class Board extends BaseEntity {
     private LikeCount likeCount;
 
     @Builder
-    public Board(final String title, final String content, final Long writerId, final List<MultipartFile> imageFiles, final ImageConverter imageConverter) {
+    public Board(
+            final String title,
+            final String content,
+            final Long writerId,
+            final List<MultipartFile> imageFiles,
+            final ImageConverter imageConverter
+    ) {
         this.post = Post.of(title, content);
         this.writerId = writerId;
         this.images.addAll(imageConverter.convertImageFilesToImages(imageFiles));
         likeCount = LikeCount.createDefault();
     }
 
-    public BoardUpdateResult update(final String title, final String content, final List<MultipartFile> imageFiles, final List<Long> deletedImageIds, final ImageConverter imageConverter) {
+    public BoardUpdateResult update(
+            final String title,
+            final String content,
+            final List<MultipartFile> imageFiles,
+            final List<Long> deletedImageIds,
+            final ImageConverter imageConverter
+    ) {
         post.update(title, content);
 
         List<Image> addedImages = imageConverter.convertImageFilesToImages(imageFiles);

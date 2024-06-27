@@ -25,15 +25,21 @@ public class Description {
     @Column(nullable = false)
     private String content;
 
-    // todo : images
-
-    public Description(final String title, final String content, final Location location) {
+    public Description(
+            final String title,
+            final String content,
+            final Location location
+    ) {
         this.title = title;
         this.content = content;
         this.location = location;
     }
 
-    public void update(final String title, final String content, final Location location) {
+    public void update(
+            final String title,
+            final String content,
+            final Location location
+    ) {
         this.title = title;
         this.content = content;
         this.location = location;

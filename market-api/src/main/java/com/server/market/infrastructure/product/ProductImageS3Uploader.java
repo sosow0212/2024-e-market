@@ -26,6 +26,7 @@ import java.util.stream.IntStream;
 public class ProductImageS3Uploader implements ProductImageUploader {
 
     private final AmazonS3 amazonS3Client;
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 

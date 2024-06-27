@@ -14,10 +14,11 @@ public class ApplyBasicPolicy implements ApplyPolicy {
      */
 
     @Override
-    public int apply(final Integer price,
-                     final List<Coupon> percentageCoupons,
-                     final List<Coupon> discountCoupons) {
-
+    public int apply(
+            final Integer price,
+            final List<Coupon> percentageCoupons,
+            final List<Coupon> discountCoupons
+    ) {
         int afterPrice = price;
 
         for (Coupon discountCoupon : discountCoupons) {
