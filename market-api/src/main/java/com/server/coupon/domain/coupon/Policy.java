@@ -17,6 +17,7 @@ public class Policy {
 
     private static final int FREE_PRICE = 0;
     private static final double PERCENTAGE_VALUE = 0.01;
+    private static final int BOUNDARY_NUMBER = 1;
 
     @Column(nullable = false)
     private boolean canUseAlone;
@@ -33,11 +34,10 @@ public class Policy {
         }
 
         return getDiscountAmountFrom(price);
-
     }
 
     private int getDiscountPercentageAmountFrom(final Integer price) {
-        double percentage = 1 - (amount * PERCENTAGE_VALUE);
+        double percentage = BOUNDARY_NUMBER - (amount * PERCENTAGE_VALUE);
         return (int) (price * percentage);
     }
 

@@ -8,6 +8,7 @@ import com.server.coupon.domain.coupon.CouponRepository;
 import com.server.coupon.domain.coupon.Coupons;
 import com.server.coupon.domain.coupon.MemberCoupon;
 import com.server.coupon.domain.coupon.MemberCouponRepository;
+import com.server.coupon.domain.coupon.MemberCoupons;
 import com.server.coupon.exception.exceptions.CouponNotFoundException;
 import com.server.coupon.exception.exceptions.MemberCouponSizeNotEqualsException;
 import com.server.global.exception.exception.AuthenticationInvalidException;
@@ -37,14 +38,8 @@ public class CouponService {
         List<Long> couponIds = request.couponIds();
         validateExistedInCouponsIds(couponIds);
 
-        List<MemberCoupon> memberCoupons = couponIds.stream()
-                .map(it -> MemberCoupon.builder()
-                        .memberId(memberId)
-                        .couponId(it)
-                        .build()
-                ).toList();
-
-        memberCouponRepository.insertBulk(memberCoupons);
+        MemberCoupons memberCoupons = MemberCoupons.of(memberId, request.couponIds());
+        memberCouponRepository.insertBulk(memberCoupons.getMemberCoupons());
     }
 
     private void validateExistedInCouponsIds(final List<Long> couponIds) {
@@ -56,14 +51,16 @@ public class CouponService {
     @Transactional(readOnly = true)
     public Coupons findAllMemberCoupons(final Long memberId, final Long authId) {
         validateAuthentication(memberId, authId);
+        List<Coupon> coupons = findCouponsByMemberId(memberId);
+        return new Coupons(coupons);
+    }
 
+    private List<Coupon> findCouponsByMemberId(final Long memberId) {
         List<Long> couponIds = memberCouponRepository.findAllByMemberId(memberId).stream()
                 .map(MemberCoupon::getCouponId)
                 .toList();
 
-        List<Coupon> coupons = couponRepository.findAllByIdsIn(couponIds);
-
-        return new Coupons(coupons);
+        return couponRepository.findAllByIdsIn(couponIds);
     }
 
     private void validateAuthentication(final Long memberId, final Long authId) {
@@ -75,7 +72,10 @@ public class CouponService {
     @Transactional(readOnly = true)
     public void validateMemberCouponsExisted(final Long memberId, final List<Long> usingCouponIds) {
         int count = memberCouponRepository.countMemberIdWithCouponIds(memberId, usingCouponIds);
+        validateCouponSize(usingCouponIds, count);
+    }
 
+    private void validateCouponSize(final List<Long> usingCouponIds, final int count) {
         if (usingCouponIds.size() != count) {
             throw new MemberCouponSizeNotEqualsException();
         }
@@ -88,8 +88,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public int applyCoupons(final Integer productPrice, final List<Long> couponIds) {
-        List<Coupon> foundCoupons = couponRepository.findAllByIdsIn(couponIds);
-        Coupons coupons = new Coupons(foundCoupons);
+        Coupons coupons = new Coupons(couponRepository.findAllByIdsIn(couponIds));
         coupons.validateContainsNotExistedCoupon(couponIds);
         return coupons.applyCoupons(productPrice, applyPolicy);
     }
