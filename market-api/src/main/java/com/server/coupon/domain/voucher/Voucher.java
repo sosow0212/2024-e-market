@@ -38,7 +38,11 @@ public class Voucher extends BaseEntity {
 
     private Boolean isUsed;
 
-    public static Voucher createPrivate(final Long couponId, final String description, final VoucherNumberGenerator generator) {
+    public static Voucher createPrivate(
+            final Long couponId,
+            final String description,
+            final VoucherNumberGenerator generator
+    ) {
         return Voucher.builder()
                 .couponId(couponId)
                 .description(description)

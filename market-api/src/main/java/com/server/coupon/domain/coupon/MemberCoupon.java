@@ -33,4 +33,11 @@ public class MemberCoupon extends BaseEntity {
 
     @Column(nullable = false)
     private Long couponId;
+
+    public static MemberCoupon of(final Long memberId, final Long couponId) {
+        return MemberCoupon.builder()
+                .memberId(memberId)
+                .couponId(couponId)
+                .build();
+    }
 }

@@ -37,11 +37,13 @@ public class Coupon extends BaseEntity {
     @Embedded
     public Policy policy;
 
-    public static Coupon createCoupon(final String name,
-                                      final String content,
-                                      final boolean canUseAlone,
-                                      final boolean isDiscountPercentage,
-                                      final int amount) {
+    public static Coupon createCoupon(
+            final String name,
+            final String content,
+            final boolean canUseAlone,
+            final boolean isDiscountPercentage,
+            final int amount
+    ) {
         validateAmountRange(isDiscountPercentage, amount);
         return Coupon.builder()
                 .description(new Description(name, content))

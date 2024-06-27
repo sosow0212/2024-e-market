@@ -43,7 +43,11 @@ public class ChattingRoom extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ChattingStatus chattingStatus;
 
-    public static ChattingRoom createNewChattingRoom(final Long productId, final Long buyerId, final Long sellerId) {
+    public static ChattingRoom createNewChattingRoom(
+            final Long productId,
+            final Long buyerId,
+            final Long sellerId
+    ) {
         return ChattingRoom.builder()
                 .productId(productId)
                 .buyerId(buyerId)

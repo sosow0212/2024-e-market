@@ -22,7 +22,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Component
 public class ScheduleTaskEventHandler {
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private static final String RUNNING_EVERY_FIVE_SECOND = "0/5 * * * * *";
+    private static final int THREAD_COUNT = 1;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
     private final Queue<ScheduledEvent> scheduledTasks = new ConcurrentLinkedDeque<>();
     private final ScheduleTaskRepository scheduleTaskRepository;
@@ -32,7 +35,7 @@ public class ScheduleTaskEventHandler {
         this.scheduledTasks.add(event);
     }
 
-    @Scheduled(cron = "0/5 * * * * *")
+    @Scheduled(cron = RUNNING_EVERY_FIVE_SECOND)
     public void runScheduleTask() {
         if (!canWorkTask()) {
             return;

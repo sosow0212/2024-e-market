@@ -36,10 +36,6 @@ public class StatisticCount {
         }
     }
 
-    public void contact() {
-        this.contactCount++;
-    }
-
     public void likes(final boolean isNeedToIncrease) {
         if (isNeedToIncrease) {
             this.likedCount++;

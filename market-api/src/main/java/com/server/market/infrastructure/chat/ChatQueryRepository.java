@@ -36,7 +36,12 @@ public class ChatQueryRepository {
                 .fetch();
     }
 
-    public List<ChatHistoryResponse> findChattingHistoryByChatId(final Long authId, final Long chattingRoomId, final Long chatId, final Integer pageSize) {
+    public List<ChatHistoryResponse> findChattingHistoryByChatId(
+            final Long authId,
+            final Long chattingRoomId,
+            final Long chatId,
+            final Integer pageSize
+    ) {
         return jpaQueryFactory.select(constructor(ChatHistoryResponse.class,
                         chat.chatRoomId,
                         chat.id,
@@ -46,7 +51,7 @@ public class ChatQueryRepository {
                         chat.senderId.eq(authId),
                         chat.createdAt
                 )).from(chat)
-                .leftJoin(member).on(member.id.eq(chat.senderId)) // 이 부분이 잘못됨
+                .leftJoin(member).on(member.id.eq(chat.senderId))
                 .where(
                         chat.chatRoomId.eq(chattingRoomId),
                         ltChatId(chatId)

@@ -38,7 +38,11 @@ public class Chat extends BaseEntity {
     @Column(nullable = false)
     private String message;
 
-    public static Chat of(final Long chatId, final Long senderId, final String message) {
+    public static Chat of(
+            final Long chatId,
+            final Long senderId,
+            final String message
+    ) {
         return Chat.builder()
                 .chatRoomId(chatId)
                 .senderId(senderId)

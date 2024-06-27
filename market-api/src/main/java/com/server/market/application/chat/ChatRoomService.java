@@ -23,7 +23,11 @@ public class ChatRoomService {
     private final ChattingRoomRepository chattingRoomRepository;
     private final ChatRepository chatRepository;
 
-    public ChattingRoom createChattingRoomByBuyer(final Long authMember, final Long productId, final Long sellerId) {
+    public ChattingRoom createChattingRoomByBuyer(
+            final Long authMember,
+            final Long productId,
+            final Long sellerId
+    ) {
         return chattingRoomRepository.findBySellerIdAndBuyerIdAndProductId(sellerId, authMember, productId)
                 .orElseGet(() -> chattingRoomRepository.save(ChattingRoom.createNewChattingRoom(productId, authMember, sellerId)));
     }

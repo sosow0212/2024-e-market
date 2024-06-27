@@ -18,7 +18,6 @@ public class VoucherRepositoryImpl implements VoucherRepository {
     private final VoucherJpaRepository voucherJpaRepository;
     private final VoucherQueryRepository voucherQueryRepository;
 
-
     @Override
     public Voucher save(final Voucher voucher) {
         return voucherJpaRepository.save(voucher);
@@ -38,6 +37,4 @@ public class VoucherRepositoryImpl implements VoucherRepository {
     public Optional<VoucherSpecificResponse> findSpecificVoucherById(final Long voucherId) {
         return voucherQueryRepository.findById(voucherId);
     }
-
-
 }

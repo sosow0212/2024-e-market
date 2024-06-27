@@ -18,7 +18,11 @@ public class Receiver {
     private String email;
     private String nickname;
 
-    public static Receiver createDefault(final Long memberId, final String email, final String nickname) {
+    public static Receiver createDefault(
+            final Long memberId,
+            final String email,
+            final String nickname
+    ) {
         return Receiver.builder()
                 .memberId(memberId)
                 .email(email)

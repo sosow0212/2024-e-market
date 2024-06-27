@@ -27,7 +27,11 @@ public class ChattingRoomRepositoryImpl implements ChattingRoomRepository {
     }
 
     @Override
-    public Optional<ChattingRoom> findBySellerIdAndBuyerIdAndProductId(final Long sellerId, final Long buyerId, final Long productId) {
+    public Optional<ChattingRoom> findBySellerIdAndBuyerIdAndProductId(
+            final Long sellerId,
+            final Long buyerId,
+            final Long productId
+    ) {
         return chattingRoomJpaRepository.findBySellerIdAndBuyerIdAndProductId(sellerId, buyerId, productId);
     }
 
